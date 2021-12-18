@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -16,6 +15,8 @@ import { IconTallymark1 } from '@tabler/icons';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
+import { MenuItem } from 'menu-items/MenuItem.interface';
+import { TablerIconDefinition } from 'types';
 
 const linkSX = {
     display: 'flex',
@@ -25,9 +26,39 @@ const linkSX = {
     alignItems: 'center'
 };
 
+type BreadcrumbsProps = {
+    card?: boolean;
+    divider?: boolean;
+    icon?: boolean;
+    icons?: boolean;
+    maxItems?: number;
+    navigation?: {
+        items: MenuItem[];
+    };
+    rightAlign?: boolean;
+    separator?: TablerIconDefinition | undefined;
+    title?: boolean;
+    titleBottom?: boolean;
+}
+
+// Print to console when this module is called
+
+
 // ==============================|| BREADCRUMBS ||============================== //
 
-const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAlign, separator, title, titleBottom, ...others }) => {
+const Breadcrumbs = ({
+    card,
+    divider,
+    icon,
+    icons,
+    maxItems,
+    navigation,
+    rightAlign,
+    separator,
+    title,
+    titleBottom,
+    ...others
+}: BreadcrumbsProps): JSX.Element => {
     const theme = useTheme();
 
     const iconStyle = {
@@ -38,13 +69,13 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
         color: theme.palette.secondary.main
     };
 
-    const [main, setMain] = useState();
-    const [item, setItem] = useState();
+    const [main, setMain] = useState<MenuItem>();
+    const [item, setItem] = useState<MenuItem>();
 
     // set active item state
-    const getCollapse = (menu) => {
+    const getCollapse = (menu: MenuItem) => {
         if (menu.children) {
-            menu.children.filter((collapse) => {
+            menu.children.filter((collapse: MenuItem) => {
                 if (collapse.type && collapse.type === 'collapse') {
                     getCollapse(collapse);
                 } else if (collapse.type && collapse.type === 'item') {
@@ -59,7 +90,7 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
     };
 
     useEffect(() => {
-        navigation?.items?.map((menu) => {
+        navigation?.items?.map((menu: MenuItem) => {
             if (menu.type && menu.type === 'group') {
                 getCollapse(menu);
             }
@@ -68,7 +99,8 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
     });
 
     // item separator
-    const SeparatorIcon = separator;
+    // eslint-disable-next-line
+    const SeparatorIcon = separator!;
     const separatorIcon = separator ? <SeparatorIcon stroke={1.5} size="1rem" /> : <IconTallymark1 stroke={1.5} size="1rem" />;
 
     let mainContent;
@@ -169,19 +201,6 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
     }
 
     return breadcrumbContent;
-};
-
-Breadcrumbs.propTypes = {
-    card: PropTypes.bool,
-    divider: PropTypes.bool,
-    icon: PropTypes.bool,
-    icons: PropTypes.bool,
-    maxItems: PropTypes.number,
-    navigation: PropTypes.object,
-    rightAlign: PropTypes.bool,
-    separator: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    title: PropTypes.bool,
-    titleBottom: PropTypes.bool
 };
 
 export default Breadcrumbs;

@@ -1,3 +1,4 @@
+import React from "react";
 // material-ui
 import LinearProgress from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
@@ -12,7 +13,7 @@ const LoaderWrapper = styled('div')({
 });
 
 // ==============================|| LOADER ||============================== //
-const Loader = () => (
+const Loader = (): JSX.Element => (
     <LoaderWrapper>
         <LinearProgress color="primary" />
     </LoaderWrapper>

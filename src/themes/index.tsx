@@ -1,22 +1,18 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, Theme, ThemeOptions } from '@mui/material/styles';
 
 // assets
 import colors from 'assets/scss/_themes-vars.module.scss';
+import { CustomizationState } from 'store/CustomizationRootState';
 
 // project imports
 import componentStyleOverrides from './compStyleOverride';
 import themePalette from './palette';
 import themeTypography from './typography';
 
-/**
- * Represent theme style and structure as per Material-UI
- * @param {JsonObject} customization customization parameter object
- */
-
-export const theme = (customization) => {
+export const theme = (customization: CustomizationState): Theme => {
     const color = colors;
 
-    const themeOption = {
+    const themeOption: ThemeOptions = {
         colors: color,
         heading: color.grey900,
         paper: color.paper,
@@ -28,10 +24,10 @@ export const theme = (customization) => {
         menuSelected: color.secondaryDark,
         menuSelectedBack: color.secondaryLight,
         divider: color.grey200,
-        customization
+        customization,
     };
 
-    const themeOptions = {
+    const themeOptions: ThemeOptions = {
         direction: 'ltr',
         palette: themePalette(themeOption),
         mixins: {
@@ -45,7 +41,7 @@ export const theme = (customization) => {
         },
         typography: themeTypography(themeOption)
     };
-
+    
     const themes = createTheme(themeOptions);
     themes.components = componentStyleOverrides(themeOption);
 

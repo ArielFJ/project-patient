@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { ButtonBase, Link, Tooltip } from '@mui/material';
 
@@ -7,7 +7,13 @@ import Avatar from '../extended/Avatar';
 
 // ==============================|| CARD SECONDARY ACTION ||============================== //
 
-const CardSecondaryAction = ({ title, link, icon }) => {
+type CardSecondaryActionProps = {
+    title?: string;
+    link?: string;
+    icon?: React.ReactNode;
+}
+
+const CardSecondaryAction = ({ title, link, icon }: CardSecondaryActionProps): JSX.Element => {
     const theme = useTheme();
 
     return (
@@ -25,6 +31,7 @@ const CardSecondaryAction = ({ title, link, icon }) => {
                                     d="M212.5 195.95L325 131V260.9L250 304.2L212.5 282.55L287.5 239.25V195.95L212.5 239.25V195.95Z"
                                     fill={theme.palette.primary.main}
                                 />
+                                {/* @ts-ignore */}
                                 <path d="M212.5 282.55V325.85L287.5 369.15V325.85L212.5 282.55Z" fill={theme.palette.primary[800]} />
                                 <path
                                     d="M287.5 369.15L400 304.2V217.6L362.5 239.25V282.55L287.5 325.85V369.15ZM362.5 195.95V152.65L400 131V174.3L362.5 195.95Z"
@@ -47,12 +54,6 @@ const CardSecondaryAction = ({ title, link, icon }) => {
             </ButtonBase>
         </Tooltip>
     );
-};
-
-CardSecondaryAction.propTypes = {
-    icon: PropTypes.node,
-    link: PropTypes.string,
-    title: PropTypes.string
 };
 
 export default CardSecondaryAction;

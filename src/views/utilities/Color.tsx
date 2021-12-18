@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // material-ui
 import { Box, Card, Grid, Typography } from '@mui/material';
@@ -11,7 +11,17 @@ import { gridSpacing } from 'store/constant';
 
 // ===============================|| COLOR BOX ||=============================== //
 
-const ColorBox = ({ bgcolor, title, data, dark }) => (
+type ColorBoxProps = {
+    bgcolor: string;
+    title: string;
+    data: {
+        label: string;
+        color: string;
+    };
+    dark?: boolean;
+};
+
+const ColorBox = ({ bgcolor, title, data, dark }: ColorBoxProps): JSX.Element => (
     <>
         <Card sx={{ mb: 3 }}>
             <Box
@@ -47,16 +57,9 @@ const ColorBox = ({ bgcolor, title, data, dark }) => (
     </>
 );
 
-ColorBox.propTypes = {
-    bgcolor: PropTypes.string,
-    title: PropTypes.string,
-    data: PropTypes.object.isRequired,
-    dark: PropTypes.bool
-};
-
 // ===============================|| UI COLOR ||=============================== //
 
-const UIColor = () => (
+const UIColor = (): JSX.Element => (
     <MainCard title="Color Palette" secondary={<SecondaryAction link="https://next.material-ui.com/system/palette/" />}>
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>

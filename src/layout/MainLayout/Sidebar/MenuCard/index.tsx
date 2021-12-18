@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -49,9 +49,13 @@ const CardStyle = styled(Card)(({ theme }) => ({
     }
 }));
 
+type LinearProgressProps = {
+    value: number;
+}
+
 // ==============================|| PROGRESS BAR WITH LABEL ||============================== //
 
-function LinearProgressWithLabel({ value, ...others }) {
+function LinearProgressWithLabel({ value, ...others }: LinearProgressProps) {
     const theme = useTheme();
 
     return (
@@ -59,6 +63,7 @@ function LinearProgressWithLabel({ value, ...others }) {
             <Grid item>
                 <Grid container justifyContent="space-between">
                     <Grid item>
+                        {/* @ts-ignore */}
                         <Typography variant="h6" sx={{ color: theme.palette.primary[800] }}>
                             Progress
                         </Typography>
@@ -74,10 +79,6 @@ function LinearProgressWithLabel({ value, ...others }) {
         </Grid>
     );
 }
-
-LinearProgressWithLabel.propTypes = {
-    value: PropTypes.number
-};
 
 // ==============================|| SIDEBAR MENU Card ||============================== //
 

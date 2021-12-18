@@ -4,7 +4,20 @@ import config from 'config';
 // action - state management
 import * as actionTypes from './actions';
 
-export const initialState = {
+type CustomizationState = {
+    isOpen: string[];
+    fontFamily: string;
+    borderRadius: number;
+    opened: boolean;
+}
+
+// NOTE: intersection type
+type Action = CustomizationState & {
+    type: string;
+    id: string; 
+}
+
+export const initialState: CustomizationState = {
     isOpen: [], // for active default menu
     fontFamily: config.fontFamily,
     borderRadius: config.borderRadius,
@@ -13,7 +26,7 @@ export const initialState = {
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
-const customizationReducer = (state = initialState, action) => {
+const customizationReducer = (state = initialState, action: Action): CustomizationState => {
     let id;
     switch (action.type) {
         case actionTypes.MENU_OPEN:

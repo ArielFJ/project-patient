@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -54,7 +54,7 @@ const status = [
 
 // ==============================|| NOTIFICATION ||============================== //
 
-const NotificationSection = () => {
+const NotificationSection: React.FC = (): JSX.Element => {
     const theme = useTheme();
     const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -63,14 +63,15 @@ const NotificationSection = () => {
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
-    const anchorRef = useRef(null);
+    const anchorRef = useRef<HTMLDivElement>(null);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    const handleClose = (event: MouseEvent | TouchEvent) => {
+        // NOTE: event.target instanceof Node if event.target is giving issues
+        if (anchorRef.current && event.target instanceof Node && anchorRef.current.contains(event.target)) {
             return;
         }
         setOpen(false);
@@ -79,12 +80,12 @@ const NotificationSection = () => {
     const prevOpen = useRef(open);
     useEffect(() => {
         if (prevOpen.current === true && open === false) {
-            anchorRef.current.focus();
+            anchorRef?.current?.focus();
         }
         prevOpen.current = open;
     }, [open]);
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event?.target.value) setValue(event?.target.value);
     };
 

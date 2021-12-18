@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Card } from '@mui/material';
 
@@ -17,7 +18,7 @@ const IFrameWrapper = styled('iframe')(({ theme }) => ({
 
 // =============================|| TABLER ICONS ||============================= //
 
-const TablerIcons = () => (
+const TablerIcons = (): JSX.Element => (
     <MainCard title="Tabler Icons" secondary={<SecondaryAction icon={<LinkIcon fontSize="small" />} link="https://tablericons.com/" />}>
         <Card sx={{ overflow: 'hidden' }}>
             <IFrameWrapper title="Tabler Icons" width="100%" src="https://tablericons.com/" />

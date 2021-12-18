@@ -1,4 +1,7 @@
-export default function componentStyleOverrides(theme) {
+import { ThemeOptions } from "@mui/material";
+import { Components } from "@mui/material";
+
+export default function componentStyleOverrides(theme: ThemeOptions): Components {
     const bgColor = theme.colors?.grey50;
     return {
         MuiButton: {

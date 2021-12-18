@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
@@ -7,6 +6,7 @@ import { Avatar, Box, ButtonBase, Card, Grid, InputAdornment, OutlinedInput, Pop
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
+import { PopupState as PopupStateType } from 'material-ui-popup-state/core';
 
 // project imports
 import Transitions from 'ui-component/extended/Transitions';
@@ -56,9 +56,15 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
     }
 }));
 
+type MobileSearchProps = {
+    value: string;
+    setValue: (value: string) => void;
+    popupState: PopupStateType;
+}
+
 // ==============================|| SEARCH INPUT - MOBILE||============================== //
 
-const MobileSearch = ({ value, setValue, popupState }) => {
+const MobileSearch = ({ value, setValue, popupState }: MobileSearchProps): JSX.Element => {
     const theme = useTheme();
 
     return (
@@ -107,15 +113,9 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     );
 };
 
-MobileSearch.propTypes = {
-    value: PropTypes.string,
-    setValue: PropTypes.func,
-    popupState: PopupState
-};
-
 // ==============================|| SEARCH INPUT ||============================== //
 
-const SearchSection = () => {
+const SearchSection = (): JSX.Element => {
     const theme = useTheme();
     const [value, setValue] = useState('');
 
@@ -148,6 +148,7 @@ const SearchSection = () => {
                                                 <Box sx={{ p: 2 }}>
                                                     <Grid container alignItems="center" justifyContent="space-between">
                                                         <Grid item xs>
+                                                            {/* @ts-ignore */}
                                                             <MobileSearch value={value} setValue={setValue} popupState={popupState} />
                                                         </Grid>
                                                     </Grid>

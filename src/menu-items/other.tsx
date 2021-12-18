@@ -1,12 +1,13 @@
 // assets
 import { IconBrandChrome, IconHelp } from '@tabler/icons';
+import { MenuItem } from './MenuItem.interface';
 
 // constant
 const icons = { IconBrandChrome, IconHelp };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
-const other = {
+const other: MenuItem = {
     id: 'sample-docs-roadmap',
     title: 'Main',
     type: 'group',

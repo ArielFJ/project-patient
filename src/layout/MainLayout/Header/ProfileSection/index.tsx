@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -38,12 +38,13 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import CustomizationRootState from 'store/CustomizationRootState';
 
 // ==============================|| PROFILE MENU ||============================== //
 
-const ProfileSection = () => {
+const ProfileSection = (): JSX.Element => {
     const theme = useTheme();
-    const customization = useSelector((state) => state.customization);
+    const customization = useSelector((state: CustomizationRootState) => state.customization);
     const navigate = useNavigate();
 
     const [sdm, setSdm] = useState(true);
@@ -54,19 +55,19 @@ const ProfileSection = () => {
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
-    const anchorRef = useRef(null);
+    const anchorRef = useRef<HTMLDivElement>(null);
     const handleLogout = async () => {
         console.log('Logout');
     };
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    const handleClose = (event: MouseEvent | TouchEvent | React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (anchorRef.current && event.target instanceof Node && anchorRef.current.contains(event.target)) {
             return;
         }
         setOpen(false);
     };
 
-    const handleListItemClick = (event, index, route = '') => {
+    const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number, route = '') => {
         setSelectedIndex(index);
         handleClose(event);
 
@@ -81,7 +82,7 @@ const ProfileSection = () => {
     const prevOpen = useRef(open);
     useEffect(() => {
         if (prevOpen.current === true && open === false) {
-            anchorRef.current.focus();
+            anchorRef?.current?.focus();
         }
 
         prevOpen.current = open;

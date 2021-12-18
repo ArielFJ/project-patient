@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // ==============================|| NAVIGATION SCROLL TO TOP ||============================== //
 
-const NavigationScroll = ({ children }) => {
+const NavigationScroll = ({ children }: {children: React.ReactNode}): JSX.Element | null => {
     const location = useLocation();
     const { pathname } = location;
 
@@ -16,11 +15,7 @@ const NavigationScroll = ({ children }) => {
         });
     }, [pathname]);
 
-    return children || null;
-};
-
-NavigationScroll.propTypes = {
-    children: PropTypes.node
+    return <>{children}</> || null;
 };
 
 export default NavigationScroll;

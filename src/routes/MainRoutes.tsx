@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
@@ -13,6 +13,7 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+// import SamplePage from 'views/sample-page'; 
 
 // ==============================|| MAIN ROUTING ||============================== //
 

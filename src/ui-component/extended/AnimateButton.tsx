@@ -1,11 +1,24 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import React, { forwardRef, Ref } from 'react';
 // third-party
 import { motion, useCycle } from 'framer-motion';
 
+type Type = 'slide' | 'scale' | 'rotate';
+type Direction = 'up' | 'down' | 'left' | 'right';
+type Scale = number | { hover: number, tap: number };
+
+type AnimateButtonProps = {
+    children?: React.ReactNode;
+    type?: Type;
+    direction?: Direction;
+    offset?: number;
+    scale?: Scale;
+}
+
 // ==============================|| ANIMATION BUTTON ||============================== //
 
-const AnimateButton = forwardRef(({ children, type, direction, offset, scale }, ref) => {
+const AnimateButton = forwardRef((
+    { children, type, direction, offset, scale }: AnimateButtonProps,
+    ref: Ref<HTMLDivElement>) => {
     let offset1;
     let offset2;
     switch (direction) {
@@ -76,22 +89,6 @@ const AnimateButton = forwardRef(({ children, type, direction, offset, scale }, 
     }
 });
 
-AnimateButton.propTypes = {
-    children: PropTypes.node,
-    offset: PropTypes.number,
-    type: PropTypes.oneOf(['slide', 'scale', 'rotate']),
-    direction: PropTypes.oneOf(['up', 'down', 'left', 'right']),
-    scale: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
-};
 
-AnimateButton.defaultProps = {
-    type: 'scale',
-    offset: 10,
-    direction: 'right',
-    scale: {
-        hover: 1,
-        tap: 0.9
-    }
-};
-
+AnimateButton.displayName = 'AnimateButton';
 export default AnimateButton;

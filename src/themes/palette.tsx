@@ -1,9 +1,9 @@
-/**
- * Color intention that you want to used in your theme
- * @param {JsonObject} theme Theme customization object
- */
+import colors from 'assets/scss/_themes-vars.module.scss';
 
-export default function themePalette(theme) {
+import { ThemeOptions } from '@mui/material';
+import { PaletteOptions } from '@mui/material/styles/createPalette';
+
+export default function themePalette(theme: ThemeOptions): PaletteOptions {
     return {
         mode: theme?.customization?.navType,
         common: {
@@ -25,17 +25,17 @@ export default function themePalette(theme) {
         },
         error: {
             light: theme.colors?.errorLight,
-            main: theme.colors?.errorMain,
+            main: theme.colors?.errorMain ?? colors.errorMain,
             dark: theme.colors?.errorDark
         },
         orange: {
-            light: theme.colors?.orangeLight,
-            main: theme.colors?.orangeMain,
-            dark: theme.colors?.orangeDark
+            light: theme.colors?.orangeLight ?? colors.orangeLight,
+            main: theme.colors?.orangeMain ?? colors.orangeMain,
+            dark: theme.colors?.orangeDark ?? colors.orangeDark
         },
         warning: {
             light: theme.colors?.warningLight,
-            main: theme.colors?.warningMain,
+            main: theme.colors?.warningMain ?? colors.warningMain,
             dark: theme.colors?.warningDark
         },
         success: {
@@ -53,11 +53,11 @@ export default function themePalette(theme) {
             900: theme.textDark
         },
         dark: {
-            light: theme.colors?.darkTextPrimary,
-            main: theme.colors?.darkLevel1,
-            dark: theme.colors?.darkLevel2,
-            800: theme.colors?.darkBackground,
-            900: theme.colors?.darkPaper
+            light: theme.colors?.darkTextPrimary ?? colors.darkTextPrimary,
+            main: theme.colors?.darkLevel1 ?? colors.darkLevel1,
+            dark: theme.colors?.darkLevel2 ?? colors.darkLevel2,
+            800: theme.colors?.darkBackground ?? colors.darkBackground,
+            900: theme.colors?.darkPaper ?? colors.darkPaper
         },
         text: {
             primary: theme.darkTextPrimary,

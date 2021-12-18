@@ -1,3 +1,5 @@
+import React from 'react';
+
 // material-ui
 import { styled } from '@mui/material/styles';
 import { Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
@@ -38,7 +40,7 @@ const CardStyle = styled(Card)(({ theme }) => ({
 
 // ==============================|| PROFILE MENU - UPGRADE PLAN CARD ||============================== //
 
-const UpgradePlanCard = () => (
+const UpgradePlanCard: React.FC = (): JSX.Element => (
     <CardStyle>
         <CardContent>
             <Grid container direction="column" spacing={2}>

@@ -1,12 +1,25 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import MuiAvatar from '@mui/material/Avatar';
 
+type AvatarProps = {
+    className?: string;
+    color: string;
+    outline: boolean;
+    size: string;
+    sx?: Record<string, unknown>;
+    children: React.ReactNode;
+    component: React.ElementType;
+    href?: string;
+    target: string;
+    alt?: string;
+}
+
 // ==============================|| AVATAR ||============================== //
 
-const Avatar = ({ color, outline, size, sx, ...others }) => {
+const Avatar: React.FC<AvatarProps> = ({ color, outline, size, sx, children, ...others }): JSX.Element => {
     const theme = useTheme();
 
     const colorSX = color && !outline && { color: theme.palette.background.paper, bgcolor: `${color}.main` };
@@ -58,15 +71,9 @@ const Avatar = ({ color, outline, size, sx, ...others }) => {
             sizeSX = {};
     }
 
-    return <MuiAvatar sx={{ ...colorSX, ...outlineSX, ...sizeSX, ...sx }} {...others} />;
-};
-
-Avatar.propTypes = {
-    className: PropTypes.string,
-    color: PropTypes.string,
-    outline: PropTypes.bool,
-    size: PropTypes.string,
-    sx: PropTypes.object
+    return (<MuiAvatar sx={{ ...colorSX, ...outlineSX, ...sizeSX, ...sx }} {...others}>
+        {children}
+    </MuiAvatar>);
 };
 
 export default Avatar;

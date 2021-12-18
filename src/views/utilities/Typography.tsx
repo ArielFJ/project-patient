@@ -1,3 +1,4 @@
+import React from 'react';
 import { Grid, Link } from '@mui/material';
 import MuiTypography from '@mui/material/Typography';
 
@@ -9,7 +10,7 @@ import { gridSpacing } from 'store/constant';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
-const Typography = () => (
+const Typography = (): JSX.Element => (
     <MainCard title="Basic Typography" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12} sm={6}>

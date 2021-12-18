@@ -1,4 +1,5 @@
 // material-ui
+import React from 'react';
 import { useTheme, styled } from '@mui/material/styles';
 import {
     Avatar,
@@ -35,7 +36,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 // ==============================|| NOTIFICATION LIST ITEM ||============================== //
 
-const NotificationList = () => {
+const NotificationList: React.FC = (): JSX.Element => {
     const theme = useTheme();
 
     const chipSX = {

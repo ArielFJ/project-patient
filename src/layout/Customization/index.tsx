@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
@@ -26,6 +26,7 @@ import SubCard from 'ui-component/cards/SubCard';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { SET_BORDER_RADIUS, SET_FONT_FAMILY } from 'store/actions';
 import { gridSpacing } from 'store/constant';
+import CustomizationRootState from 'store/CustomizationRootState';
 
 // concat 'px'
 function valueText(value: number) {
@@ -37,7 +38,7 @@ function valueText(value: number) {
 const Customization = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const customization = useSelector((state) => state.customization);
+    const customization = useSelector((state: CustomizationRootState) => state.customization);
 
     // drawer on/off
     const [open, setOpen] = useState(false);

@@ -1,3 +1,4 @@
+import React from 'react';
 // material-ui
 import { Typography } from '@mui/material';
 
@@ -6,7 +7,7 @@ import MainCard from 'ui-component/cards/MainCard';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const SamplePage = () => (
+const SamplePage: React.FC = (): JSX.Element => (
     <MainCard title="Sample Card">
         <Typography variant="body2">
             Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -9,13 +9,18 @@ import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
+import 'extensions/Typography.extensions';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
 
+type HeaderProps = {
+    handleLeftDrawerToggle: () => void;
+}
+
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
-const Header = ({ handleLeftDrawerToggle }) => {
+const Header: React.FC<HeaderProps> = ({ handleLeftDrawerToggle }): JSX.Element => {
     const theme = useTheme();
 
     return (
@@ -65,10 +70,6 @@ const Header = ({ handleLeftDrawerToggle }) => {
             <ProfileSection />
         </>
     );
-};
-
-Header.propTypes = {
-    handleLeftDrawerToggle: PropTypes.func
 };
 
 export default Header;

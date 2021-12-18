@@ -1,3 +1,4 @@
+import React from "react";
 // material-ui
 import { useTheme } from '@mui/material/styles';
 
@@ -11,7 +12,7 @@ import { useTheme } from '@mui/material/styles';
 
 // ==============================|| LOGO SVG ||============================== //
 
-const Logo = () => {
+const Logo = (): JSX.Element => {
     const theme = useTheme();
 
     return (

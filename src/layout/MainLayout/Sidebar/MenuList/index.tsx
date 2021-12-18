@@ -1,3 +1,4 @@
+import React from 'react';
 // material-ui
 import { Typography } from '@mui/material';
 
@@ -7,7 +8,7 @@ import menuItem from 'menu-items';
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
-const MenuList = () => {
+const MenuList = (): JSX.Element => {
     const navItems = menuItem.items.map((item) => {
         switch (item.type) {
             case 'group':

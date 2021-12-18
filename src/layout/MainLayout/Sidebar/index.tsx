@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -10,12 +10,16 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
-import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
 
-// ==============================|| SIDEBAR DRAWER ||============================== //
 
-const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
+type SidebarProps = {
+    drawerOpen: boolean;
+    drawerToggle: () => void;
+}
+
+// ==============================|| SIDEBAR DRAWER ||============================== //
+const Sidebar = ({ drawerOpen, drawerToggle }: SidebarProps): JSX.Element => {
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -39,12 +43,13 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         </>
     );
 
-    const container = window !== undefined ? () => window.document.body : undefined;
+    // TODO: Check if it's needed
+    // const container = window !== undefined ? () => window.document.body : undefined;
 
     return (
         <Box component="nav" sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : 'auto' }} aria-label="mailbox folders">
             <Drawer
-                container={container}
+                // container={container}
                 variant={matchUpMd ? 'persistent' : 'temporary'}
                 anchor="left"
                 open={drawerOpen}
@@ -67,12 +72,6 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             </Drawer>
         </Box>
     );
-};
-
-Sidebar.propTypes = {
-    drawerOpen: PropTypes.bool,
-    drawerToggle: PropTypes.func,
-    window: PropTypes.object
 };
 
 export default Sidebar;

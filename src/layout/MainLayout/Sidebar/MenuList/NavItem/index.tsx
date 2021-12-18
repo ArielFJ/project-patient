@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,16 +12,30 @@ import config from 'config';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import CustomizationRootState from 'store/CustomizationRootState';
+import { MenuItem } from 'menu-items/MenuItem.interface';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
-const NavItem = ({ item, level }) => {
+type NavItemProps = {
+    item: MenuItem;
+    level: number;
+};
+
+type ListItemProps = {
+    component: React.ForwardRefExoticComponent<React.RefAttributes<HTMLAnchorElement>> | string;
+    href?: string;
+    target?: string;
+}
+
+const NavItem = ({ item, level }: NavItemProps): JSX.Element => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const customization = useSelector((state) => state.customization);
+    const customization = useSelector((state: CustomizationRootState) => state.customization);
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
-    const Icon = item.icon;
+    // eslint-disable-next-line
+    const Icon = item.icon!;
     const itemIcon = item?.icon ? (
         <Icon stroke={1.5} size="1.3rem" />
     ) : (
@@ -40,14 +53,17 @@ const NavItem = ({ item, level }) => {
         itemTarget = '_blank';
     }
 
-    let listItemProps = {
-        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${config.basename}${item.url}`} target={itemTarget} />)
+    const linkComponent = forwardRef<HTMLAnchorElement>((props, ref) => <Link ref={ref} {...props} to={`${config.basename}${item.url}`} target={itemTarget} />); 
+    linkComponent.displayName = 'listItemProps';
+
+    let listItemProps: ListItemProps = {
+        component: linkComponent
     };
     if (item?.external) {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }
 
-    const itemHandler = (id) => {
+    const itemHandler = (id: string) => {
         dispatch({ type: MENU_OPEN, id });
         if (matchesSM) dispatch({ type: SET_MENU, opened: false });
     };
@@ -61,7 +77,6 @@ const NavItem = ({ item, level }) => {
         if (currentIndex > -1) {
             dispatch({ type: MENU_OPEN, id: item.id });
         }
-        // eslint-disable-next-line
     }, []);
 
     return (
@@ -107,9 +122,5 @@ const NavItem = ({ item, level }) => {
     );
 };
 
-NavItem.propTypes = {
-    item: PropTypes.object,
-    level: PropTypes.number
-};
-
+NavItem.displayName = 'NavItem';
 export default NavItem;

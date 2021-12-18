@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
@@ -11,7 +12,7 @@ import { gridSpacing } from 'store/constant';
 
 // ===============================|| SHADOW BOX ||=============================== //
 
-const ShadowBox = ({ shadow }) => (
+const ShadowBox = ({ shadow }: { shadow: string }): JSX.Element => (
     <Card sx={{ mb: 3, boxShadow: shadow }}>
         <Box
             sx={{
@@ -34,7 +35,7 @@ ShadowBox.propTypes = {
 
 // ============================|| UTILITIES SHADOW ||============================ //
 
-const UtilitiesShadow = () => (
+const UtilitiesShadow = (): JSX.Element => (
     <MainCard title="Basic Shadow" secondary={<SecondaryAction link="https://next.material-ui.com/system/shadows/" />}>
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>

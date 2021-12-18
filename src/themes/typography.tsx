@@ -1,11 +1,11 @@
-/**
- * Typography used in theme
- * @param {JsonObject} theme theme customization object
- */
+import { ThemeOptions } from '@mui/material';
+import { TypographyOptions } from '@mui/material/styles/createTypography';
+import colors from 'assets/scss/_themes-vars.module.scss';
+import config from 'config';
 
-export default function themeTypography(theme) {
+export default function themeTypography(theme: ThemeOptions): TypographyOptions {
     return {
-        fontFamily: theme?.customization?.fontFamily,
+        fontFamily: theme?.customization?.fontFamily ?? config.fontFamily,
         h6: {
             fontWeight: 500,
             color: theme.heading,
@@ -71,7 +71,7 @@ export default function themeTypography(theme) {
             '& > label': {
                 top: 23,
                 left: 0,
-                color: theme.grey500,
+                color: theme.grey500 ?? colors.grey500,
                 '&[data-shrink="false"]': {
                     top: 5
                 }

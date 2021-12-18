@@ -4,7 +4,7 @@ const config = {
     basename: '',
     defaultPath: '/sample-page',
     fontFamily: `'Poppins', sans-serif`,
-    borderRadius: 15
+    borderRadius: 15,
 };
 
 export default config;

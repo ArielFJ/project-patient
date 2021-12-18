@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Card } from '@mui/material';
 
@@ -14,7 +15,7 @@ const IFrameWrapper = styled('iframe')(({ theme }) => ({
 
 // ============================|| MATERIAL ICONS ||============================ //
 
-const MaterialIcons = () => (
+const MaterialIcons = (): JSX.Element => (
     <MainCard title="Material Icons" secondary={<SecondaryAction link="https://next.material-ui.com/components/material-icons/" />}>
         <Card sx={{ overflow: 'hidden' }}>
             <IFrameWrapper title="Material Icon" width="100%" src="https://material-ui.com/components/material-icons/" />

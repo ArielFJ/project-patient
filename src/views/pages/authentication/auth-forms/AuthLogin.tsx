@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -33,13 +33,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import CustomizationRootState from 'store/CustomizationRootState';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
+    const customization = useSelector((state: CustomizationRootState) => state.customization);
     const [checked, setChecked] = useState(true);
 
     const googleHandler = async () => {
@@ -51,7 +52,7 @@ const FirebaseLogin = ({ ...others }) => {
         setShowPassword(!showPassword);
     };
 
-    const handleMouseDownPassword = (event) => {
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
@@ -126,9 +127,9 @@ const FirebaseLogin = ({ ...others }) => {
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
-                // onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                //     // TODO: implement
-                // }}
+                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                    // TODO: implement
+                }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>

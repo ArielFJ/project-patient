@@ -1,18 +1,33 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
+import { Secondary } from 'types';
 
 // constant
 const headerSX = {
     '& .MuiCardHeader-action': { mr: 0 }
 };
 
+type MainCardProps = {
+    border?: boolean;
+    boxShadow?: boolean;
+    children?: React.ReactNode;
+    content?: boolean;
+    contentClass?: string;
+    contentSX?: Record<string, unknown>;
+    darkTitle?: boolean;
+    secondary?: Secondary;
+    shadow?: string;
+    sx?: Record<string, unknown>;
+    title?: Secondary;
+    elevation?: number;
+}
+
 // ==============================|| CUSTOM MAIN CARD ||============================== //
 
-const MainCard = forwardRef(
+const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
     (
         {
             border = true,
@@ -26,6 +41,7 @@ const MainCard = forwardRef(
             shadow,
             sx = {},
             title,
+            elevation,
             ...others
         },
         ref
@@ -35,6 +51,7 @@ const MainCard = forwardRef(
         return (
             <Card
                 ref={ref}
+                elevation={elevation}
                 {...others}
                 sx={{
                     border: border ? '1px solid' : 'none',
@@ -66,18 +83,5 @@ const MainCard = forwardRef(
     }
 );
 
-MainCard.propTypes = {
-    border: PropTypes.bool,
-    boxShadow: PropTypes.bool,
-    children: PropTypes.node,
-    content: PropTypes.bool,
-    contentClass: PropTypes.string,
-    contentSX: PropTypes.object,
-    darkTitle: PropTypes.bool,
-    secondary: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.object]),
-    shadow: PropTypes.string,
-    sx: PropTypes.object,
-    title: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.object])
-};
-
+MainCard.displayName = 'MainCard';
 export default MainCard;
