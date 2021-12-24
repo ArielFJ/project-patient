@@ -8,6 +8,12 @@
 @import '../fonts/Inter/stylesheet.css';
 @import '../fonts/Poppins/stylesheet.css';
 
+// ==============================|| BODY ||============================== //
+body {
+    user-select: none;
+    -webkit-app-region: drag;
+}
+
 // ==============================|| LIGHT BOX ||============================== //
 .fullscreen .react-images__blanket {
     z-index: 1200;

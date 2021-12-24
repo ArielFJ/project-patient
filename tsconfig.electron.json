@@ -3,9 +3,12 @@
     "compilerOptions": {
         "target": "es5",
         "module": "CommonJS",
-        "noEmit": false
+        "noEmit": false,
+        "baseUrl": "src/main",
+        "rootDir": "src/main",
+        "outDir": "build/electron-build"
     },
     "include": [
-        "electron-src/**/*"
+        "src/main/**/*",
     ],
 }
