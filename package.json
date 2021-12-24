@@ -2,6 +2,7 @@
     "name": "project-patient",
     "version": "0.0.1",
     "private": true,
+    "main": "./dist/electron-src/main.js",
     "dependencies": {
         "@emotion/cache": "^11.4.0",
         "@emotion/react": "^11.4.0",
@@ -45,7 +46,10 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "electron:start": "tsc --project tsconfig.electron.json && electron .",
+        "electron:watch": "nodemon --exec npm run electron:start",
+        "electron:build": ""
     },
     "eslintConfig": {
         "extends": [
@@ -75,6 +79,7 @@
         "@tsconfig/create-react-app": "^1.0.2",
         "@typescript-eslint/eslint-plugin": "^5.7.0",
         "@typescript-eslint/parser": "^5.7.0",
+        "electron": "^16.0.5",
         "eslint": "^7.32.0",
         "eslint-config-airbnb-typescript": "^12.3.1",
         "eslint-config-prettier": "^8.3.0",
@@ -86,6 +91,7 @@
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-react": "^7.27.1",
         "eslint-plugin-react-hooks": "4.0.8",
+        "nodemon": "^2.0.15",
         "prettier": "^2.2.1",
         "sass": "^1.42.1"
     }

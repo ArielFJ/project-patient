@@ -1,0 +1,8 @@
+{
+    "watch": ["electron-src/"],
+    "ext": "ts",
+    "ignore": [
+        "dist/",
+        "src/"
+    ]
+}
