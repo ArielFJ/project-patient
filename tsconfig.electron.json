@@ -5,10 +5,15 @@
         "module": "CommonJS",
         "noEmit": false,
         "baseUrl": "src/main",
-        "rootDir": "src/main",
-        "outDir": "build/electron-build"
+        "rootDir": "src/main"
     },
     "include": [
         "src/main/**/*",
     ],
+    "exclude": [
+        "node_modules",
+        "scripts",
+        "build",
+        "dist"
+    ]
 }

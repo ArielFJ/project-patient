@@ -1,7 +1,8 @@
 import React, { forwardRef } from 'react';
 
 // material-ui
-import { Collapse, Fade, Box, Grow, Slide, Zoom, SxProps, Transitions as MuiTransitions } from '@mui/material';
+import { Collapse, Fade, Box, Grow, Slide, Zoom, Transitions as MuiTransitions } from '@mui/material';
+import { SxProps } from '@mui/system';
 
 type Type = 'grow' | 'fade' | 'collapse' | 'slide' | 'zoom';
 type Position = 'top-left' | 'top-right' | 'top' | 'bottom-left' | 'bottom-right' | 'bottom';

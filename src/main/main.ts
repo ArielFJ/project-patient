@@ -1,6 +1,7 @@
-import { BrowserWindow, app } from 'electron';
+import { BrowserWindow, app, dialog } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import isDevEnvironment from 'electron-is-dev';
+import path from 'path';
 
 let mainWindow: BrowserWindow | null;
 
@@ -29,7 +30,7 @@ export const createWindow = () => {
     mainWindow.loadURL('http://localhost:3000');
   } else {
     // Load HTML built file
-    mainWindow.loadURL('http://localhost:3000');
+    mainWindow.loadFile(path.join(__dirname, '../build/index.html'))
   }
 
   // Show the window when contents are loaded

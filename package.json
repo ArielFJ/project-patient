@@ -4,7 +4,8 @@
     "description": "Patient managing app",
     "version": "0.0.1",
     "private": true,
-    "main": "./build/electron-build/index.js",
+    "main": "build/index.js",
+    "repository": "https://github.com/ArielFJ/project-patient",
     "homepage": "./",
     "dependencies": {
         "@emotion/cache": "^11.4.0",
@@ -55,7 +56,10 @@
         "electron:compile": "tsc --project tsconfig.electron.json",
         "electron:start": "npm run electron:compile && electron .",
         "electron:watch": "nodemon --exec npm run electron:start",
-        "electron:build": "npm run electron:compile && electron-builder -w"
+        "electron:build": "npm run electron:compile && electron-builder -w",
+        "electron:bundle": "npm run electron:compile && npm run electron:build",
+        "package": "yarn build && npm run electron:compile && npm run electron:build",
+        "public:package": "npm run electron:compile && yarn build && npm run electron:build"
     },
     "eslintConfig": {
         "extends": [
@@ -103,12 +107,14 @@
         "sass": "^1.42.1"
     },
     "build": {
+        "extends": null,
         "appId": "com.magnanym.project-patient",
         "copyright": "Copyright Magnanym",
         "files": [
             "build/**/*",
-            "electron-build/**/*",
-            "node_modules/**/*"
+            "dist/**/*",
+            "node_modules/**/*",
+            "package.json"
         ],
         "directories": {
             "buildResources": "src/assets"

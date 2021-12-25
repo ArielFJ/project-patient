@@ -43,7 +43,7 @@ const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
             title,
             elevation,
             ...others
-        },
+        }: MainCardProps,
         ref
     ) => {
         const theme = useTheme();
