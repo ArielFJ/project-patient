@@ -4,14 +4,13 @@
         "target": "es5",
         "module": "CommonJS",
         "noEmit": false,
-        "baseUrl": "src/main",
-        "rootDir": "src/main"
     },
-    "include": [
-        "src/main/**/*",
-    ],
     "exclude": [
         "node_modules",
+        "src/renderer/**/*",
+        "src/assets/**/*",
+        "src/index.tsx",
+        "src/react-app-env.d.ts",
         "scripts",
         "build",
         "dist"

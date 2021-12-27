@@ -4,7 +4,7 @@
     "description": "Patient managing app",
     "version": "0.0.1",
     "private": true,
-    "main": "build/index.js",
+    "main": "build/main/index.js",
     "repository": "https://github.com/ArielFJ/project-patient",
     "homepage": "./",
     "dependencies": {
@@ -104,7 +104,10 @@
         "eslint-plugin-react-hooks": "4.0.8",
         "nodemon": "^2.0.15",
         "prettier": "^2.2.1",
-        "sass": "^1.42.1"
+        "reflect-metadata": "^0.1.13",
+        "sass": "^1.42.1",
+        "sqlite3": "^5.0.2",
+        "typeorm": "^0.2.41"
     },
     "build": {
         "extends": null,
