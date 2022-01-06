@@ -1,10 +1,10 @@
 import utilities from './utilities';
-import other from './other';
+import pages from './other';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [other, utilities]
+    items: [pages, utilities]
 };
 
 export default menuItems;

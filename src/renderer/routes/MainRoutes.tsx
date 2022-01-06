@@ -3,6 +3,7 @@ import React, { lazy } from 'react';
 // project imports
 import MainLayout from 'renderer/layout/MainLayout';
 import Loadable from 'renderer/ui-component/Loadable';
+import Patients from 'renderer/views/patients';
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('renderer/views/utilities/Typography')));
@@ -23,7 +24,11 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <SamplePage />
+            element: <Patients />
+        },
+        {
+            path: '/patients',
+            element: <Patients />
         },
         {
             path: '/utils/util-typography',

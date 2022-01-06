@@ -1,17 +1,25 @@
 // assets
-import { IconBrandChrome, IconHelp } from '@tabler/icons';
+import { IconBrandChrome, IconHelp, IconUsers } from '@tabler/icons';
 import { MenuItem } from './MenuItem.interface';
 
 // constant
-const icons = { IconBrandChrome, IconHelp };
+const icons = { IconBrandChrome, IconHelp, IconUsers };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
-const other: MenuItem = {
+const pages: MenuItem = {
     id: 'sample-docs-roadmap',
     title: 'Main',
     type: 'group',
     children: [
+        {
+            id: 'patients',
+            title: 'Patients',
+            type: 'item',
+            url: '/patients',
+            icon: icons.IconUsers,
+            breadcrumbs: false
+        },
         {
             id: 'sample-page',
             title: 'Sample Page',
@@ -19,8 +27,8 @@ const other: MenuItem = {
             url: '/sample-page',
             icon: icons.IconBrandChrome,
             breadcrumbs: false
-        }
+        },
     ]
 };
 
-export default other;
+export default pages;

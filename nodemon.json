@@ -1,8 +1,8 @@
 {
-    "watch": ["electron-src/"],
+    "watch": ["src/main/", "src/shared"],
     "ext": "ts",
     "ignore": [
         "dist/",
-        "src/"
+        "build/"
     ]
 }

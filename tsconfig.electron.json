@@ -5,6 +5,10 @@
         "module": "CommonJS",
         "noEmit": false,
     },
+    "include": [
+        "src/main/**/*",
+        "src/shared/**/*",
+    ],
     "exclude": [
         "node_modules",
         "src/renderer/**/*",

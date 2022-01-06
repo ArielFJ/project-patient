@@ -35,7 +35,7 @@ function valueText(value: number) {
 
 // ==============================|| LIVE CUSTOMIZATION ||============================== //
 
-const Customization = () => {
+const Customization = (): JSX.Element => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const customization = useSelector((state: CustomizationRootState) => state.customization);

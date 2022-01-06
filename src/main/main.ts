@@ -20,10 +20,10 @@ export const createWindow = () => {
     minHeight: 600,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
     },
     show: false,
-    backgroundColor: '#e3f2fd'
+    backgroundColor: '#e3f2fd',
   });
 
   if (isDevEnvironment) {
@@ -37,6 +37,8 @@ export const createWindow = () => {
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow!.show();
   })
+
+  mainWindow.webContents.openDevTools();
 
   mainWindow.webContents.on('crashed', () => {
     // TODO: handle crashes
