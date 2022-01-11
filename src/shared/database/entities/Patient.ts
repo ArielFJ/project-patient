@@ -9,38 +9,38 @@ export class Patient {
   id?: number;
 
   @Column()
-  nombre: string;
+  name: string;
   
   @Column()
-  fechaNacimiento: Date;
+  birthDate: Date;
   
   @Column({
     nullable: true
   })
-  telefono?: string;
+  phone?: string;
   
   @Column({
     nullable: true
   })
-  correo?: string;
+  email?: string;
   
   @Column({
     default: 0
   })
-  peso: number = 0;
+  weight: number = 0;
   
   @Column({
     default: 0
   })
-  talla: number = 0;
+  height: number = 0;
   
   @Column({
     default: 0
   })
-  perimetroCefalico: number = 0;
+  headCircunference: number = 0;
   
   @Column({
     default: 0
   })
-  presionArterial: number = 0;
+  bloodPressure: number = 0;
 }

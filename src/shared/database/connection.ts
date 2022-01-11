@@ -8,29 +8,27 @@ createConnection()
 
     // let patients: Patient[] = [
     //   {
-    //     peso: 15,
-    //     talla: 11,
-    //     perimetroCefalico: 10,
-    //     presionArterial: 22,
+    //     weight: 15,
+    //     height: 11,
+    //     headCircunference: 10,
+    //     bloodPressure: 22,
     //     id: 2,
-    //     nombre: 'Test',
-    //     fechaNacimiento: new Date('2022-01-07T00:04:16.264Z')
+    //     name: 'Test',
+    //     birthDate: new Date('2022-01-07T00:04:16.264Z')
     //   },
     //   {
-    //     peso: 167,
-    //     talla: 6,
-    //     perimetroCefalico: 20,
-    //     presionArterial: 120,
+    //     weight: 167,
+    //     height: 6,
+    //     headCircunference: 20,
+    //     bloodPressure: 120,
     //     id: 3,
-    //     nombre: 'Ariel',
-    //     fechaNacimiento: new Date('2001-07-16T04:00:00.000Z'),
-    //     telefono: '829-898-8989'
+    //     name: 'Ariel',
+    //     birthDate: new Date('2001-07-16T04:00:00.000Z'),
+    //     phone: '829-898-8989'
     //   }
     // ];
 
     // await repo.save(patients);
-
-    // console.log(await repo.find());
     require('./services/Patient'); // NOTE: init patient IPC
   })
   .catch(console.log);
