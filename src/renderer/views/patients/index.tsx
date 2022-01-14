@@ -12,12 +12,8 @@ const Patients: React.FC = (): JSX.Element => {
   const [patients, setPatients] = useState<Patient[] | null>(null);
 
   useEffect(() => {
-    handleClick();
-  }, []);
-
-  const handleClick = () => {
     ipcRenderer.invoke(Channels.patient.getAll).then(setPatients);
-  };
+  }, []);
 
   const columns: GridColDef[] = [
     // { field: 'id', headerName: 'ID', width: 70, type: 'number', /*flex: .3,*/ minWidth: 30 },
@@ -27,6 +23,7 @@ const Patients: React.FC = (): JSX.Element => {
       headerName: 'Birth Date',
       valueFormatter: (params: GridValueFormatterParams) => `${(params.value as Date).toLocaleDateString() || '-'}`,
       minWidth: 120,
+      // TODO: check if there's a way to modify the way it filters data
       flex: 1
     },
     { field: 'phone', headerName: 'Telephone', flex: 0.7, minWidth: 130 },
@@ -55,7 +52,7 @@ const Patients: React.FC = (): JSX.Element => {
           />
         )}
       </MainCard>
-      <AddPatientFloatingButton onClick={handleClick} />
+      <AddPatientFloatingButton />
     </>
   );
 };

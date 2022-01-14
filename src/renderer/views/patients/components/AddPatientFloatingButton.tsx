@@ -1,17 +1,18 @@
 import { useTheme } from '@mui/material/styles';
-import { Fab, IconButton, Tooltip } from '@mui/material';
-import React from 'react';
+import { Dialog, DialogTitle, Fab, IconButton, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
 import { IconPlus } from '@tabler/icons';
 
 type FloatingButtonProps = {
   onClick?: () => void;
-}
+};
 
-const AddPatientFloatingButton = ({onClick}: FloatingButtonProps): JSX.Element => {
+const AddPatientFloatingButton = ({ onClick }: FloatingButtonProps): JSX.Element => {
   const theme = useTheme();
+  const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
-    console.log('clicked!');
+    setDialogOpened(true);
   };
 
   return (
@@ -40,6 +41,9 @@ const AddPatientFloatingButton = ({onClick}: FloatingButtonProps): JSX.Element =
           </IconButton>
         </Fab>
       </Tooltip>
+      <Dialog open={dialogOpened} onClose={() => setDialogOpened(false)} maxWidth="lg" fullWidth={true}>
+        <DialogTitle>Add Patient</DialogTitle>
+      </Dialog>
     </>
   );
 };
