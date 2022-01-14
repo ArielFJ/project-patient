@@ -1,17 +1,46 @@
 import { useTheme } from '@mui/material/styles';
-import { Fab, IconButton, Tooltip } from '@mui/material';
-import React from 'react';
-import { IconPlus } from '@tabler/icons';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Fab, IconButton, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
+import { IconPlus, IconX } from '@tabler/icons';
+import AddPatientForm from './AddPatientForm';
+
+/* ============== DIALOG ACTIONS ============== */
+
+const AddPatientDialogActions = ({ onClose }: { onClose: () => void }): JSX.Element => {
+  return (
+    <DialogActions>
+      <IconButton
+        aria-label="close"
+        onClick={onClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500]
+        }}
+      >
+        <IconX />
+      </IconButton>
+    </DialogActions>
+  );
+};
+
+/* ============== DIALOG ============== */
 
 type FloatingButtonProps = {
   onClick?: () => void;
-}
+};
 
-const AddPatientFloatingButton = ({onClick}: FloatingButtonProps): JSX.Element => {
+const AddPatientFloatingButton = ({ onClick }: FloatingButtonProps): JSX.Element => {
   const theme = useTheme();
+  const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
-    console.log('clicked!');
+    setDialogOpened(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpened(false);
   };
 
   return (
@@ -40,6 +69,13 @@ const AddPatientFloatingButton = ({onClick}: FloatingButtonProps): JSX.Element =
           </IconButton>
         </Fab>
       </Tooltip>
+      <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
+        <DialogTitle>Add Patient</DialogTitle>
+        <AddPatientDialogActions onClose={handleClose} />
+        <DialogContent>
+          <AddPatientForm />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
