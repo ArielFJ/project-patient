@@ -1,5 +1,6 @@
 const patient = {
-  getAll: 'get-all',
+  getAll: 'get-all-patients',
+  create: 'create-patient',
 }
 
 const Channels = {

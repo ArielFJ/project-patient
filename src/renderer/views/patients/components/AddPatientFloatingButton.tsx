@@ -29,9 +29,10 @@ const AddPatientDialogActions = ({ onClose }: { onClose: () => void }): JSX.Elem
 
 type FloatingButtonProps = {
   onClick?: () => void;
+  onFormSubmitted: () => void;
 };
 
-const AddPatientFloatingButton = ({ onClick }: FloatingButtonProps): JSX.Element => {
+const AddPatientFloatingButton = ({ onClick, onFormSubmitted }: FloatingButtonProps): JSX.Element => {
   const theme = useTheme();
   const [dialogOpened, setDialogOpened] = useState(false);
 
@@ -42,6 +43,11 @@ const AddPatientFloatingButton = ({ onClick }: FloatingButtonProps): JSX.Element
   const handleClose = () => {
     setDialogOpened(false);
   };
+
+  const handleSubmit = () => {
+    onFormSubmitted();
+    handleClose();
+  }
 
   return (
     <>
@@ -73,7 +79,7 @@ const AddPatientFloatingButton = ({ onClick }: FloatingButtonProps): JSX.Element
         <DialogTitle>Add Patient</DialogTitle>
         <AddPatientDialogActions onClose={handleClose} />
         <DialogContent>
-          <AddPatientForm />
+          <AddPatientForm onSubmit={handleSubmit} />
         </DialogContent>
       </Dialog>
     </>

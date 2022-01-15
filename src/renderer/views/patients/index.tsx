@@ -1,8 +1,8 @@
+const { ipcRenderer } = window.require('electron');
 import React, { useEffect, useState } from 'react';
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
 import { Patient } from 'shared/database/entities/Patient';
-const { ipcRenderer } = window.require('electron');
 import Channels from 'shared/ipcChannels';
 import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
 import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
@@ -11,8 +11,12 @@ import { Box } from '@mui/system';
 const Patients: React.FC = (): JSX.Element => {
   const [patients, setPatients] = useState<Patient[] | null>(null);
 
-  useEffect(() => {
+  const requestPatients = () => {
     ipcRenderer.invoke(Channels.patient.getAll).then(setPatients);
+  };
+
+  useEffect(() => {
+    requestPatients();
   }, []);
 
   const columns: GridColDef[] = [
@@ -30,7 +34,7 @@ const Patients: React.FC = (): JSX.Element => {
     { field: 'email', headerName: 'Email', flex: 1, minWidth: 200 },
     { field: 'weight', headerName: 'Weight', flex: 0.3, type: 'number', minWidth: 70 },
     { field: 'height', headerName: 'Height', flex: 0.3, type: 'number', minWidth: 70 },
-    { field: 'headCircunference', headerName: 'HC', flex: 0.3, type: 'number', minWidth: 70 },
+    { field: 'headCircumference', headerName: 'HC', flex: 0.3, type: 'number', minWidth: 70 },
     { field: 'bloodPressure', headerName: 'Blood Pressure', flex: 0.3, type: 'number', minWidth: 150 }
   ];
 
@@ -52,7 +56,7 @@ const Patients: React.FC = (): JSX.Element => {
           />
         )}
       </MainCard>
-      <AddPatientFloatingButton />
+      <AddPatientFloatingButton onFormSubmitted={requestPatients} />
     </>
   );
 };

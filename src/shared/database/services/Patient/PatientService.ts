@@ -21,4 +21,8 @@ export default class PatientService {
   getAll(): Promise<Patient[]> {
     return this.repository.find();
   }
+
+  create(patient: Patient): Promise<Patient> {
+    return this.repository.save(patient);
+  }
 }

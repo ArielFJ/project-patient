@@ -48,7 +48,7 @@ export class Patient {
     type: 'int',
     default: 0
   })
-  headCircunference: number = 0;
+  headCircumference: number = 0;
 
   @Column({
     type: 'int',
@@ -59,9 +59,10 @@ export class Patient {
   static Empty: Patient = {
     name: '',
     email: '',
+    phone: '',
     birthDate: new Date(),
     bloodPressure: 0,
-    headCircunference: 0,
+    headCircumference: 0,
     height: 0,
     weight: 0
   };
