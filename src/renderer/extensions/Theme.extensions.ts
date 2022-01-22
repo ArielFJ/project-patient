@@ -1,4 +1,4 @@
-import { CustomizationState } from 'renderer/store/CustomizationRootState';
+import { CustomizationState } from 'renderer/store/customization/customizationSlice';
 
 declare module '@mui/material/styles' {
   interface Theme {

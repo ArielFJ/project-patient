@@ -34,14 +34,14 @@ import { StrengthColor, strengthColor, strengthIndicator } from 'renderer/utils/
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
+import { RootState } from 'renderer/store';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state: CustomizationRootState) => state.customization);
+    const customization = useSelector((state: RootState) => state.customization);
     const [showPassword, setShowPassword] = useState(false);
     const [checked, setChecked] = useState(true);
 

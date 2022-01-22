@@ -11,8 +11,8 @@ import NavItem from '../NavItem';
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
 import { MenuItem } from 'renderer/menu-items/MenuItem.interface';
+import { RootState } from 'renderer/store';
 
 type NavCollapseProps = {
     menu: MenuItem;
@@ -23,7 +23,7 @@ type NavCollapseProps = {
 
 const NavCollapse = ({ menu, level }: NavCollapseProps): JSX.Element => {
     const theme = useTheme();
-    const customization = useSelector((state: CustomizationRootState) => state.customization);
+    const customization = useSelector((state: RootState) => state.customization);
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string | null>(null);

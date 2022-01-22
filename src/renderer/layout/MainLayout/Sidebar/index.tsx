@@ -10,7 +10,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
-import { drawerWidth } from 'renderer/store/constant';
+import { drawerWidth } from 'renderer/store/customization/constant';
 
 
 type SidebarProps = {

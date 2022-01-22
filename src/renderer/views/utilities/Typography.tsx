@@ -6,7 +6,7 @@ import MuiTypography from '@mui/material/Typography';
 import SubCard from 'renderer/ui-component/cards/SubCard';
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import SecondaryAction from 'renderer/ui-component/cards/CardSecondaryAction';
-import { gridSpacing } from 'renderer/store/constant';
+import { gridSpacing } from 'renderer/store/customization/constant';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 

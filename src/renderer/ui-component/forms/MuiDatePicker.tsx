@@ -7,11 +7,11 @@ import { TextField } from '@mui/material';
 type MuiDatePickerProps = {
   label: string;
   initialValue: Date;
-  onNewDateAssigned: (newValue: Date | null) => void;
+  onNewDateAssigned: (newValue: Date) => void;
 };
 
 function MuiDatePicker({ label, initialValue, onNewDateAssigned }: MuiDatePickerProps): JSX.Element {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(initialValue);
+  const [selectedDate, setSelectedDate] = useState<Date>(initialValue);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -19,7 +19,7 @@ function MuiDatePicker({ label, initialValue, onNewDateAssigned }: MuiDatePicker
         label={label}
         value={selectedDate}
         onChange={(newValue) => {
-          setSelectedDate(newValue);
+          setSelectedDate(newValue ?? new Date());
           if (newValue) onNewDateAssigned(newValue);
         }}
         renderInput={(params) => <TextField {...params} />}

@@ -38,13 +38,13 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
+import { RootState } from 'renderer/store';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = (): JSX.Element => {
     const theme = useTheme();
-    const customization = useSelector((state: CustomizationRootState) => state.customization);
+    const customization = useSelector((state: RootState) => state.customization);
     const navigate = useNavigate();
 
     const [sdm, setSdm] = useState(true);

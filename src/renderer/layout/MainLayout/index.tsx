@@ -12,12 +12,12 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 // import Customization from '../Customization';
 import navigation from 'renderer/menu-items';
-import { drawerWidth } from 'renderer/store/constant';
-import { SET_MENU } from 'renderer/store/actions';
+import { drawerWidth } from 'renderer/store/customization/constant';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
+import { setMenu } from 'renderer/store/customization/customizationSlice';
+import { RootState } from 'renderer/store';
 
 type MainProps = {
     theme: Theme;
@@ -75,14 +75,14 @@ const MainLayout = (): JSX.Element => {
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
     // Handle left drawer
-    const leftDrawerOpened = useSelector((state: CustomizationRootState) => state.customization.opened);
+    const leftDrawerOpened = useSelector((state: RootState) => state.customization.opened);
     const dispatch = useDispatch();
     const handleLeftDrawerToggle = () => {
-        dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+        dispatch(setMenu(!leftDrawerOpened));
     };
 
     useEffect(() => {
-        dispatch({ type: SET_MENU, opened: !matchDownMd });
+        dispatch(setMenu(!matchDownMd));
     }, [matchDownMd]);
 
     return (

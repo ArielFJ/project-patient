@@ -12,12 +12,12 @@ import themes from 'renderer/themes';
 
 // project imports
 import NavigationScroll from 'renderer/layout/NavigationScroll';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
+import { RootState } from './store';
 
 // ==============================|| APP ||============================== //
 
 const App = (): JSX.Element => {
-    const customization = useSelector((state: CustomizationRootState) => state.customization);
+    const customization = useSelector((state: RootState) => state.customization);
 
     return (
         <StyledEngineProvider injectFirst>

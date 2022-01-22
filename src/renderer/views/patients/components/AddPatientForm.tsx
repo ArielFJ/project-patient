@@ -1,4 +1,3 @@
-const { ipcRenderer } = window.require('electron');
 import React, { useState } from 'react';
 
 // material-ui
@@ -15,10 +14,14 @@ import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
 import { Patient } from 'shared/database/entities/Patient';
 import MuiDatePicker from 'renderer/ui-component/forms/MuiDatePicker';
 import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
-import Channels from 'shared/ipcChannels';
+// import Channels from 'shared/ipcChannels';
+import { createNewPatientAsync } from 'renderer/store/patients/patientSlice';
+import { useAppDispatch } from 'renderer/store/hooks';
 
 const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => {
   const [patient, setPatient] = useState(Patient.Empty);
+  const dispatch = useAppDispatch();
+
   const validationObjectShape = {
     name: Yup.string().max(255).required('Name is required'),
     birthDate: Yup.date().default(new Date()),
@@ -34,11 +37,11 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
     <Formik
       initialValues={patient}
       validationSchema={Yup.object().shape(validationObjectShape)}
+      // eslint-disable-next-line
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        // TODO: send values to backend and add it to DB
-        console.log(values);
-        ipcRenderer.send(Channels.patient.create, values);
-        onSubmit();
+        dispatch(createNewPatientAsync(values)).then(() => {
+          onSubmit();
+        });
       }}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -61,7 +64,7 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
               <MuiDatePicker
                 label="Birth Date"
                 initialValue={values.birthDate}
-                onNewDateAssigned={(newDate) => setPatient({ ...patient, birthDate: newDate! })}
+                onNewDateAssigned={(newDate) => setPatient({ ...patient, birthDate: newDate })}
               />
             </Grid>
             <Grid item xs={8}>

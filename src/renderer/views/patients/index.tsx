@@ -1,18 +1,20 @@
-const { ipcRenderer } = window.require('electron');
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
 import { Patient } from 'shared/database/entities/Patient';
-import Channels from 'shared/ipcChannels';
 import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
 import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
+import { RootState } from 'renderer/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { requestPatientsAsync } from 'renderer/store/patients/patientSlice';
 
 const Patients: React.FC = (): JSX.Element => {
-  const [patients, setPatients] = useState<Patient[] | null>(null);
+  const patients: Patient[] = useSelector((state: RootState) => state.patient.patients);
+  const dispatch = useDispatch();
 
   const requestPatients = () => {
-    ipcRenderer.invoke(Channels.patient.getAll).then(setPatients);
+    dispatch(requestPatientsAsync());
   };
 
   useEffect(() => {
@@ -50,6 +52,7 @@ const Patients: React.FC = (): JSX.Element => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
+            // eslint-disable-next-line
             onRowClick={(params, e, details) => {
               console.log(params.row);
             }}

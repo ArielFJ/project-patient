@@ -10,7 +10,9 @@ type MuiFormControlProps = {
   fullWidth: boolean;
   defaultValue?: string | Date | number;
   errorHelperText?: string;
+  // eslint-disable-next-line
   onBlur: (event: React.FocusEvent<any, Element>) => void;
+  // eslint-disable-next-line
   onChange: (event: React.ChangeEvent<any>) => void;
 };
 

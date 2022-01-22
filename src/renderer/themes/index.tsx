@@ -2,7 +2,7 @@ import { createTheme, Theme, ThemeOptions } from '@mui/material/styles';
 
 // assets
 import colors from 'assets/scss/_themes-vars.module.scss';
-import { CustomizationState } from 'renderer/store/CustomizationRootState';
+import { CustomizationState } from 'renderer/store/customization/customizationSlice';
 
 // project imports
 import componentStyleOverrides from './compStyleOverride';

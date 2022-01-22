@@ -24,9 +24,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import SubCard from 'renderer/ui-component/cards/SubCard';
 import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
-import { SET_BORDER_RADIUS, SET_FONT_FAMILY } from 'renderer/store/actions';
-import { gridSpacing } from 'renderer/store/constant';
-import CustomizationRootState from 'renderer/store/CustomizationRootState';
+import { gridSpacing } from 'renderer/store/customization/constant';
+import { RootState } from 'renderer/store';
 
 // concat 'px'
 function valueText(value: number) {
@@ -38,7 +37,7 @@ function valueText(value: number) {
 const Customization = (): JSX.Element => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const customization = useSelector((state: CustomizationRootState) => state.customization);
+    const customization = useSelector((state: RootState) => state.customization);
 
     // drawer on/off
     const [open, setOpen] = useState(false);
@@ -53,7 +52,7 @@ const Customization = (): JSX.Element => {
     };
 
     useEffect(() => {
-        dispatch({ type: SET_BORDER_RADIUS, borderRadius });
+        dispatch(setBorderRadius(borderRadius));
     }, [dispatch, borderRadius]);
 
     let initialFont;
@@ -86,7 +85,7 @@ const Customization = (): JSX.Element => {
                 newFont = `'Roboto', sans-serif`;
                 break;
         }
-        dispatch({ type: SET_FONT_FAMILY, fontFamily: newFont });
+        dispatch(setFontFamily(newFont));
     }, [dispatch, fontFamily]);
 
     return (
