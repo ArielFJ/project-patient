@@ -25,4 +25,9 @@ export default class PatientService {
   create(patient: Patient): Promise<Patient> {
     return this.repository.save(patient);
   }
+
+  async delete(IDs: number[]): Promise<Patient[]> {
+    let patients = await this.repository.findByIds(IDs);
+    return await this.repository.remove(patients);
+  }
 }

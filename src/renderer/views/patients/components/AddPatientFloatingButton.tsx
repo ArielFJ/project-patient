@@ -1,8 +1,8 @@
-import { useTheme } from '@mui/material/styles';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Fab, IconButton, Tooltip } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { IconPlus, IconX } from '@tabler/icons';
 import AddPatientForm from './AddPatientForm';
+import FloatingButton from 'renderer/ui-component/FloatingButton';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -27,13 +27,11 @@ const AddPatientDialogActions = ({ onClose }: { onClose: () => void }): JSX.Elem
 
 /* ============== DIALOG ============== */
 
-type FloatingButtonProps = {
-  onClick?: () => void;
+type AddPatientFloatingButtonProps = {
   onFormSubmitted: () => void;
 };
 
-const AddPatientFloatingButton = ({ onClick, onFormSubmitted }: FloatingButtonProps): JSX.Element => {
-  const theme = useTheme();
+const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonProps): JSX.Element => {
   const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
@@ -51,30 +49,7 @@ const AddPatientFloatingButton = ({ onClick, onFormSubmitted }: FloatingButtonPr
 
   return (
     <>
-      <Tooltip title="Add Patient">
-        <Fab
-          component="div"
-          onClick={onClick ?? handleClick}
-          size="medium"
-          variant="circular"
-          color="secondary"
-          sx={{
-            borderRadius: 0,
-            borderTopLeftRadius: '50%',
-            borderBottomLeftRadius: '50%',
-            borderTopRightRadius: '50%',
-            borderBottomRightRadius: '4px',
-            bottom: '1%',
-            position: 'fixed',
-            right: 10,
-            zIndex: theme.zIndex.speedDial
-          }}
-        >
-          <IconButton color="inherit" size="large" disableRipple>
-            <IconPlus />
-          </IconButton>
-        </Fab>
-      </Tooltip>
+      <FloatingButton title='Add Patient' onClick={handleClick} childContent={<IconPlus />}  />
       <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
         <DialogTitle>Add Patient</DialogTitle>
         <AddPatientDialogActions onClose={handleClose} />

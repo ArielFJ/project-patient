@@ -12,3 +12,7 @@ ipcMain.handle(Channels.patient.getAll, async () => {
 ipcMain.on(Channels.patient.create, async (event, patient: Patient) => {
   await patientService.create(patient);
 });
+
+ipcMain.handle(Channels.patient.delete, async (event, IDs: number[]) => {
+  return await patientService.delete(IDs);
+})

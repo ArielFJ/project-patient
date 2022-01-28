@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Patient } from 'shared/database/entities/Patient';
-import { requestPatientsAsync, createNewPatientAsync } from './asyncThunks';
+import { requestPatientsAsync, createNewPatientAsync, deletePatientsWithIdAsync } from './asyncThunks';
 
 export type PatientsState = {
   patients: Patient[];
@@ -30,6 +30,9 @@ export const patientSlice = createSlice({
     builder.addCase(createNewPatientAsync.fulfilled, (state) => {
       state.shouldUpdatePatients = true;
     });
+    builder.addCase(deletePatientsWithIdAsync.fulfilled, (state) => {
+      state.shouldUpdatePatients = true;
+    });
   }
 });
 
@@ -37,7 +40,7 @@ export const patientSlice = createSlice({
 export const { create } = patientSlice.actions;
 
 // Reducer Async Actions
-export { requestPatientsAsync, createNewPatientAsync };
+export { requestPatientsAsync, createNewPatientAsync, deletePatientsWithIdAsync };
 
 // Actual Reducer
 export default patientSlice.reducer;

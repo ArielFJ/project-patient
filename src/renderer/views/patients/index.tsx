@@ -1,20 +1,33 @@
-import React, { useEffect } from 'react';
-import MainCard from 'renderer/ui-component/cards/MainCard';
-import AddPatientFloatingButton from './components/AddPatientFloatingButton';
-import { Patient } from 'shared/database/entities/Patient';
-import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
-import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
+import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams } from '@mui/x-data-grid';
+import { IconTrash } from '@tabler/icons';
 import { RootState } from 'renderer/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { requestPatientsAsync } from 'renderer/store/patients/patientSlice';
+import AddPatientFloatingButton from './components/AddPatientFloatingButton';
+import MainCard from 'renderer/ui-component/cards/MainCard';
+import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
+import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/patientSlice';
+import { useAppDispatch } from 'renderer/store/hooks';
+import { Patient } from 'shared/database/entities/Patient';
+import FloatingButton from 'renderer/ui-component/FloatingButton';
 
 const Patients: React.FC = (): JSX.Element => {
   const patients: Patient[] = useSelector((state: RootState) => state.patient.patients);
-  const dispatch = useDispatch();
+  const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
+  const dispatch = useAppDispatch();
 
   const requestPatients = () => {
     dispatch(requestPatientsAsync());
+  };
+
+  const onSelectionModelChange = (selectionModel: GridSelectionModel) => {
+    const IDs = selectionModel.map((value) => Number(value));
+    setSelectedPatients(IDs);
+  };
+
+  const onDeleteButtonClicked = () => {
+    dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
   };
 
   useEffect(() => {
@@ -22,7 +35,7 @@ const Patients: React.FC = (): JSX.Element => {
   }, []);
 
   const columns: GridColDef[] = [
-    // { field: 'id', headerName: 'ID', width: 70, type: 'number', /*flex: .3,*/ minWidth: 30 },
+    { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: false /*flex: .3,  minWidth: 30*/ },
     { field: 'name', headerName: 'Name', flex: 1, minWidth: 200 },
     {
       field: 'birthDate',
@@ -51,7 +64,10 @@ const Patients: React.FC = (): JSX.Element => {
             rows={patients}
             columns={columns}
             pageSize={5}
+            checkboxSelection
+            onSelectionModelChange={onSelectionModelChange}
             rowsPerPageOptions={[5]}
+            disableSelectionOnClick
             // eslint-disable-next-line
             onRowClick={(params, e, details) => {
               console.log(params.row);
@@ -60,6 +76,19 @@ const Patients: React.FC = (): JSX.Element => {
         )}
       </MainCard>
       <AddPatientFloatingButton onFormSubmitted={requestPatients} />
+      <FloatingButton
+        title="Delete Patients"
+        onClick={onDeleteButtonClicked}
+        childContent={<IconTrash />}
+        styles={{
+          backgroundColor: '#ba3434',
+          bottom: '10%',
+          display: selectedPatients.length ? 'block' : 'none',
+          '&: hover': {
+            backgroundColor: '#c93434'
+          }
+        }}
+      />
     </>
   );
 };

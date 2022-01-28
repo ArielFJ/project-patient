@@ -10,3 +10,7 @@ export const requestPatientsAsync = createAsyncThunk('patients/request', async (
 export const createNewPatientAsync = createAsyncThunk('patients/create', async (newPatient: Patient): Promise<void> => {
   ipcRenderer.send(Channels.patient.create, newPatient);
 });
+
+export const deletePatientsWithIdAsync = createAsyncThunk('patients/delete', async (IDs: number[]): Promise<Patient[]> => {
+  return await ipcRenderer.invoke(Channels.patient.delete, IDs);
+});
