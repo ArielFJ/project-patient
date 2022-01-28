@@ -33,13 +33,19 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
     bloodPressure: Yup.number().default(0)
   };
 
+  const onNewDateAssigned = (newDate: Date) => {
+    setPatient(currentPatient => ({ ...currentPatient, birthDate: newDate }));
+  };
+
   return (
     <Formik
       initialValues={patient}
       validationSchema={Yup.object().shape(validationObjectShape)}
       // eslint-disable-next-line
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        dispatch(createNewPatientAsync(values)).then(() => {
+        const newPatient = values;
+        newPatient.birthDate = patient.birthDate;
+        dispatch(createNewPatientAsync(newPatient)).then(() => {
           onSubmit();
         });
       }}
@@ -64,7 +70,7 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
               <MuiDatePicker
                 label="Birth Date"
                 initialValue={values.birthDate}
-                onNewDateAssigned={(newDate) => setPatient({ ...patient, birthDate: newDate })}
+                onNewDateAssigned={onNewDateAssigned}
               />
             </Grid>
             <Grid item xs={8}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
-import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
 import { RootState } from 'renderer/store';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
@@ -17,6 +17,10 @@ const Patients: React.FC = (): JSX.Element => {
   const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    requestPatients();
+  }, []);
+
   const requestPatients = () => {
     dispatch(requestPatientsAsync());
   };
@@ -30,17 +34,19 @@ const Patients: React.FC = (): JSX.Element => {
     dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
   };
 
-  useEffect(() => {
-    requestPatients();
-  }, []);
+  const formatDate = (dateAsString?: string): string => {
+    return `${new Date(dateAsString ?? '-').toLocaleDateString(['en', 'es'], {timeZone: 'UTC'}) || '-'}`
+  }
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: false /*flex: .3,  minWidth: 30*/ },
+    { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
     { field: 'name', headerName: 'Name', flex: 1, minWidth: 200 },
     {
       field: 'birthDate',
       headerName: 'Birth Date',
-      valueFormatter: (params: GridValueFormatterParams) => `${new Date(params.value?.toString() ?? '').toLocaleDateString() || '-'}`,
+      type: 'date',
+      valueFormatter: (params: GridValueFormatterParams) => formatDate(params.value?.toString()),
+      valueGetter: (params: GridValueGetterParams) => formatDate(params.row.birthDate?.toString()),
       minWidth: 120,
       // TODO: check if there's a way to modify the way it filters data
       flex: 1
@@ -94,3 +100,4 @@ const Patients: React.FC = (): JSX.Element => {
 };
 
 export default Patients;
+
