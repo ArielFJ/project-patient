@@ -3,6 +3,7 @@ import React, { lazy } from 'react';
 // project imports
 import MainLayout from 'renderer/layout/MainLayout';
 import Loadable from 'renderer/ui-component/Loadable';
+import Patient from 'renderer/views/patient';
 import Patients from 'renderer/views/patients';
 
 // utilities routing
@@ -29,6 +30,10 @@ const MainRoutes = {
         {
             path: '/patients',
             element: <Patients />
+        },
+        {
+            path: '/patients/:id',
+            element: <Patient />
         },
         {
             path: '/utils/util-typography',

@@ -20,6 +20,14 @@ const pages: MenuItem = {
             icon: icons.IconUsers,
             breadcrumbs: false
         },
+        // {
+        //     id: 'patient',
+        //     title: 'Patient',
+        //     type: 'item',
+        //     url: '/patients/:id',
+        //     icon: icons.IconUsers,
+        //     breadcrumbs: false
+        // },
         {
             id: 'sample-page',
             title: 'Sample Page',

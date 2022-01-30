@@ -11,8 +11,11 @@ import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/ui-component/FloatingButton';
+import { useNavigate } from 'react-router';
 
 const Patients: React.FC = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const patients: Patient[] = useSelector((state: RootState) => state.patient.patients);
   const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
   const dispatch = useAppDispatch();
@@ -75,8 +78,12 @@ const Patients: React.FC = (): JSX.Element => {
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
             // eslint-disable-next-line
-            onRowClick={(params, e, details) => {
-              console.log(params.row);
+            // onRowClick={(params, e, details) => {
+            //   console.log(params.row);
+            // }}
+            onRowDoubleClick={(params) => {
+              console.log(params.row.id);
+              navigate(`patients/${params.row.id}`);
             }}
           />
         )}
