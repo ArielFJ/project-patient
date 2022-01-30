@@ -22,6 +22,10 @@ export default class PatientService {
     return this.repository.find();
   }
 
+  getById(id: number): Promise<Patient | undefined> {
+    return this.repository.findOne(id);
+  }
+
   create(patient: Patient): Promise<Patient> {
     return this.repository.save(patient);
   }

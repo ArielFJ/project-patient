@@ -21,6 +21,9 @@ export const patientSlice = createSlice({
       // eslint-disable-next-line
       const i = 0;
     }
+    // getOne: (state, action: PayloadAction<number>): Patient => {
+    //   return state.patients.find(patient => patient.id == action.payload)
+    // }
   },
   extraReducers: (builder) => {
     builder.addCase(requestPatientsAsync.fulfilled, (state, action) => {

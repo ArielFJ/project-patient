@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
-import { RootState } from 'renderer/store';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
@@ -12,13 +11,14 @@ import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
+import { patientsSelector } from 'renderer/store/patients/selectors';
 
 const Patients: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
-
-  const patients: Patient[] = useSelector((state: RootState) => state.patient.patients);
-  const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
   const dispatch = useAppDispatch();
+
+  const patients: Patient[] = useSelector(patientsSelector);
+  const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
 
   useEffect(() => {
     requestPatients();
@@ -70,7 +70,7 @@ const Patients: React.FC = (): JSX.Element => {
       <MainCard title="Patients" sx={{ width: '100%', height: 'calc(100% - 70px)' }} contentSX={{ height: '85%' }}>
         {patients && ( // If there are any patients
           <DataGrid
-            rows={patients}
+            rows={patients ?? []}
             columns={columns}
             pageSize={5}
             checkboxSelection

@@ -4,5 +4,8 @@
     "synchronize": true,
     "entities": [
         "./build/shared/database/entities/**/*.js"
+    ],
+    "migrations": [
+        "./build/shared/database/migrations/**/*.js"
     ]
 }
