@@ -2,6 +2,7 @@ import { BrowserWindow, app, dialog } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import isDevEnvironment from 'electron-is-dev';
 import path from 'path';
+import initDialogIpc from './dialogIpc';
 
 let mainWindow: BrowserWindow | null;
 
@@ -53,6 +54,13 @@ export const createWindow = () => {
     mainWindow = null;
   });
 };
+
+const initIpcs = () => {
+  if (mainWindow === null) return;
+
+  initDialogIpc(mainWindow);
+}
+initIpcs();
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {

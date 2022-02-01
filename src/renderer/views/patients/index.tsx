@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
 import MainCard from 'renderer/ui-component/cards/MainCard';
-import SearchSection from 'renderer/layout/MainLayout/Header/SearchSection';
 import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/patientSlice';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
 import { patientsSelector } from 'renderer/store/patients/selectors';
+const  { ipcRenderer } = window.require('electron');
+import Channels from 'shared/ipcChannels';
 
 const Patients: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
@@ -34,7 +34,16 @@ const Patients: React.FC = (): JSX.Element => {
   };
 
   const onDeleteButtonClicked = () => {
-    dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
+    const options: Electron.MessageBoxOptions = {
+      title: 'Warning',
+      message: 'Are you sure to delete?',
+      buttons: ['Yes', 'Later']
+    }
+    ipcRenderer.invoke(Channels.dialog.confirm, options)
+      .then((value: Electron.MessageBoxReturnValue) => {
+        if (value.response === 0)
+          dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
+      })
   };
 
   const formatDate = (dateAsString?: string): string => {
@@ -64,10 +73,7 @@ const Patients: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'row-reverse', margin: '0 0 14px' }}>
-        <SearchSection searchBoxBackground="transparent" borderColor="#ccc" openFromRight />
-      </Box>
-      <MainCard title="Patients" sx={{ width: '100%', height: 'calc(100% - 70px)' }} contentSX={{ height: '85%' }}>
+      <MainCard title="Patients" sx={{ width: '100%', height: '100%' }} contentSX={{ height: '85%' }}>
         {patients && ( // If there are any patients
           <DataGrid
             rows={patients ?? []}

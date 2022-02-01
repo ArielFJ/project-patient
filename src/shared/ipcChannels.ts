@@ -5,8 +5,14 @@ const patient = {
   delete: 'delete-patient',
 }
 
+const dialog = {
+  message: 'message-dialog',
+  confirm: 'confirm-dialog'
+}
+
 const Channels = {
-  patient
+  patient,
+  dialog
 }
 
 export default Channels;
