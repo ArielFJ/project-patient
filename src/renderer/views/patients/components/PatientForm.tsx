@@ -14,13 +14,14 @@ import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
 import { Patient } from 'shared/database/entities/Patient';
 import MuiDatePicker from 'renderer/ui-component/forms/MuiDatePicker';
 import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
-// import Channels from 'shared/ipcChannels';
-import { createNewPatientAsync } from 'renderer/store/patients/patientSlice';
-import { useAppDispatch } from 'renderer/store/hooks';
 
-const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => {
-  const [patient, setPatient] = useState(Patient.Empty);
-  const dispatch = useAppDispatch();
+type PatientFormProps = {
+  defaultPatient?: Patient;
+  onSubmit: (values: Patient) => void;
+};
+
+const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Element => {
+  const [patient, setPatient] = useState(defaultPatient ?? Patient.Empty);
 
   const validationObjectShape = {
     name: Yup.string().max(255).required('Name is required'),
@@ -34,20 +35,15 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
   };
 
   const onNewDateAssigned = (newDate: Date) => {
-    setPatient(currentPatient => ({ ...currentPatient, birthDate: newDate }));
+    setPatient((currentPatient) => ({ ...currentPatient, birthDate: newDate }));
   };
 
   return (
     <Formik
       initialValues={patient}
       validationSchema={Yup.object().shape(validationObjectShape)}
-      // eslint-disable-next-line
-      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        const newPatient = values;
-        newPatient.birthDate = patient.birthDate;
-        dispatch(createNewPatientAsync(newPatient)).then(() => {
-          onSubmit();
-        });
+      onSubmit={async (patientValue) => {
+        onSubmit({ ...patientValue, birthDate: patient.birthDate });
       }}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -67,11 +63,7 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
               />
             </Grid>
             <Grid item xs={4}>
-              <MuiDatePicker
-                label="Birth Date"
-                initialValue={values.birthDate}
-                onNewDateAssigned={onNewDateAssigned}
-              />
+              <MuiDatePicker label="Birth Date" initialValue={values.birthDate} onNewDateAssigned={onNewDateAssigned} />
             </Grid>
             <Grid item xs={8}>
               <MuiFormControl
@@ -156,25 +148,10 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
               />
             </Grid>
           </Grid>
-          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-            <FormControlLabel
-              control={<Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />}
-              label="Remember me"
-            />
-            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-              Forgot Password?
-            </Typography>
-          </Stack> */}
-          {/* {errors.submit && (
-            <Box sx={{ mt: 3 }}>
-              <FormHelperText error>{errors.submit}</FormHelperText>
-            </Box>
-          )} */}
-
           <Box sx={{ mt: 2 }}>
             <AnimateButton>
               <Button disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                Create
+                Submit
               </Button>
             </AnimateButton>
           </Box>
@@ -184,4 +161,4 @@ const AddPatientForm = ({ onSubmit }: { onSubmit: () => void }): JSX.Element => 
   );
 };
 
-export default AddPatientForm;
+export default PatientForm;

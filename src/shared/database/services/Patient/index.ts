@@ -20,3 +20,7 @@ ipcMain.on(Channels.patient.create, async (_, patient: Patient) => {
 ipcMain.handle(Channels.patient.delete, async (_, IDs: number[]) => {
   return await patientService.delete(IDs);
 })
+
+ipcMain.on(Channels.patient.update, async (_, patientId: number, newPatientValues: Patient) => {
+  await patientService.update(patientId, newPatientValues);
+})

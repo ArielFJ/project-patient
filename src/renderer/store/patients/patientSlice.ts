@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Patient } from 'shared/database/entities/Patient';
-import { requestPatientsAsync, createNewPatientAsync, deletePatientsWithIdAsync } from './asyncThunks';
+import { requestPatientsAsync, createNewPatientAsync, deletePatientsWithIdAsync, updatePatientAsync } from './asyncThunks';
 
 export type PatientsState = {
   patients: Patient[];
@@ -16,14 +16,6 @@ export const patientSlice = createSlice({
   name: 'patient',
   initialState,
   reducers: {
-    // eslint-disable-next-line
-    create: (state, payload) => {
-      // eslint-disable-next-line
-      const i = 0;
-    }
-    // getOne: (state, action: PayloadAction<number>): Patient => {
-    //   return state.patients.find(patient => patient.id == action.payload)
-    // }
   },
   extraReducers: (builder) => {
     builder.addCase(requestPatientsAsync.fulfilled, (state, action) => {
@@ -36,14 +28,11 @@ export const patientSlice = createSlice({
     builder.addCase(deletePatientsWithIdAsync.fulfilled, (state) => {
       state.shouldUpdatePatients = true;
     });
+    builder.addCase(updatePatientAsync.fulfilled, (state) => {
+      state.shouldUpdatePatients = true;
+    });
   }
 });
-
-// Reducer Actions
-export const { create } = patientSlice.actions;
-
-// Reducer Async Actions
-export { requestPatientsAsync, createNewPatientAsync, deletePatientsWithIdAsync };
 
 // Actual Reducer
 export default patientSlice.reducer;

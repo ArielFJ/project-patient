@@ -30,6 +30,22 @@ export default class PatientService {
     return this.repository.save(patient);
   }
 
+  async update(id:number, patient: Patient): Promise<void> {
+    const soughtPatient = await this.repository.findOne(id);
+    if (!soughtPatient) return;
+    
+    soughtPatient.name = patient.name;
+    soughtPatient.email = patient.email;
+    soughtPatient.phone = patient.phone;
+    soughtPatient.birthDate = patient.birthDate;
+    soughtPatient.bloodPressure = patient.bloodPressure;
+    soughtPatient.headCircumference = patient.headCircumference;
+    soughtPatient.height = patient.height;
+    soughtPatient.weight = patient.weight;
+
+    await this.repository.save(soughtPatient);
+  } 
+
   async delete(IDs: number[]): Promise<Patient[]> {
     let patients = await this.repository.findByIds(IDs);
     return await this.repository.remove(patients);

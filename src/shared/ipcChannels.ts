@@ -3,6 +3,7 @@ const patient = {
   getOne: 'get-one-patient',
   create: 'create-patient',
   delete: 'delete-patient',
+  update: 'update-patient',
 }
 
 const dialog = {

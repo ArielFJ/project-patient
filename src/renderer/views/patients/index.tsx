@@ -4,7 +4,7 @@ import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, Gri
 import { IconTrash } from '@tabler/icons';
 import AddPatientFloatingButton from './components/AddPatientFloatingButton';
 import MainCard from 'renderer/ui-component/cards/MainCard';
-import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/patientSlice';
+import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/ui-component/FloatingButton';
@@ -83,12 +83,7 @@ const Patients: React.FC = (): JSX.Element => {
             onSelectionModelChange={onSelectionModelChange}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
-            // eslint-disable-next-line
-            // onRowClick={(params, e, details) => {
-            //   console.log(params.row);
-            // }}
             onRowDoubleClick={(params) => {
-              console.log(params.row.id);
               navigate(`patients/${params.row.id}`);
             }}
           />

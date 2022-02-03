@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 // material-ui
-import { Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import { useNavigate, useParams } from 'react-router';
-// import { useAppDispatch } from 'renderer/store/hooks';
+import { useAppDispatch } from 'renderer/store/hooks';
 import { useSelector } from 'react-redux';
 import { patientSelector } from 'renderer/store/patients/selectors';
+import PatientForm from '../patients/components/PatientForm';
+import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
+import { IconChevronLeft } from '@tabler/icons';
+import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -17,35 +21,40 @@ const PatientInfo: React.FC = (): JSX.Element => {
   const { id } = useParams();
   const soughtPatient: Patient = useSelector(patientSelector(Number(id)));
   const [patient, setPatient] = useState<Patient | undefined>();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(requestPatientAsync(Number(id)))
-    //   .unwrap()
-    //   .then((patient: Patient) => setPatient(patient));
     setPatient(soughtPatient);
     return () => {
       setPatient(undefined);
     };
   }, []);
 
-  return (
-    <>
-      <MainCard title="Patient">
+  const handleSubmit = (patientToUpdate: Patient) => {
+    dispatch(updatePatientAsync({ patientId: Number(id), newPatientValues: patientToUpdate }));
+  };
+
+  const title: JSX.Element = (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <AnimateButton scale={1.5}>
         <Button
-          variant="contained"
           onClick={() => {
             navigate(-1);
           }}
+          sx={{
+            color: 'black'
+          }}
         >
-          Go Back
+          <IconChevronLeft />
         </Button>
-        <br />
-        <br />
-        {id}
-        <br />
-        {patient?.name}
-      </MainCard>
+      </AnimateButton>
+      <Typography variant="h4">Patient</Typography>
+    </Box>
+  );
+
+  return (
+    <>
+      <MainCard title={title}>{patient && <PatientForm defaultPatient={patient} onSubmit={handleSubmit} />}</MainCard>
     </>
   );
 };
