@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Consultation } from './Consultation';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Patient {
@@ -56,6 +57,9 @@ export class Patient {
   })
   bloodPressure: number = 0;
 
+  @OneToMany(type => Consultation, consultation => consultation.patient)
+  consultations: Consultation[];
+
   static Empty: Patient = {
     name: '',
     email: '',
@@ -64,6 +68,7 @@ export class Patient {
     bloodPressure: 0,
     headCircumference: 0,
     height: 0,
-    weight: 0
+    weight: 0,
+    consultations: []
   };
 }
