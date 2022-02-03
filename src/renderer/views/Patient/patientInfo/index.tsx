@@ -9,14 +9,14 @@ import { useNavigate, useParams } from 'react-router';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { useSelector } from 'react-redux';
 import { patientSelector } from 'renderer/store/patients/selectors';
-import PatientForm from '../patients/components/PatientForm';
 import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
 import { IconChevronLeft } from '@tabler/icons';
 import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
+import PatientForm from '../components/PatientForm';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const PatientInfo: React.FC = (): JSX.Element => {
+const PatientInfoPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams();
   const soughtPatient: Patient = useSelector(patientSelector(Number(id)));
@@ -59,4 +59,4 @@ const PatientInfo: React.FC = (): JSX.Element => {
   );
 };
 
-export default PatientInfo;
+export default PatientInfoPage;

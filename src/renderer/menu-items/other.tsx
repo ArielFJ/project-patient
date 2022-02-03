@@ -1,9 +1,6 @@
 // assets
-import { IconBrandChrome, IconHelp, IconUsers } from '@tabler/icons';
+import { IconBrandChrome, IconNotebook, IconUsers } from '@tabler/icons';
 import { MenuItem } from './MenuItem.interface';
-
-// constant
-const icons = { IconBrandChrome, IconHelp, IconUsers };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -17,23 +14,23 @@ const pages: MenuItem = {
             title: 'Patients',
             type: 'item',
             url: '/patients',
-            icon: icons.IconUsers,
+            icon: IconUsers,
             breadcrumbs: false
         },
-        // {
-        //     id: 'patient',
-        //     title: 'Patient',
-        //     type: 'item',
-        //     url: '/patients/:id',
-        //     icon: icons.IconUsers,
-        //     breadcrumbs: false
-        // },
+        {
+            id: 'add-consultation',
+            title: 'Add Consultation',
+            type: 'item',
+            url: '/consultations/new',
+            icon: IconNotebook,
+            breadcrumbs: false
+        },
         {
             id: 'sample-page',
             title: 'Sample Page',
             type: 'item',
             url: '/sample-page',
-            icon: icons.IconBrandChrome,
+            icon: IconBrandChrome,
             breadcrumbs: false
         },
     ]

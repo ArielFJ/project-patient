@@ -25,6 +25,7 @@ export class Consultation {
   })
   diagnosis?: string;
 
+  // eslint-disable-next-line
   @ManyToOne(type => Patient, patient => patient.consultations)
   patient: Patient;
 }

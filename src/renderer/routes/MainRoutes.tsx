@@ -3,8 +3,9 @@ import React, { lazy } from 'react';
 // project imports
 import MainLayout from 'renderer/layout/MainLayout';
 import Loadable from 'renderer/ui-component/Loadable';
-import PatientInfo from 'renderer/views/patientInfo';
-import Patients from 'renderer/views/patients';
+import AddConsultationPage from 'renderer/views/Consultation/addConsultation';
+import PatientInfoPage from 'renderer/views/Patient/patientInfo';
+import PatientsPage from 'renderer/views/Patient/patients';
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('renderer/views/utilities/Typography')));
@@ -25,15 +26,19 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <Patients />
+            element: <PatientsPage />
         },
         {
             path: '/patients',
-            element: <Patients />
+            element: <PatientsPage />
         },
         {
             path: '/patients/:id',
-            element: <PatientInfo />
+            element: <PatientInfoPage />
+        },
+        {
+            path: '/consultations/new',
+            element: <AddConsultationPage />
         },
         {
             path: '/utils/util-typography',

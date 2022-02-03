@@ -57,6 +57,7 @@ export class Patient {
   })
   bloodPressure: number = 0;
 
+  // eslint-disable-next-line
   @OneToMany(type => Consultation, consultation => consultation.patient)
   consultations: Consultation[];
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
-import AddPatientFloatingButton from './components/AddPatientFloatingButton';
+import AddPatientFloatingButton from '../components/AddPatientFloatingButton';
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
 import { useAppDispatch } from 'renderer/store/hooks';
@@ -13,7 +13,7 @@ import { patientsSelector } from 'renderer/store/patients/selectors';
 const  { ipcRenderer } = window.require('electron');
 import Channels from 'shared/ipcChannels';
 
-const Patients: React.FC = (): JSX.Element => {
+const PatientsPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -60,7 +60,6 @@ const Patients: React.FC = (): JSX.Element => {
       valueFormatter: (params: GridValueFormatterParams) => formatDate(params.value?.toString()),
       valueGetter: (params: GridValueGetterParams) => formatDate(params.row.birthDate?.toString()),
       minWidth: 120,
-      // TODO: check if there's a way to modify the way it filters data
       flex: 1
     },
     { field: 'phone', headerName: 'Telephone', flex: 0.7, minWidth: 130 },
@@ -107,5 +106,5 @@ const Patients: React.FC = (): JSX.Element => {
   );
 };
 
-export default Patients;
+export default PatientsPage;
 
