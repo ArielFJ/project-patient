@@ -27,5 +27,10 @@ export class Consultation {
 
   // eslint-disable-next-line
   @ManyToOne(type => Patient, patient => patient.consultations)
-  patient: Patient;
+  patient?: Patient;
+
+  static Empty: Consultation = {
+    reason: '',
+    date: new Date(),
+  };
 }

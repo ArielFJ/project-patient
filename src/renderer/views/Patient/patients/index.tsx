@@ -37,11 +37,12 @@ const PatientsPage: React.FC = (): JSX.Element => {
     const options: Electron.MessageBoxOptions = {
       title: 'Warning',
       message: 'Are you sure to delete?',
-      buttons: ['Yes', 'Later']
+      buttons: ['Cancel', 'Yes'],
+      noLink: true,
     }
-    ipcRenderer.invoke(Channels.dialog.confirm, options)
+    ipcRenderer.invoke(Channels.dialog.message, options)
       .then((value: Electron.MessageBoxReturnValue) => {
-        if (value.response === 0)
+        if (value.response === 1)
           dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
       })
   };

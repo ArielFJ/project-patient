@@ -3,7 +3,6 @@ import React, { lazy } from 'react';
 // project imports
 import MainLayout from 'renderer/layout/MainLayout';
 import Loadable from 'renderer/ui-component/Loadable';
-import AddConsultationPage from 'renderer/views/Consultation/addConsultation';
 import PatientInfoPage from 'renderer/views/Patient/patientInfo';
 import PatientsPage from 'renderer/views/Patient/patients';
 
@@ -36,10 +35,10 @@ const MainRoutes = {
             path: '/patients/:id',
             element: <PatientInfoPage />
         },
-        {
-            path: '/consultations/new',
-            element: <AddConsultationPage />
-        },
+        // {
+        //     path: '/consultations/new',
+        //     element: <AddConsultationPage />
+        // },
         {
             path: '/utils/util-typography',
             element: <UtilsTypography />

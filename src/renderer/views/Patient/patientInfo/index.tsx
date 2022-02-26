@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 // material-ui
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import { useNavigate, useParams } from 'react-router';
 import { useAppDispatch } from 'renderer/store/hooks';
-import { useSelector } from 'react-redux';
-import { patientSelector } from 'renderer/store/patients/selectors';
 import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
-import { IconChevronLeft } from '@tabler/icons';
+import { IconChevronLeft, IconPlus } from '@tabler/icons';
 import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
 import PatientForm from '../components/PatientForm';
+const { ipcRenderer } = window.require('electron');
+import Channels from 'shared/ipcChannels';
+import DialogContainer, { DialogContainerRef } from 'renderer/ui-component/DialogContainer';
+import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const PatientInfoPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const soughtPatient: Patient = useSelector(patientSelector(Number(id)));
   const [patient, setPatient] = useState<Patient | undefined>();
   const dispatch = useAppDispatch();
+  const dialogContainerRef = React.useRef<DialogContainerRef>(null);
 
   useEffect(() => {
-    setPatient(soughtPatient);
+    ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
+    // setPatient(soughtPatient);
     return () => {
       setPatient(undefined);
     };
@@ -54,7 +57,31 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <MainCard title={title}>{patient && <PatientForm defaultPatient={patient} onSubmit={handleSubmit} />}</MainCard>
+      <MainCard title={title}>
+        {/* <Tooltip title="Add Consultation" placement="top" disableInteractive>
+          <Fab component="div" onClick={() => console.log('clicked')} size="medium" variant="circular" color="secondary">
+            <IconButton color="inherit" size="large" disableRipple></IconButton>
+          </Fab>
+        </Tooltip> */}
+        {patient && (
+          <Grid container>
+            <Grid item xs={10}>
+              <PatientForm defaultPatient={patient} onSubmit={handleSubmit} />
+            </Grid>
+            <Grid item xs={2}>
+              <Box sx={{ flexDirection: 'row-reverse' }}>
+                <Button variant="contained" onClick={() => dialogContainerRef.current?.Open()}>
+                  {<IconPlus />} &nbsp; Add Consultation
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        )}
+      </MainCard>
+
+      <DialogContainer title="New Consultation" ref={dialogContainerRef}>
+        <ConsultationForm onSubmit={() => dialogContainerRef.current?.Close()} />
+      </DialogContainer>
     </>
   );
 };

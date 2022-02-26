@@ -1,5 +1,5 @@
 // assets
-import { IconBrandChrome, IconNotebook, IconUsers } from '@tabler/icons';
+import { IconBrandChrome, IconUsers } from '@tabler/icons';
 import { MenuItem } from './MenuItem.interface';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
@@ -17,14 +17,14 @@ const pages: MenuItem = {
             icon: IconUsers,
             breadcrumbs: false
         },
-        {
-            id: 'add-consultation',
-            title: 'Add Consultation',
-            type: 'item',
-            url: '/consultations/new',
-            icon: IconNotebook,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'add-consultation',
+        //     title: 'Add Consultation',
+        //     type: 'item',
+        //     url: '/consultations/new',
+        //     icon: IconNotebook,
+        //     breadcrumbs: false
+        // },
         {
             id: 'sample-page',
             title: 'Sample Page',
