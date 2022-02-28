@@ -16,7 +16,7 @@ type StepProps = {
   // eslint-disable-next-line
   onChange: (event: React.ChangeEvent<any>) => void;
 };
-// ==================== STEP 1 ==========================
+// ==================== STEPS ==========================
 const FormStepUI = ({ id, description, name, error, errorHelperText, onBlur, onChange }: StepProps): JSX.Element => {
   return (
     <>
@@ -47,14 +47,44 @@ const FormStepUI = ({ id, description, name, error, errorHelperText, onBlur, onC
   );
 };
 
-// ==================== STEP 2 ==========================
-const TreatmentStep = (): JSX.Element => {
-  return <h1>Treatment</h1>;
-};
-
-// ==================== STEP 3 ==========================
-const DiagnosisStep = (): JSX.Element => {
-  return <h1>Diagnosis</h1>;
+// ==================== CHECK STEP ==========================
+const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
+  console.log(consultation)
+  return (
+    <>
+      <Box sx={{ px: 4, mb: 2 }}>
+        <Typography variant="h5" gutterBottom component="div">
+          Check Consultation
+        </Typography>
+      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+          <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
+            Reason
+          </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <MuiFormControl type="text" label="" defaultValue={consultation.reason} fullWidth multiline rows={5} disabled />
+        </Grid>
+        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+          <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
+            Treatment
+          </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <MuiFormControl type="text" label="" defaultValue={consultation.treatment} fullWidth multiline rows={5} disabled />
+        </Grid>
+        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+          <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
+            Diagnosis
+          </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <MuiFormControl type="text" label="" defaultValue={consultation.diagnosis} fullWidth multiline rows={5} disabled />
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 // ==================== FORM ==========================
@@ -65,10 +95,11 @@ type ConsultationFormProps = {
 type FormStep = {
   label: string;
   node: (
-    onBlur: (e: React.FocusEvent<any, Element>) => void,
-    onChange: (e: React.ChangeEvent<any>) => void,
-    touched: FormikTouched<Consultation>,
-    errors: FormikErrors<Consultation>
+    onBlur?: (e: React.FocusEvent<any, Element>) => void,
+    onChange?: (e: React.ChangeEvent<any>) => void,
+    touched?: FormikTouched<Consultation>,
+    errors?: FormikErrors<Consultation>,
+    consultation?: Consultation
   ) => React.ReactNode;
 };
 
@@ -79,12 +110,20 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
       node: (onBlur, onChange, touched, errors) =>
         FormStepUI({
           id: 'reason-step',
-          name: 'reasonStep',
+          name: 'reason',
           description: "Patient's reason",
-          onBlur,
-          onChange,
-          error: Boolean(touched.reason && errors.reason),
-          errorHelperText: errors.reason
+          onBlur:
+            onBlur ??
+            ((e) => {
+              console.error('Reason Blur not implemented');
+            }),
+          onChange:
+            onChange ??
+            ((e) => {
+              console.error('Reason Change not implemented');
+            }),
+          error: Boolean(touched?.reason && errors?.reason),
+          errorHelperText: errors?.reason
         })
     },
     {
@@ -92,12 +131,20 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
       node: (onBlur, onChange, touched, errors) =>
         FormStepUI({
           id: 'treatment-step',
-          name: 'treatmentStep',
+          name: 'treatment',
           description: "Patient's selected treatment",
-          onBlur,
-          onChange,
-          error: Boolean(touched.treatment && errors.treatment),
-          errorHelperText: errors.treatment
+          onBlur:
+            onBlur ??
+            ((e) => {
+              console.error('Treatment Blur not implemented');
+            }),
+          onChange:
+            onChange ??
+            ((e) => {
+              console.error('Treatment Change not implemented');
+            }),
+          error: Boolean(touched?.treatment && errors?.treatment),
+          errorHelperText: errors?.treatment
         })
     },
     {
@@ -105,19 +152,25 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
       node: (onBlur, onChange, touched, errors) =>
         FormStepUI({
           id: 'diagnosis-step',
-          name: 'diagnosisStep',
+          name: 'diagnosis',
           description: "Patient's diagnosis",
-          onBlur,
-          onChange,
-          error: Boolean(touched.diagnosis && errors.diagnosis),
-          errorHelperText: errors.diagnosis
+          onBlur:
+            onBlur ??
+            ((e) => {
+              console.error('Diagnosis Blur not implemented');
+            }),
+          onChange:
+            onChange ??
+            ((e) => {
+              console.error('Diagnosis Change not implemented');
+            }),
+          error: Boolean(touched?.diagnosis && errors?.diagnosis),
+          errorHelperText: errors?.diagnosis
         })
     },
     {
       label: 'Check Consultation',
-      node: (onBlur, onChange, touched, errors) => (
-        <h1>Checking</h1>
-      )
+      node: (onBlur, onChange, touched, errors, consultation) => CheckNewConsultation(consultation ?? Consultation.Empty)
     }
   ];
   const [shouldSubmit, setShouldSubmit] = useState(false);
@@ -125,7 +178,7 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
   const [consultation, setConsultation] = useState<Consultation>(Consultation.Empty);
 
   useEffect(() => {
-    setShouldSubmit(currentStep === formSteps.length - 1);
+    setTimeout(() => setShouldSubmit(currentStep === formSteps.length - 1), 100);
   }, [currentStep]);
 
   const handleNext = () => {
@@ -161,7 +214,7 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
             })}
           </Stepper>
 
-          {formSteps[currentStep].node(handleBlur, handleChange, touched, errors)}
+          {formSteps[currentStep].node(handleBlur, handleChange, touched, errors, values)}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
             <Button disabled={currentStep === 0} onClick={handleBack}>

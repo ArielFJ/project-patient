@@ -2,20 +2,21 @@ import { FormControl, FormHelperText, InputLabel, OutlinedInput, useTheme } from
 import React from 'react';
 
 type MuiFormControlProps = {
-  id: string;
-  label: string;
+  id?: string;
+  label?: string;
   type?: string;
-  name: string;
-  error: boolean;
+  name?: string;
+  error?: boolean;
   fullWidth: boolean;
   multiline?: boolean;
   rows?: number;
   defaultValue?: string | Date | number;
   errorHelperText?: string;
+  disabled?: boolean;
   // eslint-disable-next-line
-  onBlur: (event: React.FocusEvent<any, Element>) => void;
+  onBlur?: (event: React.FocusEvent<any, Element>) => void;
   // eslint-disable-next-line
-  onChange: (event: React.ChangeEvent<any>) => void;
+  onChange?: (event: React.ChangeEvent<any>) => void;
 };
 
 function MuiFormControl({
@@ -29,6 +30,7 @@ function MuiFormControl({
   rows = 0,
   defaultValue,
   errorHelperText,
+  disabled = false,
   onBlur,
   onChange
 }: MuiFormControlProps): JSX.Element {
@@ -59,6 +61,7 @@ function MuiFormControl({
         label={label}
         multiline={multiline}
         rows={rows}
+        disabled={disabled}
         inputProps={{}}
       />
       {/* <TextField
