@@ -79,7 +79,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
       </MainCard>
 
       <DialogContainer title="New Consultation" ref={dialogContainerRef}>
-        <ConsultationForm onSubmit={() => dialogContainerRef.current?.Close()} />
+        <ConsultationForm patient={patient} onSubmit={() => dialogContainerRef.current?.Close()} />
       </DialogContainer>
     </>
   );

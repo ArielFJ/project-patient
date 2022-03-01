@@ -1,9 +1,12 @@
-import { Box, Button, Grid, Step, StepLabel, Stepper, TextareaAutosize, Typography } from '@mui/material';
+import { Box, Button, Grid, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { IconCheck, IconChevronLeft, IconChevronRight } from '@tabler/icons';
 import { Formik, FormikErrors, FormikTouched } from 'formik';
 import React, { useEffect, useState } from 'react';
 import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
 import { Consultation } from 'shared/database/entities/Consultation';
+import { Patient } from 'shared/database/entities/Patient';
+import Channels from 'shared/ipcChannels';
+const { ipcRenderer } = window.require('electron');
 
 type StepProps = {
   id: string;
@@ -20,7 +23,9 @@ type StepProps = {
 type FormStep = {
   label: string;
   node: (
+    // eslint-disable-next-line
     onBlur?: (e: React.FocusEvent<any, Element>) => void,
+    // eslint-disable-next-line
     onChange?: (e: React.ChangeEvent<any>) => void,
     touched?: FormikTouched<Consultation>,
     errors?: FormikErrors<Consultation>,
@@ -38,12 +43,12 @@ const formSteps: FormStep[] = [
         description: "Patient's reason",
         onBlur:
           onBlur ??
-          ((e) => {
+          (() => {
             console.error('Reason Blur not implemented');
           }),
         onChange:
           onChange ??
-          ((e) => {
+          (() => {
             console.error('Reason Change not implemented');
           }),
         error: Boolean(touched?.reason && errors?.reason),
@@ -59,12 +64,12 @@ const formSteps: FormStep[] = [
         description: "Patient's selected treatment",
         onBlur:
           onBlur ??
-          ((e) => {
+          (() => {
             console.error('Treatment Blur not implemented');
           }),
         onChange:
           onChange ??
-          ((e) => {
+          (() => {
             console.error('Treatment Change not implemented');
           }),
         error: Boolean(touched?.treatment && errors?.treatment),
@@ -80,12 +85,12 @@ const formSteps: FormStep[] = [
         description: "Patient's diagnosis",
         onBlur:
           onBlur ??
-          ((e) => {
+          (() => {
             console.error('Diagnosis Blur not implemented');
           }),
         onChange:
           onChange ??
-          ((e) => {
+          (() => {
             console.error('Diagnosis Change not implemented');
           }),
         error: Boolean(touched?.diagnosis && errors?.diagnosis),
@@ -130,7 +135,7 @@ const FormStepUI = ({ id, description, name, error, errorHelperText, onBlur, onC
 
 // ==================== CHECK STEP ==========================
 const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
-  console.log(consultation)
+  console.log(consultation);
   return (
     <>
       <Box sx={{ px: 4, mb: 2 }}>
@@ -139,7 +144,7 @@ const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
         </Typography>
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
             Reason
           </Typography>
@@ -147,7 +152,7 @@ const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
         <Grid item xs={8}>
           <MuiFormControl type="text" label="" defaultValue={consultation.reason} fullWidth multiline rows={5} disabled />
         </Grid>
-        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
             Treatment
           </Typography>
@@ -155,7 +160,7 @@ const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
         <Grid item xs={8}>
           <MuiFormControl type="text" label="" defaultValue={consultation.treatment} fullWidth multiline rows={5} disabled />
         </Grid>
-        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center'}}>
+        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
             Diagnosis
           </Typography>
@@ -170,12 +175,14 @@ const CheckNewConsultation = (consultation: Consultation): JSX.Element => {
 
 // ==================== FORM ==========================
 type ConsultationFormProps = {
+  patient?: Patient;
   onSubmit: () => void;
 };
 
-const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
+const ConsultationForm = ({ patient, onSubmit }: ConsultationFormProps): JSX.Element => {
   const [shouldSubmit, setShouldSubmit] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  // eslint-disable-next-line
   const [consultation, setConsultation] = useState<Consultation>(Consultation.CreateEmpty());
 
   useEffect(() => {
@@ -191,12 +198,19 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
   };
 
   const handleSubmit = (newConsultation: Consultation) => {
-    console.log(newConsultation);
+    newConsultation.patient = patient;
+    ipcRenderer.invoke(Channels.consultation.create, newConsultation).then(
+      (consultation) =>
+        new Notification('Consultation Created Successfully', {
+          body: `A new consultation for ${consultation.patient.name} has been registered`
+        })
+    );
     onSubmit();
   };
 
   return (
     <Formik initialValues={consultation} onSubmit={handleSubmit}>
+      {/* eslint-disable-next-line */}
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Stepper>

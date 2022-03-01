@@ -13,8 +13,8 @@ ipcMain.handle(Channels.consultation.getOne, async (_, consultationId: number) =
   return await consultationService.getById(consultationId);
 });
 
-ipcMain.on(Channels.consultation.create, async (_, consultation: Consultation) => {
-  await consultationService.create(consultation);
+ipcMain.handle(Channels.consultation.create, async (_, consultation: Consultation) => {
+  return await consultationService.create(consultation);
 });
 
 ipcMain.handle(Channels.consultation.delete, async (_, IDs: number[]) => {
