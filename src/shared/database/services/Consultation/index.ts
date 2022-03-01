@@ -9,6 +9,10 @@ ipcMain.handle(Channels.consultation.getAll, async () => {
   return await consultationService.getAll();
 });
 
+ipcMain.handle(Channels.consultation.getByPatientId, async (_, patientId: number) => {
+  return await consultationService.getByPatientId(patientId);
+});
+
 ipcMain.handle(Channels.consultation.getOne, async (_, consultationId: number) => {
   return await consultationService.getById(consultationId);
 });
@@ -19,8 +23,8 @@ ipcMain.handle(Channels.consultation.create, async (_, consultation: Consultatio
 
 ipcMain.handle(Channels.consultation.delete, async (_, IDs: number[]) => {
   return await consultationService.delete(IDs);
-})
+});
 
 ipcMain.on(Channels.consultation.update, async (_, consultationId: number, newConsultationValues: Consultation) => {
   await consultationService.update(consultationId, newConsultationValues);
-})
+});

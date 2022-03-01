@@ -5,7 +5,7 @@ export type ObjectType<T> = { new (): T } | Function;
 
 export default abstract class BaseService<TEntity extends BaseEntity> {
   
-  private repository: Repository<TEntity>;
+  protected repository: Repository<TEntity>;
   
   public constructor(type: ObjectType<TEntity>) {
     this.repository = getRepository(type);

@@ -8,6 +8,7 @@ const patient = {
 
 const consultation = {
   getAll: 'get-all-consultations',
+  getByPatientId: 'get-by-patient-consultations',
   getOne: 'get-one-consultation',
   create: 'create-consultation',
   delete: 'delete-consultation',
