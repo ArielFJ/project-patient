@@ -30,5 +30,6 @@ createConnection()
 
     // await repo.save(patients);
     require('./services/Patient'); // NOTE: init patient IPC
+    require('./services/Consultation'); // NOTE: init consultation IPC
   })
   .catch(console.log);

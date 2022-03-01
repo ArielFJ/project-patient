@@ -6,6 +6,14 @@ const patient = {
   update: 'update-patient',
 }
 
+const consultation = {
+  getAll: 'get-all-consultations',
+  getOne: 'get-one-consultation',
+  create: 'create-consultation',
+  delete: 'delete-consultation',
+  update: 'update-consultation',
+}
+
 const dialog = {
   message: 'message-dialog',
   confirm: 'confirm-dialog'
@@ -13,6 +21,7 @@ const dialog = {
 
 const Channels = {
   patient,
+  consultation,
   dialog
 }
 

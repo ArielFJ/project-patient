@@ -16,7 +16,88 @@ type StepProps = {
   // eslint-disable-next-line
   onChange: (event: React.ChangeEvent<any>) => void;
 };
-// ==================== STEPS ==========================
+// ==================== FORM STEPS ==========================
+type FormStep = {
+  label: string;
+  node: (
+    onBlur?: (e: React.FocusEvent<any, Element>) => void,
+    onChange?: (e: React.ChangeEvent<any>) => void,
+    touched?: FormikTouched<Consultation>,
+    errors?: FormikErrors<Consultation>,
+    consultation?: Consultation
+  ) => React.ReactNode;
+};
+
+const formSteps: FormStep[] = [
+  {
+    label: 'Reason',
+    node: (onBlur, onChange, touched, errors) =>
+      FormStepUI({
+        id: 'reason-step',
+        name: 'reason',
+        description: "Patient's reason",
+        onBlur:
+          onBlur ??
+          ((e) => {
+            console.error('Reason Blur not implemented');
+          }),
+        onChange:
+          onChange ??
+          ((e) => {
+            console.error('Reason Change not implemented');
+          }),
+        error: Boolean(touched?.reason && errors?.reason),
+        errorHelperText: errors?.reason
+      })
+  },
+  {
+    label: 'Treatment',
+    node: (onBlur, onChange, touched, errors) =>
+      FormStepUI({
+        id: 'treatment-step',
+        name: 'treatment',
+        description: "Patient's selected treatment",
+        onBlur:
+          onBlur ??
+          ((e) => {
+            console.error('Treatment Blur not implemented');
+          }),
+        onChange:
+          onChange ??
+          ((e) => {
+            console.error('Treatment Change not implemented');
+          }),
+        error: Boolean(touched?.treatment && errors?.treatment),
+        errorHelperText: errors?.treatment
+      })
+  },
+  {
+    label: 'Diagnosis',
+    node: (onBlur, onChange, touched, errors) =>
+      FormStepUI({
+        id: 'diagnosis-step',
+        name: 'diagnosis',
+        description: "Patient's diagnosis",
+        onBlur:
+          onBlur ??
+          ((e) => {
+            console.error('Diagnosis Blur not implemented');
+          }),
+        onChange:
+          onChange ??
+          ((e) => {
+            console.error('Diagnosis Change not implemented');
+          }),
+        error: Boolean(touched?.diagnosis && errors?.diagnosis),
+        errorHelperText: errors?.diagnosis
+      })
+  },
+  {
+    label: 'Check Consultation',
+    node: (onBlur, onChange, touched, errors, consultation) => CheckNewConsultation(consultation ?? Consultation.CreateEmpty())
+  }
+];
+
 const FormStepUI = ({ id, description, name, error, errorHelperText, onBlur, onChange }: StepProps): JSX.Element => {
   return (
     <>
@@ -92,90 +173,10 @@ type ConsultationFormProps = {
   onSubmit: () => void;
 };
 
-type FormStep = {
-  label: string;
-  node: (
-    onBlur?: (e: React.FocusEvent<any, Element>) => void,
-    onChange?: (e: React.ChangeEvent<any>) => void,
-    touched?: FormikTouched<Consultation>,
-    errors?: FormikErrors<Consultation>,
-    consultation?: Consultation
-  ) => React.ReactNode;
-};
-
 const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
-  const formSteps: FormStep[] = [
-    {
-      label: 'Reason',
-      node: (onBlur, onChange, touched, errors) =>
-        FormStepUI({
-          id: 'reason-step',
-          name: 'reason',
-          description: "Patient's reason",
-          onBlur:
-            onBlur ??
-            ((e) => {
-              console.error('Reason Blur not implemented');
-            }),
-          onChange:
-            onChange ??
-            ((e) => {
-              console.error('Reason Change not implemented');
-            }),
-          error: Boolean(touched?.reason && errors?.reason),
-          errorHelperText: errors?.reason
-        })
-    },
-    {
-      label: 'Treatment',
-      node: (onBlur, onChange, touched, errors) =>
-        FormStepUI({
-          id: 'treatment-step',
-          name: 'treatment',
-          description: "Patient's selected treatment",
-          onBlur:
-            onBlur ??
-            ((e) => {
-              console.error('Treatment Blur not implemented');
-            }),
-          onChange:
-            onChange ??
-            ((e) => {
-              console.error('Treatment Change not implemented');
-            }),
-          error: Boolean(touched?.treatment && errors?.treatment),
-          errorHelperText: errors?.treatment
-        })
-    },
-    {
-      label: 'Diagnosis',
-      node: (onBlur, onChange, touched, errors) =>
-        FormStepUI({
-          id: 'diagnosis-step',
-          name: 'diagnosis',
-          description: "Patient's diagnosis",
-          onBlur:
-            onBlur ??
-            ((e) => {
-              console.error('Diagnosis Blur not implemented');
-            }),
-          onChange:
-            onChange ??
-            ((e) => {
-              console.error('Diagnosis Change not implemented');
-            }),
-          error: Boolean(touched?.diagnosis && errors?.diagnosis),
-          errorHelperText: errors?.diagnosis
-        })
-    },
-    {
-      label: 'Check Consultation',
-      node: (onBlur, onChange, touched, errors, consultation) => CheckNewConsultation(consultation ?? Consultation.Empty)
-    }
-  ];
   const [shouldSubmit, setShouldSubmit] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [consultation, setConsultation] = useState<Consultation>(Consultation.Empty);
+  const [consultation, setConsultation] = useState<Consultation>(Consultation.CreateEmpty());
 
   useEffect(() => {
     setTimeout(() => setShouldSubmit(currentStep === formSteps.length - 1), 100);
@@ -194,12 +195,6 @@ const ConsultationForm = ({ onSubmit }: ConsultationFormProps): JSX.Element => {
     onSubmit();
   };
 
-  /* 
-  reason: string;
-  date: Date;
-  treatment?: string;
-  diagnosis?: string; 
-  */
   return (
     <Formik initialValues={consultation} onSubmit={handleSubmit}>
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (

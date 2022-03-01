@@ -1,8 +1,17 @@
+import { BaseEntity } from '../../interfaces/BaseEntity';
 import { Patient } from './Patient';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Consultation {
+export class Consultation extends BaseEntity {
+
+  constructor(reason = "", treatment?: string, diagnosis?: string) {
+    super();
+    this.reason = reason;
+    this.date = new Date();
+    this.treatment = treatment;
+    this.diagnosis = diagnosis;
+  }
 
   @PrimaryGeneratedColumn()
   id?: number;
@@ -29,8 +38,10 @@ export class Consultation {
   @ManyToOne(type => Patient, patient => patient.consultations)
   patient?: Patient;
 
-  static Empty: Consultation = {
-    reason: '',
-    date: new Date(),
+  static CreateEmpty = (): Consultation => {
+    return {
+      reason: '',
+      date: new Date(),
+    };
   };
 }

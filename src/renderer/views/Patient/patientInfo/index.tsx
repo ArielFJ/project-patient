@@ -27,7 +27,6 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
-    // setPatient(soughtPatient);
     return () => {
       setPatient(undefined);
     };
