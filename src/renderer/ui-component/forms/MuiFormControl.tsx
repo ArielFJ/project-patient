@@ -4,6 +4,7 @@ import React from 'react';
 type MuiFormControlProps = {
   id?: string;
   label?: string;
+  placeholder?: string;
   type?: string;
   name?: string;
   error?: boolean;
@@ -22,6 +23,7 @@ type MuiFormControlProps = {
 function MuiFormControl({
   id,
   label,
+  placeholder,
   type = 'text',
   name,
   error,
@@ -54,6 +56,7 @@ function MuiFormControl({
         key={id}
         id={id}
         type={type}
+        placeholder={placeholder}
         value={defaultValue}
         name={name}
         onBlur={onBlur}

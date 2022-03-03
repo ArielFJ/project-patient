@@ -9,7 +9,10 @@ const patientSelector = (patientId: number): PatientFilterCallback => {
   return (state: RootState) => state.patient.patients.filter(filterById)[0];
 };
 
+const selectedPatientSelector = (state: RootState): Patient | undefined => state.patient.selectedPatient;
+
 export {
   patientsSelector,
-  patientSelector
+  patientSelector,
+  selectedPatientSelector
 };
