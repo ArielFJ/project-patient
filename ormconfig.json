@@ -1,11 +1,16 @@
 {
     "type": "sqlite",
     "database": "./db.sql",
-    "synchronize": true,
+    "synchronize": false,
+    "migrationsRun": false,
+    "logging": true,
     "entities": [
         "./build/shared/database/entities/**/*.js"
     ],
     "migrations": [
         "./build/shared/database/migrations/**/*.js"
-    ]
+    ],
+    "cli": {
+        "migrationsDir": "src/shared/database/migrations"
+    }
 }
