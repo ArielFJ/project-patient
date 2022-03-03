@@ -55,13 +55,19 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
+
         "electron:compile": "tsc --project tsconfig.electron.json",
         "electron:start": "npm run electron:compile && electron .",
         "electron:watch": "nodemon --exec npm run electron:start",
         "electron:build": "npm run electron:compile && electron-builder -w",
         "electron:bundle": "npm run electron:compile && npm run electron:build",
         "package": "yarn build && npm run electron:compile && npm run electron:build",
-        "public:package": "npm run electron:compile && yarn build && npm run electron:build"
+        "public:package": "npm run electron:compile && yarn build && npm run electron:build",
+
+        "migration:generate": "npm run electron:compile && npx typeorm migration:generate -n",
+        "migration:run": "npm run electron:compile && npx typeorm migration:run",
+        "migration:show": "npm run electron:compile && npx typeorm migration:show",
+        "migration:revert": "npm run electron:compile && npx typeorm migration:revert"
     },
     "eslintConfig": {
         "extends": [

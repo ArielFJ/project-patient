@@ -13,9 +13,6 @@ export class Consultation extends BaseEntity {
     this.diagnosis = diagnosis;
   }
 
-  @PrimaryGeneratedColumn()
-  id?: number;
-
   @Column('varchar')
   reason: string;
 
@@ -34,6 +31,16 @@ export class Consultation extends BaseEntity {
   })
   diagnosis?: string;
 
+  @Column({
+    default: true
+  })
+  isActive: boolean;
+
+  @Column({
+    default: false
+  })
+  attended: boolean;
+
   // eslint-disable-next-line
   @ManyToOne(type => Patient, patient => patient.consultations)
   patient?: Patient;
@@ -42,6 +49,8 @@ export class Consultation extends BaseEntity {
     return {
       reason: '',
       date: new Date(),
+      isActive: true,
+      attended: false,
     };
   };
 }

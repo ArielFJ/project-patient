@@ -1,12 +1,9 @@
 import { Consultation } from './Consultation';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from '../../interfaces/BaseEntity';
 
 @Entity()
-export class Patient {
-  @PrimaryGeneratedColumn({
-    type: 'int'
-  })
-  id?: number;
+export class Patient extends BaseEntity {
 
   @Column({
     type: 'varchar',
@@ -57,6 +54,11 @@ export class Patient {
   })
   bloodPressure: number = 0;
 
+  @Column({
+    default: true
+  })
+  isActive: boolean;
+
   // eslint-disable-next-line
   @OneToMany(type => Consultation, consultation => consultation.patient)
   consultations: Consultation[];
@@ -70,6 +72,7 @@ export class Patient {
     headCircumference: 0,
     height: 0,
     weight: 0,
+    isActive: true,
     consultations: []
   };
 }
