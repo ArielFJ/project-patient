@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 const { ipcRenderer } = window.require('electron');
 // material-ui
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, FormControlLabel, Grid, Typography, Checkbox } from '@mui/material';
 import styles from './styles.module.scss';
 
 // project imports
@@ -28,6 +28,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   const { id } = useParams();
   // const [patient, setPatient] = useState<Patient | undefined>();
   const patient = useSelector(selectedPatientSelector);
+  const [isActive, setIsActive] = useState(true);
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const dispatch = useAppDispatch();
   const dialogContainerRef = React.useRef<DialogContainerRef>(null);
@@ -41,7 +42,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatient = () => {
-    dispatch(requestSinglePatientAsync(Number(id)));
+    dispatch(requestSinglePatientAsync(Number(id))).then(() => setIsActive(patient?.isActive ?? true));
     // ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
   };
 
@@ -52,7 +53,14 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   };
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
-    dispatch(updatePatientAsync({ patientId: Number(id), newPatientValues: patientToUpdate })).then(() => requestPatient());
+    const newPatientValues: Patient = { ...patientToUpdate, isActive };
+    console.log(newPatientValues);
+    dispatch(
+      updatePatientAsync({
+        patientId: Number(id),
+        newPatientValues
+      })
+    ).then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {
@@ -109,9 +117,13 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
               <Grid item xs={1}></Grid>
               <Grid item xs={2}>
                 <Box sx={{ flexDirection: 'row-reverse' }}>
-                  <Button variant="contained" onClick={() => dialogContainerRef.current?.Open()}>
+                  <Button variant="contained" onClick={() => dialogContainerRef.current?.Open()} sx={{ mb: 3 }}>
                     {<IconPlus />} &nbsp; Add Consultation
                   </Button>
+                  <FormControlLabel
+                    label="Is Active?"
+                    control={<Checkbox checked={isActive} onChange={(event) => setIsActive(event.target.checked)} />}
+                  />
                 </Box>
               </Grid>
             </Grid>

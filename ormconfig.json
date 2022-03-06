@@ -3,7 +3,7 @@
     "database": "./db.sql",
     "synchronize": false,
     "migrationsRun": false,
-    "logging": true,
+    "logging": false,
     "entities": [
         "./build/shared/database/entities/**/*.js"
     ],

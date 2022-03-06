@@ -57,7 +57,7 @@
         "eject": "react-scripts eject",
 
         "electron:compile": "tsc --project tsconfig.electron.json",
-        "electron:start": "npm run electron:compile && electron .",
+        "electron:start": "npm run electron:compile && electron . --trace-warnings",
         "electron:watch": "nodemon --exec npm run electron:start",
         "electron:build": "npm run electron:compile && electron-builder -w",
         "electron:bundle": "npm run electron:compile && npm run electron:build",
