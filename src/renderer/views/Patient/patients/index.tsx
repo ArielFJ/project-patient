@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { DataGrid, GridColDef, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
-import { IconTrash } from '@tabler/icons';
+import { DataGrid, GridColDef, GridRowParams, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
+import { IconPencil } from '@tabler/icons';
 import AddPatientFloatingButton from '../components/AddPatientFloatingButton';
 import MainCard from 'renderer/ui-component/cards/MainCard';
-import { deletePatientsWithIdAsync, requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
+import { requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
 import { patientsSelector } from 'renderer/store/patients/selectors';
-const  { ipcRenderer } = window.require('electron');
-import Channels from 'shared/ipcChannels';
+import styles from '../styles.module.scss';
+
+type SelectedPatientInfo = {
+  id: number;
+  name?: string;
+};
 
 const PatientsPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const patients: Patient[] = useSelector(patientsSelector);
-  const [selectedPatients, setSelectedPatients] = useState<number[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<SelectedPatientInfo>({ id: -1 });
 
   useEffect(() => {
     requestPatients();
@@ -29,30 +33,34 @@ const PatientsPage: React.FC = (): JSX.Element => {
   };
 
   const onSelectionModelChange = (selectionModel: GridSelectionModel) => {
-    const IDs = selectionModel.map((value) => Number(value));
-    setSelectedPatients(IDs);
+    if (!selectionModel.length) {
+      setSelectedPatient({ id: -1 });
+      console.log('cancel');
+    }
   };
 
-  const onDeleteButtonClicked = () => {
-    const options: Electron.MessageBoxOptions = {
-      title: 'Warning',
-      message: 'Are you sure to delete?',
-      buttons: ['Cancel', 'Yes'],
-      noLink: true,
-    }
-    ipcRenderer.invoke(Channels.dialog.message, options)
-      .then((value: Electron.MessageBoxReturnValue) => {
-        if (value.response === 1)
-          dispatch(deletePatientsWithIdAsync(selectedPatients)).then(() => requestPatients());
-      })
+  const onRowClick = (
+    params: GridRowParams<{
+      [key: string]: any;
+    }>
+  ) => {
+    setSelectedPatient({
+      id: params.row.id,
+      name: params.row.name
+    });
+  };
+
+  const onEditButtonClicked = () => {
+    navigate(`patients/${selectedPatient.id}`);
   };
 
   const formatDate = (dateAsString?: string): string => {
-    return `${new Date(dateAsString ?? '-').toLocaleDateString(['en', 'es'], {timeZone: 'UTC'}) || '-'}`
-  }
+    return `${new Date(dateAsString ?? '-').toLocaleDateString(['en', 'es'], { timeZone: 'UTC' }) || '-'}`;
+  };
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
+    { field: 'isActive', headerName: 'Active', type: 'boolean', hide: true /*flex: .3,  minWidth: 30*/ },
     { field: 'name', headerName: 'Name', flex: 1, minWidth: 200 },
     {
       field: 'birthDate',
@@ -73,33 +81,35 @@ const PatientsPage: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <MainCard title="Patients" sx={{ width: '100%', height: '100%' }} contentSX={{ height: '85%' }}>
+      <MainCard
+        title={`Patients ${selectedPatient.id !== -1 ? '- ' + selectedPatient.name : ''}`}
+        sx={{ width: '100%', height: '100%' }}
+        contentSX={{ height: '85%' }}
+      >
         {patients && ( // If there are any patients
           <DataGrid
             rows={patients ?? []}
             columns={columns}
             pageSize={5}
-            checkboxSelection
             onSelectionModelChange={onSelectionModelChange}
             rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-            onRowDoubleClick={(params) => {
-              navigate(`patients/${params.row.id}`);
-            }}
+            onRowClick={onRowClick}
+            onRowDoubleClick={(params) => navigate(`patients/${params.row.id}`)}
+            getRowClassName={(params) => (params.row.isActive ? '' : styles.cancelled)}
           />
         )}
       </MainCard>
       <AddPatientFloatingButton onFormSubmitted={requestPatients} />
       <FloatingButton
-        title="Delete Patients"
-        onClick={onDeleteButtonClicked}
-        childContent={<IconTrash />}
+        title="Edit Patient"
+        onClick={onEditButtonClicked}
+        childContent={<IconPencil />}
         styles={{
-          backgroundColor: '#ba3434',
+          backgroundColor: '#2196f3',
           bottom: '10%',
-          display: selectedPatients.length ? 'block' : 'none',
+          display: selectedPatient.id !== -1 ? 'block' : 'none',
           '&: hover': {
-            backgroundColor: '#c93434'
+            backgroundColor: '#1e88e5'
           }
         }}
       />
@@ -108,4 +118,3 @@ const PatientsPage: React.FC = (): JSX.Element => {
 };
 
 export default PatientsPage;
-

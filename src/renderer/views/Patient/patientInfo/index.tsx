@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 const { ipcRenderer } = window.require('electron');
 // material-ui
 import { Box, Button, FormControlLabel, Grid, Typography, Checkbox } from '@mui/material';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 
 // project imports
 import MainCard from 'renderer/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import { useNavigate, useParams } from 'react-router';
 import { useAppDispatch } from 'renderer/store/hooks';
-import { requestSinglePatientAsync, updatePatientAsync } from 'renderer/store/patients/asyncThunks';
+import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
 import { IconChevronLeft, IconPlus } from '@tabler/icons';
 import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
 import PatientForm from '../components/PatientForm';
@@ -18,17 +18,13 @@ import DialogContainer, { DialogContainerRef } from 'renderer/ui-component/Dialo
 import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
-import { useSelector } from 'react-redux';
-import { selectedPatientSelector } from 'renderer/store/patients/selectors';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const PatientInfoPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams();
-  // const [patient, setPatient] = useState<Patient | undefined>();
-  const patient = useSelector(selectedPatientSelector);
-  const [isActive, setIsActive] = useState(true);
+  const [patient, setPatient] = useState<Patient | undefined>();
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const dispatch = useAppDispatch();
   const dialogContainerRef = React.useRef<DialogContainerRef>(null);
@@ -36,14 +32,13 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   useEffect(() => {
     requestPatient();
     requestPatientConsultations();
-    // return () => {
-    //   setPatient(undefined);
-    // };
+    return () => {
+      setPatient(undefined);
+    };
   }, []);
 
   const requestPatient = () => {
-    dispatch(requestSinglePatientAsync(Number(id))).then(() => setIsActive(patient?.isActive ?? true));
-    // ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
+    ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
   };
 
   const requestPatientConsultations = () => {
@@ -53,14 +48,14 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   };
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
-    const newPatientValues: Patient = { ...patientToUpdate, isActive };
-    console.log(newPatientValues);
+    const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
     dispatch(
       updatePatientAsync({
         patientId: Number(id),
         newPatientValues
       })
-    ).then(() => requestPatient());
+    )
+    .then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {
@@ -122,7 +117,14 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
                   </Button>
                   <FormControlLabel
                     label="Is Active?"
-                    control={<Checkbox checked={isActive} onChange={(event) => setIsActive(event.target.checked)} />}
+                    control={
+                      <Checkbox
+                        checked={patient?.isActive ?? true}
+                        onChange={(event) => {
+                          setPatient(patient ? { ...patient, isActive: event.target.checked } : Patient.Empty);
+                        }}
+                      />
+                    }
                   />
                 </Box>
               </Grid>
@@ -133,9 +135,6 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
                 sx={{ height: '40vh' }}
                 rows={consultations ?? []}
                 columns={columns}
-                // pageSize={3}
-                // rowsPerPageOptions={[3]}
-                // checkboxSelection
                 rowHeight={100}
                 getRowClassName={(params) => (params.row.id % 2 === 0 ? styles.attended : styles.cancelled)}
               />
