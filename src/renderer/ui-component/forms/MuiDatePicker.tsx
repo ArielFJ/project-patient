@@ -11,7 +11,9 @@ type MuiDatePickerProps = {
 };
 
 function MuiDatePicker({ label, initialValue, onNewDateAssigned }: MuiDatePickerProps): JSX.Element {
-  const [selectedDate, setSelectedDate] = useState<Date>(initialValue);
+  const dayAddedDate = new Date(initialValue);
+  dayAddedDate.setDate(dayAddedDate.getDate() + 1);
+  const [selectedDate, setSelectedDate] = useState<Date>(dayAddedDate);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -20,7 +22,10 @@ function MuiDatePicker({ label, initialValue, onNewDateAssigned }: MuiDatePicker
         value={selectedDate}
         onChange={(newValue) => {
           setSelectedDate(newValue ?? new Date());
-          if (newValue) onNewDateAssigned(newValue);
+          if (newValue) {
+            const currentDate = new Date(newValue);
+            onNewDateAssigned(currentDate);
+          }
         }}
         renderInput={(params) => <TextField {...params} />}
       />

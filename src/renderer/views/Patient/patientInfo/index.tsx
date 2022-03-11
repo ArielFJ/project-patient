@@ -16,7 +16,7 @@ import PatientForm from '../components/PatientForm';
 import Channels from 'shared/ipcChannels';
 import DialogContainer, { DialogContainerRef } from 'renderer/ui-component/DialogContainer';
 import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -26,6 +26,8 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   const { id } = useParams();
   const [patient, setPatient] = useState<Patient | undefined>();
   const [consultations, setConsultations] = useState<Consultation[]>([]);
+  const [isUpdatingConsultation, setIsUpdatingConsultation] = useState(false);
+  const [selectedConsultation, setSelectedConsultation] = useState<Consultation | undefined>();
   const dispatch = useAppDispatch();
   const dialogContainerRef = React.useRef<DialogContainerRef>(null);
 
@@ -47,6 +49,19 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
     });
   };
 
+  const onAddConsultationClicked = () => {
+    setSelectedConsultation(undefined);
+    setIsUpdatingConsultation(false);
+    dialogContainerRef.current?.Open();
+  };
+
+  const onEditConsultationClicked = (params: GridRowParams) => {
+    // Parse GridRowParams properties into an object of type Consultation
+    setSelectedConsultation({ ...Object.assign(new Consultation(), params.row), patient });
+    setIsUpdatingConsultation(true);
+    dialogContainerRef.current?.Open();
+  };
+
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
     const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
     dispatch(
@@ -54,13 +69,28 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
         patientId: Number(id),
         newPatientValues
       })
-    )
-    .then(() => requestPatient());
+    ).then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {
     dialogContainerRef.current?.Close();
     requestPatientConsultations();
+  };
+
+  const getRowClassName = (
+    params: GridRowParams<{
+      [key: string]: boolean;
+    }>
+  ) => {
+    if (params.row.attended) {
+      return styles.attended;
+    }
+
+    if (!params.row.isActive) {
+      return styles.cancelled;
+    }
+
+    return '';
   };
 
   const formatDate = (dateAsString?: string): string => {
@@ -69,6 +99,8 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
+    { field: 'attended', headerName: 'Attended', type: 'boolean', hide: true },
+    { field: 'isActive', headerName: 'Is Active', type: 'boolean', hide: true },
     {
       field: 'date',
       headerName: 'Date',
@@ -82,7 +114,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
     { field: 'diagnosis', headerName: 'Diagnosis', flex: 1, minWidth: 200 }
   ];
 
-  const title: JSX.Element = (
+  const title = (additionalTitle?: string): JSX.Element => (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <AnimateButton scale={1.5}>
         <Button
@@ -96,13 +128,13 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
           <IconChevronLeft />
         </Button>
       </AnimateButton>
-      <Typography variant="h4">Patient</Typography>
+      <Typography variant="h4">Patient &nbsp; {additionalTitle && <>| &nbsp; {additionalTitle}</>}</Typography>
     </Box>
   );
 
   return (
     <>
-      <MainCard title={title}>
+      <MainCard title={title(patient?.name)}>
         {patient && (
           <>
             <Grid container>
@@ -112,7 +144,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
               <Grid item xs={1}></Grid>
               <Grid item xs={2}>
                 <Box sx={{ flexDirection: 'row-reverse' }}>
-                  <Button variant="contained" onClick={() => dialogContainerRef.current?.Open()} sx={{ mb: 3 }}>
+                  <Button variant="contained" onClick={onAddConsultationClicked} sx={{ mb: 3 }}>
                     {<IconPlus />} &nbsp; Add Consultation
                   </Button>
                   <FormControlLabel
@@ -136,15 +168,21 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
                 rows={consultations ?? []}
                 columns={columns}
                 rowHeight={100}
-                getRowClassName={(params) => (params.row.id % 2 === 0 ? styles.attended : styles.cancelled)}
+                getRowClassName={getRowClassName}
+                onRowDoubleClick={onEditConsultationClicked}
               />
             </Box>
           </>
         )}
       </MainCard>
 
-      <DialogContainer title="New Consultation" ref={dialogContainerRef}>
-        <ConsultationForm patient={patient} onSubmit={onNewConsultationSubmitted} />
+      <DialogContainer title={isUpdatingConsultation ? "Update consultation" :"New Consultation"} ref={dialogContainerRef}>
+        <ConsultationForm
+          patient={patient}
+          onSubmit={onNewConsultationSubmitted}
+          consultationModel={selectedConsultation}
+          isUpdating={isUpdatingConsultation}
+        />
       </DialogContainer>
     </>
   );

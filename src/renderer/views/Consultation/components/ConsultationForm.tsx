@@ -1,19 +1,22 @@
 const { ipcRenderer } = window.require('electron');
 
 import React, { useState } from 'react';
-import { Typography, Grid, Button } from '@mui/material';
+import { Typography, Grid, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { Box } from '@mui/system';
 import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
 import { Consultation } from 'shared/database/entities/Consultation';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { Patient } from 'shared/database/entities/Patient';
 import { IconCheck } from '@tabler/icons';
 import Channels from 'shared/ipcChannels';
+import MuiDatePicker from 'renderer/ui-component/forms/MuiDatePicker';
 
 type TextAreaFieldProps = {
   id: string;
   description?: string;
   name: string;
+  value?: string;
   error: boolean;
   errorHelperText?: string;
   // eslint-disable-next-line
@@ -22,7 +25,7 @@ type TextAreaFieldProps = {
   onChange: (event: React.ChangeEvent<any>) => void;
 };
 
-const TextAreaField = ({ id, description, name, error, errorHelperText, onBlur, onChange }: TextAreaFieldProps): JSX.Element => {
+const TextAreaField = ({ id, description, name, value, error, errorHelperText, onBlur, onChange }: TextAreaFieldProps): JSX.Element => {
   return (
     <MuiFormControl
       id={id}
@@ -32,6 +35,7 @@ const TextAreaField = ({ id, description, name, error, errorHelperText, onBlur, 
       name={name}
       error={error}
       errorHelperText={errorHelperText}
+      defaultValue={value}
       fullWidth
       multiline
       rows={5}
@@ -45,26 +49,49 @@ const TextAreaField = ({ id, description, name, error, errorHelperText, onBlur, 
 
 type ConsultationFormProps = {
   patient?: Patient;
+  consultationModel?: Consultation;
   onSubmit: () => void;
   isUpdating?: boolean;
 };
 
-const ConsultationForm = ({ patient, onSubmit, isUpdating = false }: ConsultationFormProps): JSX.Element => {
-  const [consultation, setConsultation] = useState<Consultation>(Consultation.CreateEmpty());
+const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = false }: ConsultationFormProps): JSX.Element => {
+  const [consultation, setConsultation] = useState<Consultation>(consultationModel ?? Consultation.CreateEmpty());
 
-  const handleSubmit = (newConsultation: Consultation) => {
-    newConsultation.patient = patient;
-    // console.log(newConsultation);
-    ipcRenderer.invoke(Channels.consultation.create, newConsultation).then((consultation) => {
-      new Notification('Consultation Created Successfully', {
-        body: `A new consultation for ${consultation.patient.name} has been registered`
+  const validationObjectShape = {
+    reason: Yup.string().required('Reason is required'),
+    treatment: Yup.string(),
+    diagnosis: Yup.string(),
+    date: Yup.date().default(new Date()),
+    attended: Yup.boolean(),
+    isActive: Yup.boolean()
+  };
+
+  const handleSubmit = (consultationValues: Consultation) => {
+    consultationValues.patient = patient;
+
+    if (!isUpdating) {
+      // When creating a new consultation
+      ipcRenderer.invoke(Channels.consultation.create, consultationValues).then((cons) => {
+        onSubmit();
+        new Notification('Consultation Created Successfully', {
+          body: `A new consultation for ${cons.patient.name} has been registered`
+        });
       });
-      onSubmit();
-    });
+    } else {
+      // When updating an existing one
+      const consultationToSend: Consultation = {
+        ...consultationValues,
+        date: consultation.date,
+      };
+      ipcRenderer.invoke(Channels.consultation.update, consultation.id, consultationToSend).then(() => {
+        onSubmit();
+        new Notification('Consultation Updated Successfully');
+      });
+    }
   };
 
   return (
-    <Formik initialValues={consultation} onSubmit={handleSubmit}>
+    <Formik initialValues={consultation} validationSchema={Yup.object().shape(validationObjectShape)} onSubmit={handleSubmit}>
       {/* eslint-disable-next-line */}
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
@@ -78,6 +105,7 @@ const ConsultationForm = ({ patient, onSubmit, isUpdating = false }: Consultatio
               <TextAreaField
                 id="reason-step"
                 name="reason"
+                value={values.reason}
                 description="Patient's reason"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -94,6 +122,7 @@ const ConsultationForm = ({ patient, onSubmit, isUpdating = false }: Consultatio
               <TextAreaField
                 id="treatment-step"
                 name="treatment"
+                value={values.treatment}
                 description="Patient's treatment"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -110,6 +139,7 @@ const ConsultationForm = ({ patient, onSubmit, isUpdating = false }: Consultatio
               <TextAreaField
                 id="diagnosis-step"
                 name="diagnosis"
+                value={values.diagnosis}
                 description="Patient's diagnosis"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -117,7 +147,46 @@ const ConsultationForm = ({ patient, onSubmit, isUpdating = false }: Consultatio
                 errorHelperText={errors?.diagnosis}
               />
             </Grid>
-            {/* <Grid item xs={} */}
+            {isUpdating && (
+              <>
+                <Grid item xs={3}></Grid>
+                <Grid item xs={3}>
+                  <MuiDatePicker
+                    label="Date"
+                    initialValue={values.date}
+                    onNewDateAssigned={(newDate) => setConsultation({ ...consultation, date: newDate })}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <FormControlLabel
+                    label="Attended?"
+                    control={
+                      <Checkbox
+                        id="attended-step"
+                        name="attended"
+                        defaultChecked={consultation?.attended ?? false}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <FormControlLabel
+                    label="Is Active?"
+                    control={
+                      <Checkbox
+                        id="active-step"
+                        name="isActive"
+                        defaultChecked={consultation?.isActive ?? false}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    }
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
           <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} /> {/* Create horizontal space */}

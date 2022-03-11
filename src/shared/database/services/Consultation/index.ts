@@ -25,6 +25,6 @@ ipcMain.handle(Channels.consultation.delete, async (_, IDs: number[]) => {
   return await consultationService.delete(IDs);
 });
 
-ipcMain.on(Channels.consultation.update, async (_, consultationId: number, newConsultationValues: Consultation) => {
+ipcMain.handle(Channels.consultation.update, async (_, consultationId: number, newConsultationValues: Consultation) => {
   await consultationService.update(consultationId, newConsultationValues);
 });
