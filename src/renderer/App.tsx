@@ -8,10 +8,10 @@ import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import Routes from 'renderer/routes';
 
 // defaultTheme
-import themes from 'renderer/themes';
+import themes from 'renderer/_TEMPLATE/themes';
 
 // project imports
-import NavigationScroll from 'renderer/layout/NavigationScroll';
+import NavigationScroll from 'renderer/_TEMPLATE/layout/NavigationScroll';
 import { RootState } from './store';
 
 // ==============================|| APP ||============================== //

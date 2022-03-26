@@ -28,8 +28,8 @@ import { Formik } from 'formik';
 
 // project imports
 import Google from 'assets/images/icons/social-google.svg';
-import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
-import { StrengthColor, strengthColor, strengthIndicator } from 'renderer/utils/password-strength';
+import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
+import { StrengthColor, strengthColor, strengthIndicator } from 'renderer/_TEMPLATE/utils/password-strength';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';

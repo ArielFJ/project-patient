@@ -7,7 +7,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Theme, Toolbar, useMediaQuery } from '@mui/material';
 
 // project imports
-import Breadcrumbs from 'renderer/ui-component/extended/Breadcrumbs';
+import Breadcrumbs from 'renderer/_TEMPLATE/ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 // import Customization from '../Customization';

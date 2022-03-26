@@ -4,7 +4,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 // project import
-import MainCard from 'renderer/ui-component/cards/MainCard';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 
 interface AuthCardWrapperProps {
     children: React.ReactNode;

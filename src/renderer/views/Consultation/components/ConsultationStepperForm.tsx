@@ -2,7 +2,7 @@ import { Box, Button, Grid, Step, StepLabel, Stepper, Typography } from '@mui/ma
 import { IconCheck, IconChevronLeft, IconChevronRight } from '@tabler/icons';
 import { Formik, FormikErrors, FormikTouched } from 'formik';
 import React, { useEffect, useState } from 'react';
-import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
+import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
 import { Consultation } from 'shared/database/entities/Consultation';
 import { Patient } from 'shared/database/entities/Patient';
 import Channels from 'shared/ipcChannels';

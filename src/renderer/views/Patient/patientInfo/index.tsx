@@ -5,20 +5,20 @@ import { Box, Button, FormControlLabel, Grid, Typography, Checkbox } from '@mui/
 import styles from '../styles.module.scss';
 
 // project imports
-import MainCard from 'renderer/ui-component/cards/MainCard';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import { useNavigate, useParams } from 'react-router';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
 import { IconChevronLeft, IconPencil, IconPlus } from '@tabler/icons';
-import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
+import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 import PatientForm from '../components/PatientForm';
 import Channels from 'shared/ipcChannels';
-import DialogContainer, { DialogContainerRef } from 'renderer/ui-component/DialogContainer';
+import DialogContainer, { DialogContainerRef } from 'renderer/_TEMPLATE/ui-component/DialogContainer';
 import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
 import { DataGrid, GridColDef, GridRowParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
-import FloatingButton from 'renderer/ui-component/FloatingButton';
+import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 

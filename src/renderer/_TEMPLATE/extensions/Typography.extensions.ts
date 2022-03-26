@@ -2,6 +2,7 @@ import { Theme } from '@mui/material/styles/createTheme';
 import { SxProps } from '@mui/system';
 
 declare module '@mui/material/styles/createTypography' {
+    // eslint-disable-next-line
     interface Typography {
         customInput: CustomInput;
         mainContent: MainContent;
@@ -16,6 +17,7 @@ declare module '@mui/material/styles/createTypography' {
         largeAvatar: SizedAvatar;
     }
 
+    // eslint-disable-next-line
     interface TypographyOptions {
         customInput: CustomInput;
         mainContent: MainContent;

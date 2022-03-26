@@ -3,9 +3,9 @@ import { Grid, Link } from '@mui/material';
 import MuiTypography from '@mui/material/Typography';
 
 // project imports
-import SubCard from 'renderer/ui-component/cards/SubCard';
-import MainCard from 'renderer/ui-component/cards/MainCard';
-import SecondaryAction from 'renderer/ui-component/cards/CardSecondaryAction';
+import SubCard from 'renderer/_TEMPLATE/ui-component/cards/SubCard';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
+import SecondaryAction from 'renderer/_TEMPLATE/ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'renderer/store/customization/constant';
 
 // ==============================|| TYPOGRAPHY ||============================== //

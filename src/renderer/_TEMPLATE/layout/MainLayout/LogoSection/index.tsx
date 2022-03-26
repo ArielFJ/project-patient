@@ -6,7 +6,7 @@ import { ButtonBase } from '@mui/material';
 
 // project imports
 import config from 'renderer/config';
-import Logo from 'renderer/ui-component/Logo';
+import Logo from 'renderer/_TEMPLATE/ui-component/Logo';
 
 // ==============================|| MAIN LOGO ||============================== //
 

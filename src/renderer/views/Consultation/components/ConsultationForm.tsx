@@ -3,14 +3,14 @@ const { ipcRenderer } = window.require('electron');
 import React, { useState } from 'react';
 import { Typography, Grid, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { Box } from '@mui/system';
-import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
+import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
 import { Consultation } from 'shared/database/entities/Consultation';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Patient } from 'shared/database/entities/Patient';
 import { IconCheck } from '@tabler/icons';
 import Channels from 'shared/ipcChannels';
-import MuiDatePicker from 'renderer/ui-component/forms/MuiDatePicker';
+import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
 
 type TextAreaFieldProps = {
   id: string;

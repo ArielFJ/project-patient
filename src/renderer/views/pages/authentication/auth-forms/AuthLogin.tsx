@@ -26,7 +26,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
+import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';

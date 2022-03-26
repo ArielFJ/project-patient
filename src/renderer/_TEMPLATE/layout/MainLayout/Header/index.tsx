@@ -9,7 +9,7 @@ import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
-import 'renderer/extensions/Typography.extensions';
+import 'renderer/_TEMPLATE/extensions/Typography.extensions';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';

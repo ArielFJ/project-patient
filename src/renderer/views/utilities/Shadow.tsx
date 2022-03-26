@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Box, Card, Grid } from '@mui/material';
 
 // project imports
-import SubCard from 'renderer/ui-component/cards/SubCard';
-import MainCard from 'renderer/ui-component/cards/MainCard';
-import SecondaryAction from 'renderer/ui-component/cards/CardSecondaryAction';
+import SubCard from 'renderer/_TEMPLATE/ui-component/cards/SubCard';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
+import SecondaryAction from 'renderer/_TEMPLATE/ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'renderer/store/customization/constant';
 
 // ===============================|| SHADOW BOX ||=============================== //

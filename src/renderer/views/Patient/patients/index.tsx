@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { DataGrid, GridColDef, GridRowParams, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconPencil } from '@tabler/icons';
 import AddPatientFloatingButton from '../components/AddPatientFloatingButton';
-import MainCard from 'renderer/ui-component/cards/MainCard';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 import { requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
-import FloatingButton from 'renderer/ui-component/FloatingButton';
+import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
 import { patientsSelector } from 'renderer/store/patients/selectors';
 import styles from '../styles.module.scss';
@@ -41,6 +41,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
 
   const onRowClick = (
     params: GridRowParams<{
+      // eslint-disable-next-line
       [key: string]: any;
     }>
   ) => {

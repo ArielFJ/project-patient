@@ -8,12 +8,12 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import AnimateButton from 'renderer/ui-component/extended/AnimateButton';
+import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 
 // assets
 import { Patient } from 'shared/database/entities/Patient';
-import MuiDatePicker from 'renderer/ui-component/forms/MuiDatePicker';
-import MuiFormControl from 'renderer/ui-component/forms/MuiFormControl';
+import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
+import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
 
 type PatientFormProps = {
   defaultPatient?: Patient;

@@ -1,8 +1,8 @@
 import React, { lazy } from 'react';
 
 // project imports
-import MainLayout from 'renderer/layout/MainLayout';
-import Loadable from 'renderer/ui-component/Loadable';
+import MainLayout from 'renderer/_TEMPLATE/layout/MainLayout';
+import Loadable from 'renderer/_TEMPLATE/ui-component/Loadable';
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('renderer/views/utilities/Typography')));

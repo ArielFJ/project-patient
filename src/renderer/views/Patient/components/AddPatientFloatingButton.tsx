@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@
 import React, { useState } from 'react';
 import { IconPlus, IconX } from '@tabler/icons';
 import PatientForm from './PatientForm';
-import FloatingButton from 'renderer/ui-component/FloatingButton';
+import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { createNewPatientAsync } from 'renderer/store/patients/asyncThunks';
 import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';

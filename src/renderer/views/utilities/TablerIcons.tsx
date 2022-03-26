@@ -3,8 +3,8 @@ import { styled } from '@mui/material/styles';
 import { Card } from '@mui/material';
 
 // project imports
-import MainCard from 'renderer/ui-component/cards/MainCard';
-import SecondaryAction from 'renderer/ui-component/cards/CardSecondaryAction';
+import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
+import SecondaryAction from 'renderer/_TEMPLATE/ui-component/cards/CardSecondaryAction';
 
 // assets
 import LinkIcon from '@mui/icons-material/Link';
