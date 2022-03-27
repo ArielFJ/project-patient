@@ -5,9 +5,6 @@ import React, { useEffect, useState } from 'react';
 import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
 import { Consultation } from 'shared/database/entities/Consultation';
 import { Patient } from 'shared/database/entities/Patient';
-import Channels from 'shared/ipcChannels';
-import ConsultationForm from './ConsultationForm';
-const { ipcRenderer } = window.require('electron');
 
 type StepProps = {
   id: string;
@@ -161,13 +158,7 @@ const ConsultationStepperForm = ({ patient, onSubmit }: ConsultationStepperFormP
 
   const handleSubmit = (newConsultation: Consultation) => {
     newConsultation.patient = patient;
-    console.log(newConsultation)
-    // ipcRenderer.invoke(Channels.consultation.create, newConsultation).then(
-    //   (consultation) =>
-    //     new Notification('Consultation Created Successfully', {
-    //       body: `A new consultation for ${consultation.patient.name} has been registered`
-    //     })
-    // );
+    console.log(newConsultation);
     onSubmit();
   };
 

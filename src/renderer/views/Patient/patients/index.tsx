@@ -7,8 +7,7 @@ import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
 import styles from '../styles.module.scss';
-import Channels from 'shared/ipcChannels';
-const { ipcRenderer } = window.require('electron');
+import PatientService from 'renderer/services/PatientService';
 
 type SelectedPatientInfo = {
   id: number;
@@ -17,6 +16,7 @@ type SelectedPatientInfo = {
 
 const PatientsPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
+  const patientService = new PatientService();
 
   const [patients, setPatients] = useState<Patient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<SelectedPatientInfo>({ id: -1 });
@@ -26,7 +26,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatients = () => {
-    ipcRenderer.invoke(Channels.patient.getAll).then((allPatients) => setPatients(allPatients));
+    patientService.getAll().then((allPatients) => setPatients(allPatients));
   };
 
   const onSelectionModelChange = (selectionModel: GridSelectionModel) => {

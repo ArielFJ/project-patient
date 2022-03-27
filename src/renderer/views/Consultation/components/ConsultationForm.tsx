@@ -9,8 +9,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Patient } from 'shared/database/entities/Patient';
 import { IconCheck } from '@tabler/icons';
-import Channels from 'shared/ipcChannels';
 import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
+import ConsultationService from 'renderer/services/ConsultationService';
 
 type TextAreaFieldProps = {
   id: string;
@@ -55,6 +55,8 @@ type ConsultationFormProps = {
 };
 
 const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = false }: ConsultationFormProps): JSX.Element => {
+  const consultationService = new ConsultationService();
+
   const [consultation, setConsultation] = useState<Consultation>(consultationModel ?? Consultation.CreateEmpty());
 
   const validationObjectShape = {
@@ -71,10 +73,10 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
 
     if (!isUpdating) {
       // When creating a new consultation
-      ipcRenderer.invoke(Channels.consultation.create, consultationValues).then((cons) => {
+      consultationService.create(consultationValues).then((cons) => {
         onSubmit();
         new Notification('Consultation Created Successfully', {
-          body: `A new consultation for ${cons.patient.name} has been registered`
+          body: `A new consultation for ${cons.patient?.name} has been registered`
         });
       });
     } else {
@@ -83,7 +85,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
         ...consultationValues,
         date: consultation.date,
       };
-      ipcRenderer.invoke(Channels.consultation.update, consultation.id, consultationToSend).then(() => {
+      consultationService.update(consultation.id ?? -1, consultationToSend).then(() => {
         onSubmit();
         new Notification('Consultation Updated Successfully');
       });

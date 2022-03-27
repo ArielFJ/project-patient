@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-const { ipcRenderer } = window.require('electron');
 // material-ui
 import { Box, Button, FormControlLabel, Grid, Typography, Checkbox } from '@mui/material';
 import styles from '../styles.module.scss';
@@ -11,17 +10,21 @@ import { useNavigate, useParams } from 'react-router';
 import { IconChevronLeft, IconPencil, IconPlus } from '@tabler/icons';
 import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 import PatientForm from '../components/PatientForm';
-import Channels from 'shared/ipcChannels';
 import DialogContainer, { DialogContainerRef } from 'renderer/_TEMPLATE/ui-component/DialogContainer';
 import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
 import { DataGrid, GridColDef, GridRowParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
+import PatientService from 'renderer/services/PatientService';
+import ConsultationService from 'renderer/services/ConsultationService';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const PatientInfoPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
+  const patientService = new PatientService();
+  const consultationService = new ConsultationService();
+
   const { id } = useParams();
   const [patient, setPatient] = useState<Patient | undefined>();
   const [consultations, setConsultations] = useState<Consultation[]>([]);
@@ -38,11 +41,11 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatient = () => {
-    ipcRenderer.invoke(Channels.patient.getOne, id).then((patient: Patient) => setPatient(patient));
+    patientService.getById(Number(id)).then((patient: Patient) => setPatient(patient));
   };
 
   const requestPatientConsultations = () => {
-    ipcRenderer.invoke(Channels.consultation.getByPatientId, Number(id)).then((consultations: Consultation[]) => {
+    consultationService.getByPatientId(Number(id)).then((consultations: Consultation[]) => {
       setConsultations(consultations);
     });
   };
@@ -62,8 +65,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
     const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
-      ipcRenderer.invoke(
-        Channels.patient.update,
+    patientService.update(
         Number(id),
         newPatientValues)
     .then(() => requestPatient());

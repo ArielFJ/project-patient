@@ -3,7 +3,7 @@ import Channels from '../../../ipcChannels';
 import { ipcMain } from 'electron';
 import { Consultation } from '../../entities/Consultation';
 
-let consultationService = new ConsultationService(Consultation);
+const consultationService = new ConsultationService(Consultation);
 
 ipcMain.handle(Channels.consultation.getAll, async () => {
   return await consultationService.getAll();

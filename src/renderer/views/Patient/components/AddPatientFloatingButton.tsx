@@ -4,8 +4,7 @@ import { IconPlus, IconX } from '@tabler/icons';
 import PatientForm from './PatientForm';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { Patient } from 'shared/database/entities/Patient';
-import Channels from 'shared/ipcChannels';
-const { ipcRenderer } = window.require('electron');
+import PatientService from 'renderer/services/PatientService';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -35,6 +34,7 @@ type AddPatientFloatingButtonProps = {
 };
 
 const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonProps): JSX.Element => {
+  const patientService = new PatientService();
   const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
@@ -46,7 +46,7 @@ const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonP
   };
 
   const handleSubmit = (newPatient: Patient) => {
-    ipcRenderer.invoke(Channels.patient.create, newPatient).then(() => {
+    patientService.create(newPatient).then(() => {
       onFormSubmitted();
       handleClose();
     });
