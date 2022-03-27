@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { DataGrid, GridColDef, GridRowParams, GridSelectionModel, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconPencil } from '@tabler/icons';
 import AddPatientFloatingButton from '../components/AddPatientFloatingButton';
 import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
-import { requestPatientsAsync } from 'renderer/store/patients/asyncThunks';
-import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { useNavigate } from 'react-router';
-import { patientsSelector } from 'renderer/store/patients/selectors';
 import styles from '../styles.module.scss';
+import Channels from 'shared/ipcChannels';
+const { ipcRenderer } = window.require('electron');
 
 type SelectedPatientInfo = {
   id: number;
@@ -19,9 +17,8 @@ type SelectedPatientInfo = {
 
 const PatientsPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const patients: Patient[] = useSelector(patientsSelector);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<SelectedPatientInfo>({ id: -1 });
 
   useEffect(() => {
@@ -29,7 +26,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatients = () => {
-    dispatch(requestPatientsAsync());
+    ipcRenderer.invoke(Channels.patient.getAll).then((allPatients) => setPatients(allPatients));
   };
 
   const onSelectionModelChange = (selectionModel: GridSelectionModel) => {

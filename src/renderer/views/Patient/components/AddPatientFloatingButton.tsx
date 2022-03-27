@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { IconPlus, IconX } from '@tabler/icons';
 import PatientForm from './PatientForm';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
-import { createNewPatientAsync } from 'renderer/store/patients/asyncThunks';
-import { useAppDispatch } from 'renderer/store/hooks';
 import { Patient } from 'shared/database/entities/Patient';
+import Channels from 'shared/ipcChannels';
+const { ipcRenderer } = window.require('electron');
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -36,7 +36,6 @@ type AddPatientFloatingButtonProps = {
 
 const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonProps): JSX.Element => {
   const [dialogOpened, setDialogOpened] = useState(false);
-  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     setDialogOpened(true);
@@ -47,7 +46,7 @@ const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonP
   };
 
   const handleSubmit = (newPatient: Patient) => {
-    dispatch(createNewPatientAsync(newPatient)).then(() => {
+    ipcRenderer.invoke(Channels.patient.create, newPatient).then(() => {
       onFormSubmitted();
       handleClose();
     });
@@ -55,7 +54,7 @@ const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonP
 
   return (
     <>
-      <FloatingButton title='Add Patient' onClick={handleClick} childContent={<IconPlus />}  />
+      <FloatingButton title="Add Patient" onClick={handleClick} childContent={<IconPlus />} />
       <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
         <DialogTitle>Add Patient</DialogTitle>
         <AddPatientDialogActions onClose={handleClose} />

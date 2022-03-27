@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import customizationReducer from './customization/customizationSlice';
-import patientReducer from './patients/patientSlice';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
@@ -8,7 +7,6 @@ import patientReducer from './patients/patientSlice';
 const store = configureStore({
     reducer: {
         customization: customizationReducer,
-        patient: patientReducer
     }
 });
 // const persister = 'Free';

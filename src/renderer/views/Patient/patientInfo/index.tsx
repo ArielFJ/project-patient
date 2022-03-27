@@ -8,8 +8,6 @@ import styles from '../styles.module.scss';
 import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import { useNavigate, useParams } from 'react-router';
-import { useAppDispatch } from 'renderer/store/hooks';
-import { updatePatientAsync } from 'renderer/store/patients/asyncThunks';
 import { IconChevronLeft, IconPencil, IconPlus } from '@tabler/icons';
 import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 import PatientForm from '../components/PatientForm';
@@ -29,7 +27,6 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [isUpdatingConsultation, setIsUpdatingConsultation] = useState(false);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | undefined>();
-  const dispatch = useAppDispatch();
   const dialogContainerRef = React.useRef<DialogContainerRef>(null);
 
   useEffect(() => {
@@ -65,12 +62,11 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
     const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
-    dispatch(
-      updatePatientAsync({
-        patientId: Number(id),
-        newPatientValues
-      })
-    ).then(() => requestPatient());
+      ipcRenderer.invoke(
+        Channels.patient.update,
+        Number(id),
+        newPatientValues)
+    .then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {
