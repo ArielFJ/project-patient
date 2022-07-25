@@ -65,10 +65,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
     const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
-    patientService.update(
-        Number(id),
-        newPatientValues)
-    .then(() => requestPatient());
+    patientService.update(Number(id), newPatientValues).then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {

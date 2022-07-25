@@ -1,8 +1,7 @@
-import { Consultation } from "../../entities/Consultation";
-import BaseService from "../BaseService";
+import { Consultation } from '../../entities/Consultation';
+import BaseService from '../BaseService';
 
 export default class ConsultationService extends BaseService<Consultation> {
-  
   updateEntityProperties(entity: Consultation, newEntityProperties: Consultation): void {
     entity.reason = newEntityProperties.reason;
     entity.treatment = newEntityProperties.treatment;
@@ -21,5 +20,4 @@ export default class ConsultationService extends BaseService<Consultation> {
       }
     });
   }
-  
 }

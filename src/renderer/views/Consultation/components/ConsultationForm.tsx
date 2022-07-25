@@ -1,5 +1,3 @@
-const { ipcRenderer } = window.require('electron');
-
 import React, { useState } from 'react';
 import { Typography, Grid, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { Box } from '@mui/system';
@@ -83,7 +81,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
       // When updating an existing one
       const consultationToSend: Consultation = {
         ...consultationValues,
-        date: consultation.date,
+        date: consultation.date
       };
       consultationService.update(consultation.id ?? -1, consultationToSend).then(() => {
         onSubmit();
