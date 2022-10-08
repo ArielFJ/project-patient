@@ -5,7 +5,7 @@ import AddPatientFloatingButton from '../components/AddPatientFloatingButton';
 import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import PatientService from 'renderer/services/PatientService';
 
@@ -92,7 +92,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
             onSelectionModelChange={onSelectionModelChange}
             rowsPerPageOptions={[5]}
             onRowClick={onRowClick}
-            onRowDoubleClick={(params) => navigate(`patients/${params.row.id}`)}
+            onRowDoubleClick={(params) => navigate(`/patients/${params.row.id}`)}
             getRowClassName={(params) => (params.row.isActive ? '' : styles.cancelled)}
           />
         )}

@@ -11,6 +11,6 @@ export class Insurance extends BaseEntity {
   name: string;
 
   @ManyToMany(() => InsuranceType)
-  @JoinTable()
+  @JoinTable({ name: 'insurance_insurance_type' })
   types: InsuranceType[];
 }

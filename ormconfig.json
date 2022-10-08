@@ -10,6 +10,9 @@
     "migrations": [
         "./build/shared/database/migrations/**/*.js"
     ],
+    "seeds": [
+        "./build/shared/database/seeds/**/*.js"
+    ],
     "cli": {
         "migrationsDir": "src/shared/database/migrations"
     }
