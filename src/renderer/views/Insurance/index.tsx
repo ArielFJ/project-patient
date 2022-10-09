@@ -1,21 +1,33 @@
-import React from 'react';
-// material-ui
-import { Typography } from '@mui/material';
-
-// project imports
+import React, { useEffect, useState } from 'react';
 import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
+import { useInsuranceService } from 'renderer/hooks';
+import InsurancesList from './components/InsurancesList';
+import { Insurance } from 'shared/database/entities';
+import AddInsuranceButton from './components/AddInsuranceButton';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const InsurancePage: React.FC = (): JSX.Element => (
-    <MainCard title="Insurance">
-        <Typography variant="body2">
-            Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif
-            ad minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-            reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa
-            qui officiate descent molls anim id est labours.
-        </Typography>
-    </MainCard>
-);
+const InsurancePage: React.FC = (): JSX.Element => {
+  const { getAll } = useInsuranceService();
+  const [insurances, setInsurances] = useState<Insurance[]>([]);
+
+  useEffect(() => {
+    const init = async () => {
+      const data = await getAll();
+      setInsurances([...data]);
+    };
+
+    init();
+  }, []);
+
+  return (
+    <>
+      <MainCard title="Insurances">
+        <InsurancesList insurances={insurances} />
+      </MainCard>
+      <AddInsuranceButton onFormSubmitted={console.log} />
+    </>
+  );
+};
 
 export default InsurancePage;

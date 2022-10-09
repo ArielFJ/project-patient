@@ -4,7 +4,7 @@ import { Patient } from './entities/Patient';
 
 createConnection()
   .then(async (conn) => {
-    const repo = conn.getRepository(Patient);
+    // const repo = conn.getRepository(Patient);
 
     // let patients: Patient[] = [
     //   {
@@ -31,5 +31,6 @@ createConnection()
     // await repo.save(patients);
     require('./services/Patient'); // NOTE: init patient IPC
     require('./services/Consultation'); // NOTE: init consultation IPC
+    require('./services/Insurance'); // NOTE: init insurance IPC
   })
   .catch(console.log);

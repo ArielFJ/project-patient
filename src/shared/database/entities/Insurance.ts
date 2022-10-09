@@ -6,11 +6,18 @@ import { BaseEntity } from './../../interfaces/BaseEntity';
 export class Insurance extends BaseEntity {
   @Column({
     type: 'varchar',
-    length: '255',
+    length: '255'
   })
   name: string;
 
   @ManyToMany(() => InsuranceType)
   @JoinTable({ name: 'insurance_insurance_type' })
   types: InsuranceType[];
+
+  static Empty(): Insurance {
+    return {
+      name: '',
+      types: []
+    };
+  }
 }
