@@ -10,7 +10,7 @@ export class Insurance extends BaseEntity {
   })
   name: string;
 
-  @ManyToMany(() => InsuranceType)
+  @ManyToMany(() => InsuranceType, { onDelete: 'CASCADE' })
   @JoinTable({ name: 'insurance_insurance_type' })
   types: InsuranceType[];
 

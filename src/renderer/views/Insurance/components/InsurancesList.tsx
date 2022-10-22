@@ -1,12 +1,28 @@
 import React from 'react';
 import { Insurance } from 'shared/database/entities';
-import { TableCell, TableHead, Table, TableBody, TableRow, Button, Box, Grid } from '@mui/material';
+import { TableCell, TableHead, Table, TableBody, TableRow, Button, Grid } from '@mui/material';
+import { openDeleteModal } from '../helpers';
+import { useInsuranceService } from 'renderer/hooks';
 
 type Props = {
   insurances: Insurance[];
+  onUpdate: () => void;
 };
 
-function InsurancesList({ insurances }: Props): JSX.Element {
+function InsurancesList({ insurances, onUpdate }: Props): JSX.Element {
+  const { remove } = useInsuranceService();
+
+  const onDelete = (id?: number) => {
+    if (!id) return;
+    
+    const deleteInsurance = async () => {
+      await remove(id);
+      onUpdate();
+    };
+
+    openDeleteModal('insurance', deleteInsurance);
+  };
+
   return (
     <>
       <Table>
@@ -28,7 +44,7 @@ function InsurancesList({ insurances }: Props): JSX.Element {
                     <Button variant="contained" color="primary">
                       Edit
                     </Button>
-                    <Button variant="contained" color="error">
+                    <Button variant="contained" color="error" onClick={() => onDelete(insurance.id)}>
                       Delete
                     </Button>
                   </Grid>

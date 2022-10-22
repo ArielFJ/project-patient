@@ -23,7 +23,7 @@ const InsurancePage: React.FC = (): JSX.Element => {
   return (
     <>
       <MainCard title="Insurances">
-        <InsurancesList insurances={insurances} />
+        <InsurancesList insurances={insurances} onUpdate={requestData} />
       </MainCard>
       <AddInsuranceButton onFormSubmitted={requestData} />
     </>

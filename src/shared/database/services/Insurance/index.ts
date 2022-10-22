@@ -17,8 +17,8 @@ ipcMain.handle(Channels.insurance.create, async (_, insurance: Insurance) => {
   return await insuranceService.create(insurance);
 });
 
-ipcMain.handle(Channels.insurance.delete, async (_, IDs: number[]) => {
-  return await insuranceService.delete(IDs);
+ipcMain.handle(Channels.insurance.delete, async (_, id: number) => {
+  return await insuranceService.delete([id]);
 });
 
 ipcMain.handle(Channels.insurance.update, async (_, id: number, newValues: Insurance) => {

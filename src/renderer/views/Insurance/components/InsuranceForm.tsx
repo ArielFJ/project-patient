@@ -30,7 +30,7 @@ import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl
 import { Insurance, InsuranceType } from 'shared/database/entities';
 import { useInsuranceTypeService } from 'renderer/hooks';
 import AddTypeField from './AddTypeField';
-import { deleteInsuranceType } from '../helpers';
+import { openDeleteModal } from '../helpers';
 
 type Props = {
   defaultInsurance?: Insurance;
@@ -77,7 +77,7 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
       await requestTypes();
     }
 
-    deleteInsuranceType(handleDelete);
+    openDeleteModal('type', handleDelete);
   };
 
   const handleSubmit = (values: Insurance, formikHelpers: FormikHelpers<Insurance>) => {
