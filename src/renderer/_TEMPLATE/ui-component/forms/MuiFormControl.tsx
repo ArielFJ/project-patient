@@ -12,6 +12,7 @@ type MuiFormControlProps = {
   multiline?: boolean;
   rows?: number;
   defaultValue?: string | Date | number;
+  value?: string | Date | number;
   errorHelperText?: string;
   disabled?: boolean;
   // eslint-disable-next-line
@@ -31,6 +32,7 @@ function MuiFormControl({
   multiline = false,
   rows = 0,
   defaultValue,
+  value,
   errorHelperText,
   disabled = false,
   onBlur,
@@ -57,7 +59,7 @@ function MuiFormControl({
         id={id}
         type={type}
         placeholder={placeholder}
-        value={defaultValue}
+        value={value ?? defaultValue}
         name={name}
         onBlur={onBlur}
         onChange={onChange}
@@ -67,19 +69,6 @@ function MuiFormControl({
         disabled={disabled}
         inputProps={{}}
       />
-      {/* <TextField
-        key={id}
-        id={id}
-        type={type}
-        defaultValue={defaultValue}
-        name={name}
-        onBlur={onBlur}
-        helperText={errorHelperText}
-        onChange={onChange}
-        label={label}
-        error={error}
-        fullWidth={fullWidth}
-      /> */}
       {error && <FormHelperText error>{errorHelperText}</FormHelperText>}
     </FormControl>
   );

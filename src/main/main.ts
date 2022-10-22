@@ -1,4 +1,4 @@
-import { BrowserWindow, app, dialog } from 'electron';
+import { BrowserWindow, app } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import isDevEnvironment from 'electron-is-dev';
 import path from 'path';
@@ -36,7 +36,7 @@ export const createWindow = () => {
 
   // Show the window when contents are loaded
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow!.show();
+    mainWindow?.show();
   })
 
   mainWindow.webContents.openDevTools();

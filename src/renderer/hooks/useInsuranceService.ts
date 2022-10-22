@@ -1,10 +1,6 @@
 import { InsuranceService } from "renderer/services";
+import { createEntityHook } from "./createEntityHook";
 
-const insuranceService = new InsuranceService();
+const service = new InsuranceService();
 
-export const useInsuranceService = () => {
-  
-  const getAll = () => insuranceService.getAll();
-
-  return { getAll };
-}
+export const useInsuranceService = () => createEntityHook(service);

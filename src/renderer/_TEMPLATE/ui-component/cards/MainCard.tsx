@@ -18,10 +18,10 @@ type MainCardProps = {
   contentClass?: string;
   contentSX?: Record<string, unknown>;
   darkTitle?: boolean;
-  secondary?: Secondary;
+  secondary?: React.ReactNode;
   shadow?: string;
   sx?: Record<string, unknown>;
-  title?: Secondary;
+  title?: React.ReactNode;
   elevation?: number;
 };
 

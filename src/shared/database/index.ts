@@ -32,5 +32,6 @@ createConnection()
     require('./services/Patient'); // NOTE: init patient IPC
     require('./services/Consultation'); // NOTE: init consultation IPC
     require('./services/Insurance'); // NOTE: init insurance IPC
+    require('./services/InsuranceType'); // NOTE: init insurance IPC
   })
   .catch(console.log);

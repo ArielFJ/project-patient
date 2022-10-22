@@ -11,13 +11,13 @@ const InsurancePage: React.FC = (): JSX.Element => {
   const { getAll } = useInsuranceService();
   const [insurances, setInsurances] = useState<Insurance[]>([]);
 
-  useEffect(() => {
-    const init = async () => {
-      const data = await getAll();
-      setInsurances([...data]);
-    };
+  const requestData = async () => {
+    const data = await getAll();
+    setInsurances([...data]);
+  };
 
-    init();
+  useEffect(() => {
+    requestData();
   }, []);
 
   return (
@@ -25,7 +25,7 @@ const InsurancePage: React.FC = (): JSX.Element => {
       <MainCard title="Insurances">
         <InsurancesList insurances={insurances} />
       </MainCard>
-      <AddInsuranceButton onFormSubmitted={console.log} />
+      <AddInsuranceButton onFormSubmitted={requestData} />
     </>
   );
 };

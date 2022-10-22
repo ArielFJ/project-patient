@@ -136,3 +136,8 @@ body {
         transform: translateX(10px);
     }
 }
+
+// Swal custom style
+.swal2-container {
+    z-index: 10000 !important;
+}

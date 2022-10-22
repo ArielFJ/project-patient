@@ -10,10 +10,10 @@ type SubCardProps = {
     content?: boolean;
     contentClass?: string;
     darkTitle?: boolean;
-    secondary?: Secondary;
+    secondary?: React.ReactNode;
     sx?: Record<string, unknown>;
     contentSX?: Record<string, unknown>;
-    title?: Secondary;
+    title?: React.ReactNode;
 }
 
 // ==============================|| CUSTOM SUB CARD ||============================== //

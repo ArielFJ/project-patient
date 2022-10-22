@@ -34,25 +34,25 @@ export class Patient extends BaseEntity {
     type: 'int',
     default: 0
   })
-  weight: number = 0;
+  weight: number;
 
   @Column({
     type: 'int',
     default: 0
   })
-  height: number = 0;
+  height: number;
 
   @Column({
     type: 'int',
     default: 0
   })
-  headCircumference: number = 0;
+  headCircumference: number;
 
   @Column({
     type: 'int',
     default: 0
   })
-  bloodPressure: number = 0;
+  bloodPressure: number;
 
   @Column({
     type: 'boolean',

@@ -1,11 +1,11 @@
 import { ThemeOptions } from '@mui/material';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import colors from 'assets/scss/_themes-vars.module.scss';
-import config from 'renderer/config';
+import CONFIG from 'renderer/config';
 
 export default function themeTypography(theme: ThemeOptions): TypographyOptions {
     return {
-        fontFamily: theme?.customization?.fontFamily ?? config.fontFamily,
+        fontFamily: theme?.customization?.fontFamily ?? CONFIG.fontFamily,
         h6: {
             fontWeight: 500,
             color: theme.heading,

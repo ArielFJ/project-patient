@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import { ButtonBase } from '@mui/material';
 
 // project imports
-import config from 'renderer/config';
 import Logo from 'renderer/_TEMPLATE/ui-component/Logo';
+import CONFIG from 'renderer/config';
 
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection: React.FC = (): JSX.Element => (
-    <ButtonBase disableRipple component={Link} to={config.defaultPath}>
+    <ButtonBase disableRipple component={Link} to={CONFIG.defaultPath}>
         <Logo />
     </ButtonBase>
 );

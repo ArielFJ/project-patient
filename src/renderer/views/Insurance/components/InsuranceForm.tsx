@@ -1,46 +1,93 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 
 // material-ui
-import { Box, Button, Checkbox, FormControl, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  IconButton
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 // third party
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 
 // project imports
 import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButton';
 
 // assets
 import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
-import { Insurance } from 'shared/database/entities';
+import { Insurance, InsuranceType } from 'shared/database/entities';
+import { useInsuranceTypeService } from 'renderer/hooks';
+import AddTypeField from './AddTypeField';
+import { deleteInsuranceType } from '../helpers';
 
-type PatientFormProps = {
+type Props = {
   defaultInsurance?: Insurance;
   onSubmit: (values: Insurance) => void;
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-};
-
-const InsuranceForm = ({ defaultInsurance, onSubmit }: PatientFormProps): JSX.Element => {
+const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
+  const { getAll, remove } = useInsuranceTypeService();
   const [insurance] = useState(defaultInsurance ?? Insurance.Empty());
+  const [insuranceTypes, setInsuranceTypes] = useState<InsuranceType[]>([]);
 
-  const validationObjectShape = {
-    name: Yup.string().max(255).required('Name is required')
-    // types: Yup.array().of(Yup.number()).min(1).required('Types is required')
+  const requestTypes = async () => {
+    const data = await getAll();
+    setInsuranceTypes([...data]);
   };
 
+  useEffect(() => {
+    requestTypes();
+  }, []);
+
+  const validationObjectShape = {
+    name: Yup.string().max(255).required('Name is required'),
+    types: Yup.array().min(1, 'Types is required').required('Types is required')
+  };
+
+  const onTypeChanged = (
+    event: SelectChangeEvent<(number | undefined)[]>,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
+  ) => {
+    const {
+      target: { value }
+    } = event;
+    const types = (value as number[]).map((v) => insuranceTypes.find((t) => t.id === v));
+    setFieldValue('types', types);
+  };
+
+  const onTypeDelete = (e: MouseEvent, typeId?: number) => {
+    e.stopPropagation();
+    if (!typeId) return;
+
+    const handleDelete = async () => {
+      console.log(typeId);
+      await remove(typeId);
+      await requestTypes();
+    }
+
+    deleteInsuranceType(handleDelete);
+  };
+
+  const handleSubmit = (values: Insurance, formikHelpers: FormikHelpers<Insurance>) => {
+    onSubmit(values);
+    formikHelpers.resetForm();
+  }
+
   return (
-    <Formik initialValues={insurance} validationSchema={Yup.object().shape(validationObjectShape)} onSubmit={onSubmit}>
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+    <Formik initialValues={insurance} validationSchema={Yup.object().shape(validationObjectShape)} onSubmit={handleSubmit}>
+      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Grid container gap={2} justifyContent="center">
             <Grid item xs={6}>
@@ -64,20 +111,34 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: PatientFormProps): JSX.El
                   id="types-input"
                   name="types"
                   multiple
-                  renderValue={(selected) => (selected as string[]).join(', ')}
+                  renderValue={(selected) => (selected?.map((id) => insuranceTypes.find((t) => t.id === id)?.name) as string[]).join(', ')}
                   input={<OutlinedInput label="Types" />}
-                  value={[]}
+                  value={values.types.map((t) => t.id)}
                   fullWidth
-                  MenuProps={MenuProps}
+                  onChange={(e) => onTypeChanged(e, setFieldValue)}
+                  onBlur={handleBlur}
+                  error={Boolean(touched.types && errors.types)}
                 >
-                  {[1, 2, 3].map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {/* <Checkbox checked={values.types.indexOf(type) > -1} /> */}
-                      <ListItemText primary={type} />
+                  {insuranceTypes?.map((type) => (
+                    <MenuItem key={type.id} value={type.id}>
+                      <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ width: '100%' }}>
+                        <Box display="flex" alignItems="center">
+                          <Checkbox checked={values.types.indexOf(type) > -1} />
+                          <ListItemText primary={type.name} />
+                        </Box>
+                        <IconButton onClick={(e) => onTypeDelete(e, type.id)}>
+                          <Close />
+                        </IconButton>
+                      </Box>
                     </MenuItem>
                   ))}
                 </Select>
+                {Boolean(touched.types && errors.types) && <FormHelperText error>{errors.types?.toString()}</FormHelperText>}
               </FormControl>
+            </Grid>
+            <Grid item xs={12} />
+            <Grid item xs={4}>
+              <AddTypeField onAdd={requestTypes} />
             </Grid>
           </Grid>
           <Box sx={{ mt: 2 }}>

@@ -35,7 +35,7 @@ export default abstract class BaseService<TEntity extends BaseEntity> {
   } 
 
   async delete(IDs: number[]): Promise<TEntity[]> {
-    let entities = await this.repository.findByIds(IDs);
+    const entities = await this.repository.findByIds(IDs);
     return await this.repository.remove(entities);
   }
 }

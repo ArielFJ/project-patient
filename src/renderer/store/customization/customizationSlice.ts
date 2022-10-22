@@ -2,7 +2,7 @@ import { PaletteMode } from '@mui/material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // project imports
-import config from 'renderer/config';
+import CONFIG from 'renderer/config';
 
 export type CustomizationState = {
   isOpen: string[];
@@ -14,8 +14,8 @@ export type CustomizationState = {
 
 const initialState: CustomizationState = {
   isOpen: [], // for active default menu
-  fontFamily: config.fontFamily,
-  borderRadius: config.borderRadius,
+  fontFamily: CONFIG.fontFamily,
+  borderRadius: CONFIG.borderRadius,
   opened: true
 };
 

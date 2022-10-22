@@ -15,10 +15,12 @@ import 'assets/scss/style.scss';
 // ==============================|| REACT DOM RENDER  ||============================== //
 
 ReactDOM.render(
+  <React.StrictMode>
     <Provider store={store}>
-        <HashRouter>
-            <App />
-        </HashRouter>
-    </Provider>,
-    document.getElementById('root')
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );

@@ -47,6 +47,8 @@
         "react-router-dom": "6.0.0-beta.0",
         "react-scripts": "^4.0.3",
         "redux": "^4.0.5",
+        "sweetalert2": "^11.4.38",
+        "sweetalert2-react-content": "^5.0.3",
         "ts-node": "^10.9.1",
         "typeorm-seeding": "^1.6.1",
         "typescript": "^4.5.4",
@@ -57,21 +59,17 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-
         "electron:compile": "tsc --project tsconfig.electron.json",
         "electron:start": "npm run electron:compile && electron . --trace-warnings",
         "electron:watch": "nodemon --exec npm run electron:start",
         "electron:build": "npm run electron:compile && electron-builder -w",
         "electron:bundle": "npm run electron:compile && npm run electron:build",
-
         "package": "yarn build && npm run electron:compile && npm run electron:build",
         "public:package": "npm run electron:compile && yarn build && npm run electron:build",
-
         "migration:generate": "npm run electron:compile && npx typeorm migration:generate -n",
         "migration:run": "npm run electron:compile && npx typeorm migration:run",
         "migration:show": "npm run electron:compile && npx typeorm migration:show",
         "migration:revert": "npm run electron:compile && npx typeorm migration:revert",
-        
         "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
         "db:seed": "npm run electron:compile && npm run seed"
     },

@@ -7,7 +7,7 @@ import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 
 // project imports
-import config from 'renderer/config';
+import CONFIG from 'renderer/config';
 import { gridSpacing } from 'renderer/store/customization/constant';
 
 // assets
@@ -79,7 +79,7 @@ const Breadcrumbs = ({
                 if (collapse.type && collapse.type === 'collapse') {
                     getCollapse(collapse);
                 } else if (collapse.type && collapse.type === 'item') {
-                    if (document.location.pathname === config.basename + collapse.url) {
+                    if (document.location.pathname === CONFIG.basename + collapse.url) {
                         setMain(menu);
                         setItem(collapse);
                     }

@@ -17,20 +17,20 @@ import { RootState } from './store';
 // ==============================|| APP ||============================== //
 
 const App = (): JSX.Element => {
-    const customization = useSelector((state: RootState) => state.customization);
+  const customization = useSelector((state: RootState) => state.customization);
 
-    return (
-        <StyledEngineProvider injectFirst>
-            <React.StrictMode>
-                <ThemeProvider theme={themes(customization)}>
-                    <CssBaseline />
-                    <NavigationScroll>
-                        <Routes />
-                    </NavigationScroll>
-                </ThemeProvider>
-            </React.StrictMode>
-        </StyledEngineProvider>
-    );
+  return (
+    <StyledEngineProvider injectFirst>
+      <React.StrictMode>
+        <ThemeProvider theme={themes(customization)}>
+          <CssBaseline />
+          <NavigationScroll>
+            <Routes />
+          </NavigationScroll>
+        </ThemeProvider>
+      </React.StrictMode>
+    </StyledEngineProvider>
+  );
 };
 
 export default App;

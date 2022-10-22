@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import config from 'renderer/config';
+import CONFIG from 'renderer/config';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -53,7 +53,7 @@ const NavItem = ({ item, level }: NavItemProps): JSX.Element => {
         itemTarget = '_blank';
     }
 
-    const linkComponent = forwardRef<HTMLAnchorElement>((props, ref) => <Link ref={ref} {...props} to={`${config.basename}${item.url}`} target={itemTarget} />); 
+    const linkComponent = forwardRef<HTMLAnchorElement>((props, ref) => <Link ref={ref} {...props} to={`${CONFIG.basename}${item.url}`} target={itemTarget} />); 
     linkComponent.displayName = 'listItemProps';
 
     let listItemProps: ListItemProps = {

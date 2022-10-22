@@ -4,6 +4,7 @@ import { IconPlus, IconX } from '@tabler/icons';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import InsuranceForm from './InsuranceForm';
 import { Insurance } from 'shared/database/entities';
+import { useInsuranceService } from 'renderer/hooks';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -33,6 +34,7 @@ type Props = {
 };
 
 const AddInsuranceButton = ({ onFormSubmitted }: Props): JSX.Element => {
+  const { create } = useInsuranceService();
   const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
@@ -43,12 +45,10 @@ const AddInsuranceButton = ({ onFormSubmitted }: Props): JSX.Element => {
     setDialogOpened(false);
   };
 
-  const handleSubmit = (insurance: Insurance) => {
-    // patientService.create(insurance).then(() => {
-    //   onFormSubmitted();
-    //   handleClose();
-    // });
-    console.log(insurance);
+  const handleSubmit = async (insurance: Insurance) => {
+    await create(insurance);
+    setDialogOpened(false);
+    onFormSubmitted();
   };
 
   return (
