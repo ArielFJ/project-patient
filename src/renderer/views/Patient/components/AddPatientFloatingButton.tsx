@@ -5,6 +5,7 @@ import PatientForm from './PatientForm';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { Patient } from 'shared/database/entities/Patient';
 import PatientService from 'renderer/services/PatientService';
+import { trans } from 'renderer/utils/localization';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -54,7 +55,7 @@ const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonP
 
   return (
     <>
-      <FloatingButton title="Add Patient" onClick={handleClick} childContent={<IconPlus />} />
+      <FloatingButton title={trans("add_patient")} onClick={handleClick} childContent={<IconPlus />} />
       <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
         <DialogTitle>Add Patient</DialogTitle>
         <AddPatientDialogActions onClose={handleClose} />

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Insurance } from 'shared/database/entities';
 import { TableCell, TableHead, Table, TableBody, TableRow, Button, Grid } from '@mui/material';
-import { openDeleteModal } from '../helpers';
+import { openDeleteModal } from '../../../utils/helpers';
 import { useInsuranceService } from 'renderer/hooks';
+import { trans } from 'renderer/utils/localization';
 
 type Props = {
   insurances: Insurance[];
@@ -28,8 +29,8 @@ function InsurancesList({ insurances, onUpdate }: Props): JSX.Element {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Types</TableCell>
+            <TableCell>{trans('Name')}</TableCell>
+            <TableCell>{trans('Types')}</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -42,10 +43,10 @@ function InsurancesList({ insurances, onUpdate }: Props): JSX.Element {
                 <TableCell>
                   <Grid container gap={3} justifyContent="end">
                     <Button variant="contained" color="primary">
-                      Edit
+                      {trans('Edit')}
                     </Button>
                     <Button variant="contained" color="error" onClick={() => onDelete(insurance.id)}>
-                      Delete
+                      {trans('Delete')}
                     </Button>
                   </Grid>
                 </TableCell>

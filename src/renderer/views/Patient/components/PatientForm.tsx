@@ -14,6 +14,7 @@ import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButto
 import { Patient } from 'shared/database/entities/Patient';
 import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
 import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
+import { trans } from 'renderer/utils/localization';
 
 type PatientFormProps = {
   defaultPatient?: Patient;
@@ -52,7 +53,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
             <Grid item xs={8}>
               <MuiFormControl
                 id="name-input"
-                label="Name"
+                label={trans("name")}
                 name="name"
                 defaultValue={values.name}
                 error={Boolean(touched.name && errors.name)}
@@ -63,12 +64,12 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               />
             </Grid>
             <Grid item xs={4}>
-              <MuiDatePicker label="Birth Date" initialValue={values.birthDate} onNewDateAssigned={onNewDateAssigned} />
+              <MuiDatePicker label={trans("birth_date")} initialValue={values.birthDate} onNewDateAssigned={onNewDateAssigned} />
             </Grid>
             <Grid item xs={8}>
               <MuiFormControl
                 id="email-input"
-                label="Email"
+                label={trans("email")}
                 name="email"
                 defaultValue={values.email}
                 error={Boolean(touched.email && errors.email)}
@@ -81,7 +82,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
             <Grid item xs={4}>
               <MuiFormControl
                 id="phone-input"
-                label="Telephone"
+                label={trans("telephone")}
                 name="phone"
                 defaultValue={values.phone}
                 error={Boolean(touched.phone && errors.phone)}
@@ -95,7 +96,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="weight-input"
                 type="number"
-                label="Weight (LB)"
+                label={trans("weight")}
                 name="weight"
                 defaultValue={values.weight}
                 error={Boolean(touched.weight && errors.weight)}
@@ -109,7 +110,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="height-input"
                 type="number"
-                label="Height (FT)"
+                label={trans("height")}
                 name="height"
                 defaultValue={values.height}
                 error={Boolean(touched.height && errors.height)}
@@ -123,7 +124,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="head-circumference-input"
                 type="number"
-                label="Head Circumference"
+                label={trans("head_circumference")}
                 name="headCircumference"
                 defaultValue={values.headCircumference}
                 error={Boolean(touched.headCircumference && errors.headCircumference)}
@@ -137,7 +138,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="bloodPressure-input"
                 type="number"
-                label="Blood Pressure"
+                label={trans("blood_pressure")}
                 name="bloodPressure"
                 defaultValue={values.bloodPressure}
                 error={Boolean(touched.bloodPressure && errors.bloodPressure)}
@@ -151,7 +152,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
           <Box sx={{ mt: 2 }}>
             <AnimateButton>
               <Button disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                Submit
+                {trans('submit')}
               </Button>
             </AnimateButton>
           </Box>

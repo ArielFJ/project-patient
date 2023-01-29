@@ -5,6 +5,7 @@ import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import InsuranceForm from './InsuranceForm';
 import { Insurance } from 'shared/database/entities';
 import { useInsuranceService } from 'renderer/hooks';
+import { trans } from 'renderer/utils/localization';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -53,9 +54,9 @@ const AddInsuranceButton = ({ onFormSubmitted }: Props): JSX.Element => {
 
   return (
     <>
-      <FloatingButton title="Add Insurance" onClick={handleClick} childContent={<IconPlus />} />
+      <FloatingButton title={trans("Add_Insurance")} onClick={handleClick} childContent={<IconPlus />} />
       <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
-        <DialogTitle>Add Insurance</DialogTitle>
+        <DialogTitle>{trans("Add_Insurance")}</DialogTitle>
         <AddInsuranceDialogActions onClose={handleClose} />
         <DialogContent>
           <InsuranceForm onSubmit={handleSubmit} />

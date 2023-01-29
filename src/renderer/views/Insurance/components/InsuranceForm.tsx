@@ -30,7 +30,8 @@ import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl
 import { Insurance, InsuranceType } from 'shared/database/entities';
 import { useInsuranceTypeService } from 'renderer/hooks';
 import AddTypeField from './AddTypeField';
-import { openDeleteModal } from '../helpers';
+import { openDeleteModal } from '../../../utils/helpers';
+import { trans } from 'renderer/utils/localization';
 
 type Props = {
   defaultInsurance?: Insurance;
@@ -93,7 +94,7 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
             <Grid item xs={6}>
               <MuiFormControl
                 id="name-input"
-                label="Name"
+                label={trans("name")}
                 name="name"
                 defaultValue={values.name}
                 error={Boolean(touched.name && errors.name)}
@@ -105,14 +106,14 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="types-input-label">Types</InputLabel>
+                <InputLabel id="types-input-label">{trans("types")}</InputLabel>
                 <Select
                   labelId="types-input-label"
                   id="types-input"
                   name="types"
                   multiple
                   renderValue={(selected) => (selected?.map((id) => insuranceTypes.find((t) => t.id === id)?.name) as string[]).join(', ')}
-                  input={<OutlinedInput label="Types" />}
+                  input={<OutlinedInput label={trans("types")} />}
                   value={values.types.map((t) => t.id)}
                   fullWidth
                   onChange={(e) => onTypeChanged(e, setFieldValue)}
@@ -144,7 +145,7 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
           <Box sx={{ mt: 2 }}>
             <AnimateButton>
               <Button disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                Submit
+              {trans("submit")}
               </Button>
             </AnimateButton>
           </Box>

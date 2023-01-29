@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, FormControl, Grid, TextField, useTheme } from '@mui/material';
 import { useInsuranceTypeService } from 'renderer/hooks';
+import { trans } from 'renderer/utils/localization';
 
 function AddTypeField({ onAdd }: { onAdd: () => void }): JSX.Element {
   const theme = useTheme();
@@ -29,11 +30,11 @@ function AddTypeField({ onAdd }: { onAdd: () => void }): JSX.Element {
             }
           }}
         >
-          <TextField id="newType" placeholder="New Type" value={newType} variant="standard" onChange={(e) => setNewType(e.target.value)} />
+          <TextField id="newType" placeholder={trans("new_type")} value={newType} variant="standard" onChange={(e) => setNewType(e.target.value)} />
         </FormControl>
       </Grid>
       <Grid item xs={4} textAlign="center">
-        <Button onClick={onAddType}>Add type</Button>
+        <Button onClick={onAddType}>{trans("add")}</Button>
       </Grid>
     </Grid>
   );

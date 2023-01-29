@@ -1,17 +1,18 @@
 // assets
 import { IconBrandChrome, IconReportMedical, IconUsers } from '@tabler/icons';
+import { trans } from 'renderer/utils/localization';
 import { MenuItem } from './MenuItem.interface';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const pages: MenuItem = {
     id: 'sample-docs-roadmap',
-    title: 'Main',
+    title: trans('Main'),
     type: 'group',
     children: [
         {
             id: 'patients',
-            title: 'Patients',
+            title: trans('Patients'),
             type: 'item',
             url: '/patients',
             icon: IconUsers,
@@ -19,7 +20,7 @@ const pages: MenuItem = {
         },
         {
             id: 'insurance',
-            title: 'Health Insurance',
+            title: trans('Health_Insurances'),
             type: 'item',
             url: '/insurance',
             icon: IconReportMedical,
@@ -27,7 +28,7 @@ const pages: MenuItem = {
         },
         {
             id: 'sample-page',
-            title: 'Sample Page',
+            title: trans('Sample Page'),
             type: 'item',
             url: '/sample-page',
             icon: IconBrandChrome,

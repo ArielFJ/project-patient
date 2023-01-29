@@ -8,6 +8,7 @@ import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import PatientService from 'renderer/services/PatientService';
+import { trans } from 'renderer/utils/localization';
 
 type SelectedPatientInfo = {
   id: number;
@@ -49,7 +50,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
   };
 
   const onEditButtonClicked = () => {
-    navigate(`patients/${selectedPatient.id}`);
+    navigate(`/patients/${selectedPatient.id}`);
   };
 
   const formatDate = (dateAsString?: string): string => {
@@ -57,30 +58,30 @@ const PatientsPage: React.FC = (): JSX.Element => {
   };
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
-    { field: 'isActive', headerName: 'Active', type: 'boolean', hide: true /*flex: .3,  minWidth: 30*/ },
-    { field: 'name', headerName: 'Name', flex: 1, minWidth: 200 },
+    { field: 'id', headerName: trans('id'), width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
+    { field: 'isActive', headerName: trans('active'), type: 'boolean', hide: true /*flex: .3,  minWidth: 30*/ },
+    { field: 'name', headerName: trans('name'), flex: 1, minWidth: 200 },
     {
       field: 'birthDate',
-      headerName: 'Birth Date',
+      headerName: trans('birth_date'),
       type: 'date',
       valueFormatter: (params: GridValueFormatterParams) => formatDate(params.value?.toString()),
       valueGetter: (params: GridValueGetterParams) => formatDate(params.row.birthDate?.toString()),
       minWidth: 120,
       flex: 1
     },
-    { field: 'phone', headerName: 'Telephone', flex: 0.7, minWidth: 130 },
-    { field: 'email', headerName: 'Email', flex: 1, minWidth: 200 },
-    { field: 'weight', headerName: 'Weight', flex: 0.3, type: 'number', minWidth: 70 },
-    { field: 'height', headerName: 'Height', flex: 0.3, type: 'number', minWidth: 70 },
-    { field: 'headCircumference', headerName: 'HC', flex: 0.3, type: 'number', minWidth: 70 },
-    { field: 'bloodPressure', headerName: 'Blood Pressure', flex: 0.3, type: 'number', minWidth: 150 }
+    { field: 'phone', headerName: trans('telephone'), flex: 0.7, minWidth: 130 },
+    { field: 'email', headerName: trans('email'), flex: 1, minWidth: 200 },
+    // { field: 'weight', headerName: trans('weight'), flex: 0.3, type: 'number', minWidth: 70 },
+    // { field: 'height', headerName: trans('height'), flex: 0.3, type: 'number', minWidth: 70 },
+    // { field: 'headCircumference', headerName: trans('hc'), flex: 0.3, type: 'number', minWidth: 70 },
+    // { field: 'bloodPressure', headerName: trans('blood_pressure'), flex: 0.3, type: 'number', minWidth: 150 }
   ];
 
   return (
     <>
       <MainCard
-        title={`Patients ${selectedPatient.id !== -1 ? '- ' + selectedPatient.name : ''}`}
+        title={`${trans('patients')} ${selectedPatient.id !== -1 ? '- ' + selectedPatient.name : ''}`}
         sx={{ width: '100%', height: '100%' }}
         contentSX={{ height: '85%' }}
       >
@@ -99,7 +100,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
       </MainCard>
       <AddPatientFloatingButton onFormSubmitted={requestPatients} />
       <FloatingButton
-        title="Edit Patient"
+        title={trans("edit_patient")}
         onClick={onEditButtonClicked}
         childContent={<IconPencil />}
         styles={{

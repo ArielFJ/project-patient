@@ -9,6 +9,7 @@ import { Patient } from 'shared/database/entities/Patient';
 import { IconCheck } from '@tabler/icons';
 import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
 import ConsultationService from 'renderer/services/ConsultationService';
+import { trans } from 'renderer/utils/localization';
 
 type TextAreaFieldProps = {
   id: string;
@@ -98,7 +99,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
           <Grid container spacing={2}>
             <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
-                Reason
+                {trans('Reason')}
               </Typography>
             </Grid>
             <Grid item xs={8}>
@@ -115,7 +116,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
             </Grid>
             <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
-                Treatment
+                {trans('Treatment')}
               </Typography>
             </Grid>
             <Grid item xs={8}>
@@ -132,7 +133,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
             </Grid>
             <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Typography variant="subtitle1" gutterBottom component="span" color="#6a6a6a">
-                Diagnosis
+                {trans('Diagnosis')}
               </Typography>
             </Grid>
             <Grid item xs={8}>
@@ -152,14 +153,14 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
                 <Grid item xs={3}></Grid>
                 <Grid item xs={3}>
                   <MuiDatePicker
-                    label="Date"
+                    label={trans("Date")}
                     initialValue={values.date}
                     onNewDateAssigned={(newDate) => setConsultation({ ...consultation, date: newDate })}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <FormControlLabel
-                    label="Attended?"
+                    label={trans("attended")}
                     control={
                       <Checkbox
                         id="attended-step"
@@ -173,7 +174,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
                 </Grid>
                 <Grid item xs={3}>
                   <FormControlLabel
-                    label="Is Active?"
+                    label={trans("Is_Active")}
                     control={
                       <Checkbox
                         id="active-step"
@@ -191,7 +192,7 @@ const ConsultationForm = ({ patient, consultationModel, onSubmit, isUpdating = f
           <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} /> {/* Create horizontal space */}
             <Button type="submit" sx={{ color: '#009988' }}>
-              Save &nbsp; <IconCheck />
+              {trans('Save')} &nbsp; <IconCheck />
             </Button>
           </Box>
         </form>
