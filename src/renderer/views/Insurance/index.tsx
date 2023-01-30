@@ -3,7 +3,7 @@ import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
 import { useInsuranceService } from 'renderer/hooks';
 import InsurancesList from './components/InsurancesList';
 import { Insurance } from 'shared/database/entities';
-import AddInsuranceButton from './components/AddInsuranceButton';
+import UpsertButton from './components/UpsertButton';
 import { trans } from 'renderer/utils/localization';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -26,7 +26,7 @@ const InsurancePage: React.FC = (): JSX.Element => {
       <MainCard title={trans("health_Insurances")}>
         <InsurancesList insurances={insurances} onUpdate={requestData} />
       </MainCard>
-      <AddInsuranceButton onFormSubmitted={requestData} />
+      <UpsertButton onFormSubmitted={requestData} />
     </>
   );
 };

@@ -32,5 +32,6 @@
   "new_consultation": "Nueva Consulta",
   "edit": "Editar",
   "delete": "Eliminar",
-  "new_type": "Nuevo tipo"
+  "new_type": "Nuevo tipo",
+  "is_required": "es requerido"
 }

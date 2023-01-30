@@ -4,6 +4,7 @@ import { TableCell, TableHead, Table, TableBody, TableRow, Button, Grid } from '
 import { openDeleteModal } from '../../../utils/helpers';
 import { useInsuranceService } from 'renderer/hooks';
 import { trans } from 'renderer/utils/localization';
+import UpsertButton from './UpsertButton';
 
 type Props = {
   insurances: Insurance[];
@@ -42,9 +43,7 @@ function InsurancesList({ insurances, onUpdate }: Props): JSX.Element {
                 <TableCell width="40%">{insurance.types.map((type) => type.name).join(', ')}</TableCell>
                 <TableCell>
                   <Grid container gap={3} justifyContent="end">
-                    <Button variant="contained" color="primary">
-                      {trans('Edit')}
-                    </Button>
+                    <UpsertButton insurance={insurance} onFormSubmitted={onUpdate} isEditing />
                     <Button variant="contained" color="error" onClick={() => onDelete(insurance.id)}>
                       {trans('Delete')}
                     </Button>

@@ -40,7 +40,7 @@ type Props = {
 
 const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
   const { getAll, remove } = useInsuranceTypeService();
-  const [insurance] = useState(defaultInsurance ?? Insurance.Empty());
+  const insurance = defaultInsurance ?? Insurance.Empty();
   const [insuranceTypes, setInsuranceTypes] = useState<InsuranceType[]>([]);
 
   const requestTypes = async () => {
@@ -53,8 +53,8 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
   }, []);
 
   const validationObjectShape = {
-    name: Yup.string().max(255).required('Name is required'),
-    types: Yup.array().min(1, 'Types is required').required('Types is required')
+    name: Yup.string().max(255).required(`${trans('name')} ${trans('is_required')}`),
+    types: Yup.array().min(1, `${trans('types')} ${trans('is_required')}`).required(`${trans('types')} ${trans('is_required')}`)
   };
 
   const onTypeChanged = (
@@ -124,7 +124,7 @@ const InsuranceForm = ({ defaultInsurance, onSubmit }: Props): JSX.Element => {
                     <MenuItem key={type.id} value={type.id}>
                       <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ width: '100%' }}>
                         <Box display="flex" alignItems="center">
-                          <Checkbox checked={values.types.indexOf(type) > -1} />
+                          <Checkbox checked={!!values.types.find(t => t.id === type.id)} />
                           <ListItemText primary={type.name} />
                         </Box>
                         <IconButton onClick={(e) => onTypeDelete(e, type.id)}>

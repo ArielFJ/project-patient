@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { IconPlus, IconX } from '@tabler/icons';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
@@ -31,11 +31,13 @@ const AddInsuranceDialogActions = ({ onClose }: { onClose: () => void }): JSX.El
 /* ============== DIALOG ============== */
 
 type Props = {
+  isEditing?: boolean;
+  insurance?: Insurance;
   onFormSubmitted: () => void;
 };
 
-const AddInsuranceButton = ({ onFormSubmitted }: Props): JSX.Element => {
-  const { create } = useInsuranceService();
+const UpsertButton = ({ onFormSubmitted, isEditing, insurance }: Props): JSX.Element => {
+  const { create, update } = useInsuranceService();
   const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
@@ -47,23 +49,33 @@ const AddInsuranceButton = ({ onFormSubmitted }: Props): JSX.Element => {
   };
 
   const handleSubmit = async (insurance: Insurance) => {
-    await create(insurance);
+    if (isEditing && insurance?.id) {
+      await update(insurance.id, insurance)
+    } else {
+      await create(insurance);
+    }
     setDialogOpened(false);
     onFormSubmitted();
   };
 
   return (
     <>
-      <FloatingButton title={trans("Add_Insurance")} onClick={handleClick} childContent={<IconPlus />} />
+      {isEditing ? (
+        <Button variant="contained" color="primary" onClick={handleClick}>
+          {trans('Edit')}
+        </Button>
+      ) : (
+        <FloatingButton title={trans('Add_Insurance')} onClick={handleClick} childContent={<IconPlus />} />
+      )}
       <Dialog open={dialogOpened} onClose={handleClose} maxWidth="lg" fullWidth={true}>
-        <DialogTitle>{trans("Add_Insurance")}</DialogTitle>
+        <DialogTitle>{isEditing ? trans('edit') : trans('Add_Insurance')}</DialogTitle>
         <AddInsuranceDialogActions onClose={handleClose} />
         <DialogContent>
-          <InsuranceForm onSubmit={handleSubmit} />
+          <InsuranceForm onSubmit={handleSubmit} defaultInsurance={insurance} />
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default AddInsuranceButton;
+export default UpsertButton;
