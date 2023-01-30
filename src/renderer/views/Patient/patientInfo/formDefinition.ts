@@ -2,6 +2,7 @@ import { GridColDef, GridRowParams, GridValueGetterParams } from "@mui/x-data-gr
 import { formatDate } from "renderer/utils/dates";
 import { trans } from "renderer/utils/localization";
 import styles from '../styles.module.scss';
+import dayjs from 'dayjs';
 
 export const columns: GridColDef[] = [
   { field: 'id', headerName: trans('id'), width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
@@ -11,7 +12,12 @@ export const columns: GridColDef[] = [
     field: 'date',
     headerName: trans('date'),
     type: 'date',
-    valueGetter: (params: GridValueGetterParams) => formatDate(params.row.date?.toString()),
+    valueGetter: (params: GridValueGetterParams) => {
+      if (dayjs(params.row.date as string).isAfter(dayjs())) {
+        return `🟢 ${formatDate(params.row.date?.toString())}`;
+      }
+      return formatDate(params.row.date?.toString())
+    },
     minWidth: 100,
     flex: 0.4
   },
@@ -23,7 +29,7 @@ export const columns: GridColDef[] = [
 
 export const getRowClassName = (
   params: GridRowParams<{
-    [key: string]: boolean;
+    [key: string]: boolean | string;
   }>
 ) => {
   if (params.row.attended) {
@@ -32,6 +38,11 @@ export const getRowClassName = (
 
   if (!params.row.isActive) {
     return styles.cancelled;
+  }
+
+  console.log(params.row.date)
+  if (dayjs(params.row.date as string).isAfter(dayjs())) {
+    return styles.future;
   }
 
   return '';

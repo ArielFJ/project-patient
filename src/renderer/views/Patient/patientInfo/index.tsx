@@ -129,7 +129,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
                 sx={{ height: '40vh' }}
                 rows={consultations ?? []}
                 columns={columns}
-                rowHeight={100}
+                rowHeight={40}
                 onRowClick={onEditConsultationClicked}
                 getRowClassName={getRowClassName}
                 onRowDoubleClick={() => dialogContainerRef.current?.Open()}
