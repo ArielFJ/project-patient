@@ -12,5 +12,6 @@ export default class PatientService extends BaseService<Patient> {
     entity.height = newEntityProperties.height;
     entity.weight = newEntityProperties.weight;
     entity.isActive = newEntityProperties.isActive;
+    entity.insurance = newEntityProperties.insurance;
   }
 }

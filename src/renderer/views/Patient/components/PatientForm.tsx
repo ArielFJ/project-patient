@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { Box, Button, Grid } from '@mui/material';
@@ -15,6 +15,9 @@ import { Patient } from 'shared/database/entities/Patient';
 import MuiDatePicker from 'renderer/_TEMPLATE/ui-component/forms/MuiDatePicker';
 import MuiFormControl from 'renderer/_TEMPLATE/ui-component/forms/MuiFormControl';
 import { trans } from 'renderer/utils/localization';
+import InsuranceSelect from '../patientInfo/InsuranceSelect';
+import { Insurance } from 'shared/database/entities';
+import { useInsuranceService } from 'renderer/hooks';
 
 type PatientFormProps = {
   defaultPatient?: Patient;
@@ -22,7 +25,14 @@ type PatientFormProps = {
 };
 
 const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Element => {
+  const { getAll: getAllInsurances } = useInsuranceService();
+
   const [patient, setPatient] = useState(defaultPatient ?? Patient.Empty);
+  const [insurances, setInsurances] = useState<Insurance[]>([]);
+
+  useEffect(() => {
+    getAllInsurances().then((insurances) => setInsurances(insurances));
+  }, []);
 
   const validationObjectShape = {
     name: Yup.string().max(255).required('Name is required'),
@@ -47,13 +57,13 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
         onSubmit({ ...patientValue, birthDate: patient.birthDate });
       }}
     >
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+      {({ errors, handleBlur, handleChange, handleSubmit, setFieldValue, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <MuiFormControl
                 id="name-input"
-                label={trans("name")}
+                label={trans('name')}
                 name="name"
                 defaultValue={values.name}
                 error={Boolean(touched.name && errors.name)}
@@ -64,12 +74,12 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               />
             </Grid>
             <Grid item xs={4}>
-              <MuiDatePicker label={trans("birth_date")} initialValue={values.birthDate} onNewDateAssigned={onNewDateAssigned} />
+              <MuiDatePicker label={trans('birth_date')} initialValue={values.birthDate} onNewDateAssigned={onNewDateAssigned} />
             </Grid>
             <Grid item xs={8}>
               <MuiFormControl
                 id="email-input"
-                label={trans("email")}
+                label={trans('email')}
                 name="email"
                 defaultValue={values.email}
                 error={Boolean(touched.email && errors.email)}
@@ -82,7 +92,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
             <Grid item xs={4}>
               <MuiFormControl
                 id="phone-input"
-                label={trans("telephone")}
+                label={trans('telephone')}
                 name="phone"
                 defaultValue={values.phone}
                 error={Boolean(touched.phone && errors.phone)}
@@ -96,7 +106,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="weight-input"
                 type="number"
-                label={trans("weight")}
+                label={trans('weight')}
                 name="weight"
                 defaultValue={values.weight}
                 error={Boolean(touched.weight && errors.weight)}
@@ -110,7 +120,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="height-input"
                 type="number"
-                label={trans("height")}
+                label={trans('height')}
                 name="height"
                 defaultValue={values.height}
                 error={Boolean(touched.height && errors.height)}
@@ -124,7 +134,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="head-circumference-input"
                 type="number"
-                label={trans("head_circumference")}
+                label={trans('head_circumference')}
                 name="headCircumference"
                 defaultValue={values.headCircumference}
                 error={Boolean(touched.headCircumference && errors.headCircumference)}
@@ -138,7 +148,7 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
               <MuiFormControl
                 id="bloodPressure-input"
                 type="number"
-                label={trans("blood_pressure")}
+                label={trans('blood_pressure')}
                 name="bloodPressure"
                 defaultValue={values.bloodPressure}
                 error={Boolean(touched.bloodPressure && errors.bloodPressure)}
@@ -147,6 +157,9 @@ const PatientForm = ({ defaultPatient, onSubmit }: PatientFormProps): JSX.Elemen
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <InsuranceSelect defaultValue={patient.insurance} insurances={insurances} onChange={(v) => setFieldValue('insurance', v)} />
             </Grid>
           </Grid>
           <Box sx={{ mt: 2 }}>

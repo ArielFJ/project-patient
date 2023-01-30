@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // material-ui
 import { Box, Button, FormControlLabel, Grid, Typography, Checkbox } from '@mui/material';
-import styles from '../styles.module.scss';
 
 // project imports
 import MainCard from 'renderer/_TEMPLATE/ui-component/cards/MainCard';
@@ -12,12 +11,13 @@ import AnimateButton from 'renderer/_TEMPLATE/ui-component/extended/AnimateButto
 import PatientForm from '../components/PatientForm';
 import DialogContainer, { DialogContainerRef } from 'renderer/_TEMPLATE/ui-component/DialogContainer';
 import ConsultationForm from 'renderer/views/Consultation/components/ConsultationForm';
-import { DataGrid, GridColDef, GridRowParams, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridRowParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import PatientService from 'renderer/services/PatientService';
 import ConsultationService from 'renderer/services/ConsultationService';
 import { trans } from 'renderer/utils/localization';
+import { columns, getRowClassName } from './formDefinition';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -74,42 +74,12 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
     requestPatientConsultations();
   };
 
-  const getRowClassName = (
-    params: GridRowParams<{
-      [key: string]: boolean;
-    }>
-  ) => {
-    if (params.row.attended) {
-      return styles.attended;
-    }
+  const onIsActiveChange = (checked: boolean) => {
+    setPatient(patient ? { ...patient, isActive: checked } : Patient.Empty);
 
-    if (!params.row.isActive) {
-      return styles.cancelled;
-    }
-
-    return '';
+    if (!patient) return;
+    patientService.update(Number(id), { ...patient, isActive: checked });
   };
-
-  const formatDate = (dateAsString?: string): string => {
-    return `${new Date(dateAsString ?? '-').toLocaleDateString(['en', 'es'], { timeZone: 'UTC' }) || '-'}`;
-  };
-
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: trans('id'), width: 70, type: 'number', hide: true /*flex: .3,  minWidth: 30*/ },
-    { field: 'attended', headerName: trans('attended'), type: 'boolean', hide: true },
-    { field: 'isActive', headerName: trans('is active'), type: 'boolean', hide: true },
-    {
-      field: 'date',
-      headerName: trans('date'),
-      type: 'date',
-      valueGetter: (params: GridValueGetterParams) => formatDate(params.row.date?.toString()),
-      minWidth: 100,
-      flex: 0.4
-    },
-    { field: 'reason', headerName: trans('reason'), flex: 1, minWidth: 200 },
-    { field: 'treatment', headerName: trans('treatment'), flex: 1, minWidth: 200 },
-    { field: 'diagnosis', headerName: trans('diagnosis'), flex: 1, minWidth: 200 }
-  ];
 
   const title = (additionalTitle?: string): JSX.Element => (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -142,20 +112,13 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
               </Grid>
               <Grid item xs={1}></Grid>
               <Grid item xs={2}>
-                <Box sx={{ flexDirection: 'row-reverse' }}>
+                <Box sx={{ display:'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Button variant="contained" onClick={onAddConsultationClicked} sx={{ mb: 3 }}>
                     {<IconPlus />} &nbsp; {trans('add_consultation')}
                   </Button>
                   <FormControlLabel
-                    label={trans("Is_Active")}
-                    control={
-                      <Checkbox
-                        checked={patient?.isActive ?? true}
-                        onChange={(event) => {
-                          setPatient(patient ? { ...patient, isActive: event.target.checked } : Patient.Empty);
-                        }}
-                      />
-                    }
+                    label={trans('Is_Active')}
+                    control={<Checkbox checked={patient?.isActive ?? true} onChange={(_, checked) => onIsActiveChange(checked)} />}
                   />
                 </Box>
               </Grid>
@@ -186,7 +149,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
       </DialogContainer>
 
       <FloatingButton
-        title={trans("edit_patient")}
+        title={trans('edit_patient')}
         onClick={() => dialogContainerRef.current?.Open()}
         childContent={<IconPencil />}
         styles={{

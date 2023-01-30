@@ -31,6 +31,13 @@ export class Patient extends BaseEntity {
   email?: string;
 
   @Column({
+    nullable: true,
+    type: 'varchar',
+    length: 255
+  })
+  insurance?: string;
+
+  @Column({
     type: 'int',
     default: 0
   })
