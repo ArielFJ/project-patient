@@ -7,8 +7,8 @@ import { Patient } from 'shared/database/entities/Patient';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles.module.scss';
-import PatientService from 'renderer/services/PatientService';
 import { trans } from 'renderer/utils/localization';
+import { usePatientService } from 'renderer/hooks';
 
 type SelectedPatientInfo = {
   id: number;
@@ -17,7 +17,7 @@ type SelectedPatientInfo = {
 
 const PatientsPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
-  const patientService = new PatientService();
+  const { getAll } = usePatientService();
 
   const [patients, setPatients] = useState<Patient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<SelectedPatientInfo>({ id: -1 });
@@ -27,7 +27,7 @@ const PatientsPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatients = () => {
-    patientService.getAll().then((allPatients) => setPatients(allPatients));
+    getAll().then((allPatients) => setPatients(allPatients));
   };
 
   const onSelectionModelChange = (selectionModel: GridSelectionModel) => {

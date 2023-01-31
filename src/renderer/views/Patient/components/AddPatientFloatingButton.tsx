@@ -4,8 +4,8 @@ import { IconPlus, IconX } from '@tabler/icons';
 import PatientForm from './PatientForm';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
 import { Patient } from 'shared/database/entities/Patient';
-import PatientService from 'renderer/services/PatientService';
 import { trans } from 'renderer/utils/localization';
+import { usePatientService } from 'renderer/hooks';
 
 /* ============== DIALOG ACTIONS ============== */
 
@@ -35,7 +35,7 @@ type AddPatientFloatingButtonProps = {
 };
 
 const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonProps): JSX.Element => {
-  const patientService = new PatientService();
+  const { create } = usePatientService();
   const [dialogOpened, setDialogOpened] = useState(false);
 
   const handleClick = () => {
@@ -47,7 +47,7 @@ const AddPatientFloatingButton = ({ onFormSubmitted }: AddPatientFloatingButtonP
   };
 
   const handleSubmit = (newPatient: Patient) => {
-    patientService.create(newPatient).then(() => {
+    create(newPatient).then(() => {
       onFormSubmitted();
       handleClose();
     });

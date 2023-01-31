@@ -14,17 +14,16 @@ import ConsultationForm from 'renderer/views/Consultation/components/Consultatio
 import { DataGrid, GridRowParams } from '@mui/x-data-grid';
 import { Consultation } from 'shared/database/entities/Consultation';
 import FloatingButton from 'renderer/_TEMPLATE/ui-component/FloatingButton';
-import PatientService from 'renderer/services/PatientService';
-import ConsultationService from 'renderer/services/ConsultationService';
 import { trans } from 'renderer/utils/localization';
 import { columns, getRowClassName } from './formDefinition';
+import { useConsultationService, usePatientService } from 'renderer/hooks';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const PatientInfoPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
-  const patientService = new PatientService();
-  const consultationService = new ConsultationService();
+  const { getById, update } = usePatientService();
+  const { getByPatientId } = useConsultationService();
 
   const { id } = useParams();
   const [patient, setPatient] = useState<Patient | undefined>();
@@ -42,11 +41,11 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
   }, []);
 
   const requestPatient = () => {
-    patientService.getById(Number(id)).then((patient: Patient) => setPatient(patient));
+    getById(Number(id)).then((patient: Patient) => setPatient(patient));
   };
 
   const requestPatientConsultations = () => {
-    consultationService.getByPatientId(Number(id)).then((consultations: Consultation[]) => {
+    getByPatientId(Number(id)).then((consultations: Consultation[]) => {
       setConsultations(consultations);
     });
   };
@@ -66,7 +65,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
 
   const onPatientUpdateSubmitted = (patientToUpdate: Patient) => {
     const newPatientValues: Patient = { ...patientToUpdate, isActive: patient?.isActive ?? true };
-    patientService.update(Number(id), newPatientValues).then(() => requestPatient());
+    update(Number(id), newPatientValues).then(() => requestPatient());
   };
 
   const onNewConsultationSubmitted = () => {
@@ -78,7 +77,7 @@ const PatientInfoPage: React.FC = (): JSX.Element => {
     setPatient(patient ? { ...patient, isActive: checked } : Patient.Empty);
 
     if (!patient) return;
-    patientService.update(Number(id), { ...patient, isActive: checked });
+    update(Number(id), { ...patient, isActive: checked });
   };
 
   const title = (additionalTitle?: string): JSX.Element => (
